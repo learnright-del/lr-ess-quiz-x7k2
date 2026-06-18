@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiz de Validation — Essentials A1/A2 · Learn Right</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#0A1628;--blue:#1565C0;--sky:#4FC3F7;--gold:#F5A623;--green:#43A047;--red:#E53935;--lgray:#F4F7FB;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--lgray);font-family:'Nunito',sans-serif;min-height:100vh;}
+  .site-header{background:var(--navy);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--blue),var(--sky));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:white;}
+  .brand-name{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:white;}
+  .brand-name span{color:var(--gold);}
+  .header-badge{background:linear-gradient(135deg,var(--blue),var(--sky));border-radius:16px;padding:4px 14px;font-family:'Baloo 2',cursive;font-size:11px;font-weight:800;color:white;letter-spacing:2px;}
+  .timer-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:5px 12px;}
+  .timer-icon{font-size:14px;}
+  .timer-display{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:white;letter-spacing:2px;min-width:52px;}
+  .timer-display.warning{color:#FFB300;}
+  .timer-display.danger{color:#EF5350;animation:blink .8s ease infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+  #intro{max-width:700px;margin:48px auto;padding:0 20px;}
+  .intro-card{background:white;border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;}
+  .intro-icon{font-size:56px;margin-bottom:16px;display:block;}
+  .intro-card h1{font-family:'Baloo 2',cursive;font-size:32px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .intro-card h1 em{font-style:normal;color:var(--blue);}
+  .intro-card p{font-size:15px;color:#555;line-height:1.8;margin-bottom:24px;}
+  .intro-stats{display:flex;justify-content:center;gap:28px;margin-bottom:24px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat-val{font-family:'Baloo 2',cursive;font-size:26px;font-weight:900;color:var(--blue);}
+  .stat-lbl{font-size:12px;color:#888;letter-spacing:1px;text-transform:uppercase;}
+  .seuils{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+  .seuil{border-radius:14px;padding:14px 18px;text-align:center;}
+  .seuil-a1{background:#E3F2FD;border:2px solid var(--blue);}
+  .seuil-a2{background:linear-gradient(135deg,#E3F2FD,#E1F5FE);border:2px solid #0277BD;}
+  .seuil-val{font-family:'Baloo 2',cursive;font-size:28px;font-weight:900;color:var(--blue);}
+  .seuil-a2 .seuil-val{color:#0277BD;}
+  .seuil-lbl{font-size:12px;font-weight:700;color:#555;margin-top:2px;}
+  .seuil-cert{font-size:11px;color:#888;margin-top:4px;}
+  .rules{background:var(--lgray);border-radius:14px;padding:16px 20px;text-align:left;margin-bottom:24px;}
+  .rules li{font-size:14px;color:#444;margin-bottom:6px;display:flex;gap:8px;}
+  .rules li::before{content:'✓';color:var(--green);font-weight:900;flex-shrink:0;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;}
+  @media(max-width:520px){.form-grid{grid-template-columns:1fr;}}
+  .form-group{display:flex;flex-direction:column;gap:6px;text-align:left;}
+  .form-group label{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:1px;text-transform:uppercase;}
+  .form-group input{padding:12px 16px;border:2px solid #E0E8F0;border-radius:12px;font-family:'Nunito',sans-serif;font-size:15px;outline:none;transition:border-color .2s;}
+  .form-group input:focus{border-color:var(--blue);}
+  .form-group input.err{border-color:var(--red);}
+  .email-hint{font-size:12px;color:#888;text-align:left;margin-bottom:20px;}
+  .btn-start{background:linear-gradient(135deg,var(--blue),var(--sky));border:none;border-radius:14px;padding:14px 40px;font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:white;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 4px 16px rgba(21,101,192,.35);width:100%;}
+  .btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(21,101,192,.4);}
+  #quiz{display:none;max-width:780px;margin:0 auto;padding:24px 20px 60px;}
+  .progress-wrap{background:white;border-radius:16px;padding:16px 20px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .prog-label{font-family:'Baloo 2',cursive;font-size:14px;font-weight:700;color:var(--navy);}
+  .prog-score{font-family:'Baloo 2',cursive;font-size:14px;font-weight:700;color:var(--green);}
+  .progress-bar{height:8px;background:#E8EFF8;border-radius:10px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:10px;transition:width .4s ease;}
+  .section-badge{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--sky));border-radius:8px;padding:2px 10px;font-size:11px;font-weight:700;color:white;letter-spacing:1px;margin-top:6px;}
+  .q-card{background:white;border-radius:20px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.07);margin-bottom:16px;animation:slideIn .25s ease;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .q-num{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+  .q-text{font-family:'Baloo 2',cursive;font-size:18px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:20px;}
+  .choices{display:flex;flex-direction:column;gap:10px;}
+  .choice-btn{background:var(--lgray);border:2px solid #E0E8F0;border-radius:12px;padding:12px 18px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:12px;}
+  .choice-btn:hover:not(:disabled){background:#EBF3FF;border-color:var(--blue);transform:translateX(4px);}
+  .choice-letter{width:28px;height:28px;border-radius:50%;background:white;border:2px solid #D0DCE8;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:12px;font-weight:800;color:#888;flex-shrink:0;transition:all .18s;}
+  .choice-btn:hover:not(:disabled) .choice-letter{background:var(--blue);border-color:var(--blue);color:white;}
+  .choice-btn.correct{background:#E8F5E9;border-color:var(--green);}
+  .choice-btn.correct .choice-letter{background:var(--green);border-color:var(--green);color:white;}
+  .choice-btn.wrong{background:#FDECEA;border-color:var(--red);}
+  .choice-btn.wrong .choice-letter{background:var(--red);border-color:var(--red);color:white;}
+  .choice-btn:disabled{cursor:not-allowed;opacity:.85;}
+  .feedback{border-radius:12px;padding:12px 16px;margin-top:12px;font-size:14px;font-weight:700;display:none;}
+  .feedback.good{background:#E8F5E9;color:#2E7D32;}
+  .feedback.bad{background:#FDECEA;color:#C62828;}
+  .q-nav{display:flex;justify-content:flex-end;margin-top:16px;}
+  .btn-next{background:linear-gradient(135deg,var(--blue),var(--sky));border:none;border-radius:12px;padding:11px 28px;font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:white;cursor:pointer;transition:transform .18s;display:none;}
+  .btn-next:hover{transform:scale(1.04);}
+  .btn-next.show{display:inline-block;}
+  #results{display:none;max-width:700px;margin:48px auto;padding:0 20px 60px;}
+  .result-card{background:white;border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;}
+  .result-emoji{font-size:64px;margin-bottom:16px;display:block;}
+  .result-card h2{font-family:'Baloo 2',cursive;font-size:28px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+  .result-name{color:var(--blue);}
+  .result-email{color:#888;font-size:13px;margin-bottom:12px;}
+  .result-time{background:var(--lgray);border-radius:14px;padding:16px 20px;margin:16px 0;display:flex;align-items:center;justify-content:center;gap:16px;}
+  .rt-icon{font-size:28px;}
+  .rt-val{font-family:'Baloo 2',cursive;font-size:26px;font-weight:900;color:var(--navy);}
+  .rt-lbl{font-size:12px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+  .score-big{font-family:'Baloo 2',cursive;font-size:72px;font-weight:900;color:var(--blue);line-height:1;margin:16px 0 4px;}
+  .score-max{font-size:20px;color:#aaa;}
+  .score-pct{font-family:'Baloo 2',cursive;font-size:22px;font-weight:700;margin-bottom:20px;}
+  .score-bar-wrap{margin:20px 0;}
+  .score-bar-track{height:14px;background:#E8EFF8;border-radius:10px;overflow:hidden;margin-bottom:8px;}
+  .score-bar-fill{height:100%;border-radius:10px;transition:width 1s ease .3s;}
+  .score-bar-fill.a2{background:linear-gradient(90deg,#0277BD,var(--blue));}
+  .score-bar-fill.a1{background:linear-gradient(90deg,var(--blue),var(--sky));}
+  .score-bar-fill.fail{background:linear-gradient(90deg,var(--gold),#FFB300);}
+  .score-bar-labels{display:flex;justify-content:space-between;font-size:11px;color:#aaa;}
+  .verdict-box{border-radius:16px;padding:18px 22px;margin:20px 0;}
+  .verdict-box.a2{background:linear-gradient(135deg,#E1F5FE,#E3F2FD);border:2px solid #0277BD;}
+  .verdict-box.a1{background:#E3F2FD;border:2px solid var(--blue);}
+  .verdict-box.fail{background:#FFF8E7;border:2px solid var(--gold);}
+  .verdict-title{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;margin-bottom:6px;}
+  .verdict-box.a2 .verdict-title{color:#0277BD;}
+  .verdict-box.a1 .verdict-title{color:var(--blue);}
+  .verdict-box.fail .verdict-title{color:#E65100;}
+  .verdict-text{font-size:14px;color:#555;line-height:1.7;}
+  .cert-strip{border-radius:16px;padding:24px;margin:20px 0;color:white;position:relative;overflow:hidden;}
+  .cert-strip.a2{background:linear-gradient(135deg,#0A1628,#0277BD);}
+  .cert-strip.a1{background:linear-gradient(135deg,var(--navy),var(--blue));}
+  .cert-strip::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);}
+  .cert-title{font-size:11px;letter-spacing:3px;opacity:.6;margin-bottom:4px;}
+  .cert-name{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;margin-bottom:2px;}
+  .cert-level{font-size:13px;opacity:.7;}
+  .cert-seal{font-size:36px;position:absolute;right:24px;top:50%;transform:translateY(-50%);}
+  .breakdown{background:var(--lgray);border-radius:14px;padding:18px;margin:20px 0;text-align:left;}
+  .breakdown h3{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:12px;}
+  .section-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .sr-label{font-size:13px;color:#555;flex:1;}
+  .sr-bar-track{width:100px;height:8px;background:#DDE5EE;border-radius:6px;overflow:hidden;flex-shrink:0;}
+  .sr-bar-fill{height:100%;border-radius:6px;}
+  .sr-score{font-family:'Baloo 2',cursive;font-size:12px;font-weight:700;color:var(--navy);min-width:36px;text-align:right;}
+  .status-box{border-radius:12px;padding:12px 18px;margin:16px 0;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;}
+  .status-sending{background:#EBF3FF;border:1.5px solid var(--blue);color:var(--blue);}
+  .status-ok{background:#E8F5E9;border:1.5px solid var(--green);color:#2E7D32;}
+  .status-err{background:#FDECEA;border:1.5px solid var(--red);color:#C62828;}
+  .btn-restart{background:var(--lgray);border:2px solid #D0DCE8;border-radius:12px;padding:12px 28px;font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--navy);cursor:pointer;margin-top:16px;transition:all .18s;}
+  .btn-restart:hover{background:#E8EFF8;}
+</style>
+<script src="https://tally.so/widgets/embed.js"></script>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="brand">
+    <div class="brand-icon">L</div>
+    <div class="brand-name">LEARN <span>RIGHT</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="timer-wrap" id="timer-wrap" style="display:none;"><span class="timer-icon">⏱️</span><span class="timer-display" id="timer-display">00:00</span></div>
+    <div class="header-badge">ESSENTIALS A1-A2</div>
+  </div>
+</div>
+
+<div id="intro">
+  <div class="intro-card">
+    <span class="intro-icon">📝</span>
+    <h1>Quiz de validation<br><em>Essentials A1-A2</em></h1>
+    <p>Ce quiz de 40 questions couvre l'ensemble du programme Essentials. Il valide vos acquis sur les 12 leçons : grammaire, vocabulaire, compréhension et communication.</p>
+    <div class="intro-stats">
+      <div class="stat"><div class="stat-val">40</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat"><div class="stat-val">A1-A2</div><div class="stat-lbl">Niveau</div></div>
+      <div class="stat"><div class="stat-val">⏱️</div><div class="stat-lbl">Chronométré</div></div>
+    </div>
+    <div class="seuils">
+      <div class="seuil seuil-a1">
+        <div class="seuil-val">70%</div>
+        <div class="seuil-lbl">Certificat A1</div>
+        <div class="seuil-cert">28/40 bonnes réponses</div>
+      </div>
+      <div class="seuil seuil-a2">
+        <div class="seuil-val">85%</div>
+        <div class="seuil-lbl">Certificat A2 ⭐</div>
+        <div class="seuil-cert">34/40 bonnes réponses</div>
+      </div>
+    </div>
+    <ul class="rules">
+      <li>Une seule bonne réponse par question</li>
+      <li>Correction et explication après chaque réponse</li>
+      <li>70% → Certificat A1 · 85% → Certificat A2</li>
+      <li>⏱️ Le quiz est chronométré dès le départ — votre temps sera affiché en fin de quiz</li>
+      <li>Vos résultats seront envoyés automatiquement à votre professeure</li>
+    </ul>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Prénom *</label>
+        <input type="text" id="student-name" placeholder="Votre prénom" maxlength="40"/>
+      </div>
+      <div class="form-group">
+        <label>Adresse e-mail *</label>
+        <input type="email" id="student-email" placeholder="votre@email.com" maxlength="100"/>
+      </div>
+    </div>
+    <p class="email-hint">🔒 Votre email est utilisé uniquement pour recevoir votre attestation.</p>
+    <button class="btn-start" onclick="startQuiz()">Commencer le quiz →</button>
+  </div>
+</div>
+
+<div id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="prog-label" id="prog-label">Question 1 / 40</span>
+      <span class="prog-score" id="prog-score">Score : 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:2.5%"></div></div>
+    <span class="section-badge" id="section-badge"></span>
+  </div>
+  <div class="q-card" id="q-card">
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="q-nav"><button class="btn-next" id="btn-next" onclick="nextQuestion()">Question suivante →</button></div>
+  </div>
+</div>
+
+<div id="results"></div>
+
+<script>
+const TALLY_FORM_ID = "PdP195";
+
+const QUESTIONS = [
+  {s:"L1 — Salutations",q:"Comment dit-on 'Bonjour' de façon formelle en anglais ?",c:["Hi!","Hello!","Hey!","Yo!"],a:1,e:"'Hello' est la salutation formelle. 'Hi' et 'Hey' sont informels."},
+  {s:"L1 — Salutations",q:"Quelle lettre vient après M dans l'alphabet anglais ?",c:["L","N","O","K"],a:1,e:"L'ordre est : ...L M N O P... — N vient après M."},
+  {s:"L1 — Salutations",q:"Comment répondre à 'How are you?' de façon polie ?",c:["I am fine, thank you.","Yes, please.","My name is Sarah.","Good night."],a:0,e:"'I'm fine, thank you' est la réponse standard et polie."},
+  {s:"L1 — Salutations",q:"Que signifie 'Goodbye' ?",c:["Bonjour","Au revoir","S'il vous plaît","Merci"],a:1,e:"'Goodbye' = Au revoir. 'Bye' est la version informelle."},
+  {s:"L2 — Famille & TO BE",q:"Complétez : 'She ___ my sister.'",c:["am","are","is","be"],a:2,e:"Avec he/she/it → is. 'She is my sister.'"},
+  {s:"L2 — Famille & TO BE",q:"Comment dit-on 'grand-mère' en anglais ?",c:["grandmother","aunt","sister","mother"],a:0,e:"'Grandmother' = grand-mère. 'Aunt' = tante, 'sister' = sœur."},
+  {s:"L2 — Famille & TO BE",q:"Quelle phrase est correcte ?",c:["I is 25 years old.","I are 25 years old.","I am 25 years old.","I be 25 years old."],a:2,e:"Avec I → am. 'I am 25 years old.'"},
+  {s:"L2 — Famille & TO BE",q:"'My brother ___ tall and funny.'",c:["are","am","is","be"],a:2,e:"'My brother' = he → is. 'My brother is tall and funny.'"},
+  {s:"L3 — Maison & Prépositions",q:"Que signifie 'kitchen' ?",c:["Chambre","Salle de bain","Cuisine","Salon"],a:2,e:"'Kitchen' = cuisine. 'Bedroom' = chambre, 'bathroom' = salle de bain."},
+  {s:"L3 — Maison & Prépositions",q:"'The cat is ___ the table.' (sous la table)",c:["on","in","under","next to"],a:2,e:"'Under' = sous. 'On' = sur, 'in' = dans, 'next to' = à côté de."},
+  {s:"L3 — Maison & Prépositions",q:"Complétez : 'There ___ two bedrooms in my flat.'",c:["is","are","am","be"],a:1,e:"Avec un pluriel (two bedrooms) → 'there are'."},
+  {s:"L3 — Maison & Prépositions",q:"'The lamp is ___ the sofa.' (à côté du canapé)",c:["behind","above","next to","under"],a:2,e:"'Next to' = à côté de. 'Behind' = derrière, 'above' = au-dessus."},
+  {s:"L4 — Présent simple",q:"'She ___ to work every day.'",c:["go","goes","going","is go"],a:1,e:"À la 3e personne (she), on ajoute -s → 'goes'."},
+  {s:"L4 — Présent simple",q:"'I ___ like coffee.' (négatif)",c:["don't","doesn't","not","isn't"],a:0,e:"Avec I/you/we/they → 'don't'. 'I don't like coffee.'"},
+  {s:"L4 — Présent simple",q:"Que signifie 'always' dans 'She always wakes up at 7am.' ?",c:["Parfois","Rarement","Toujours","Jamais"],a:2,e:"'Always' = toujours (100% du temps)."},
+  {s:"L4 — Présent simple",q:"'What time ___ you start work?'",c:["do","does","are","is"],a:0,e:"Question avec you → 'do'. 'What time do you start work?'"},
+  {s:"L5 — Nourriture & Quantités",q:"'I need to buy ___ milk.' (du lait — affirmatif)",c:["any","no","some","many"],a:2,e:"'Some' s'utilise dans les phrases affirmatives avec les indénombrables."},
+  {s:"L5 — Nourriture & Quantités",q:"Comment dit-on 'pomme' en anglais ?",c:["orange","banana","apple","grape"],a:2,e:"'Apple' = pomme. 'Banana' = banane, 'grape' = raisin."},
+  {s:"L5 — Nourriture & Quantités",q:"'How ___ oranges do you want?' (dénombrable)",c:["much","many","some","any"],a:1,e:"'How many' avec les noms dénombrables (qu'on peut compter)."},
+  {s:"L5 — Nourriture & Quantités",q:"Au restaurant : 'I ___ like the chicken, please.'",c:["would","will","am","do"],a:0,e:"'I would like...' = Je voudrais... — formule polie au restaurant."},
+  {s:"L6 — Transports & Directions",q:"'Excuse me, ___ is the train station?'",c:["where","when","who","what"],a:0,e:"Pour demander un lieu → 'where'. 'Where is the train station?'"},
+  {s:"L6 — Transports & Directions",q:"'Turn ___ at the traffic lights.' (à gauche)",c:["right","straight","left","up"],a:2,e:"'Turn left' = tourner à gauche. 'Turn right' = à droite."},
+  {s:"L6 — Transports & Directions",q:"Comment dit-on 'aéroport' en anglais ?",c:["station","airport","harbour","bus stop"],a:1,e:"'Airport' = aéroport. 'Station' = gare, 'harbour' = port."},
+  {s:"L6 — Transports & Directions",q:"'A ___ ticket to London, please.' (aller-retour)",c:["single","return","one-way","direct"],a:1,e:"'Return ticket' = aller-retour. 'Single' = aller simple."},
+  {s:"L7 — Santé & Corps",q:"'I have a ___.' Comment dit-on 'mal de tête' ?",c:["stomachache","headache","backache","toothache"],a:1,e:"'Headache' = mal de tête. 'Head' = tête, 'ache' = douleur."},
+  {s:"L7 — Santé & Corps",q:"'You ___ rest. You look tired.' (conseil)",c:["must","should","can","will"],a:1,e:"'Should' exprime un conseil. 'You should rest.'"},
+  {s:"L7 — Santé & Corps",q:"'I feel ___.' (malade)",c:["happy","hungry","sick","tired"],a:2,e:"'I feel sick' = Je me sens malade."},
+  {s:"L7 — Santé & Corps",q:"Comment dit-on 'genou' en anglais ?",c:["elbow","knee","ankle","shoulder"],a:1,e:"'Knee' = genou. 'Elbow' = coude, 'ankle' = cheville."},
+  {s:"L8 — Passé simple",q:"'She ___ to Paris last weekend.' (aller — irrégulier)",c:["goed","go","went","goes"],a:2,e:"'Go' est irrégulier : go → went."},
+  {s:"L8 — Passé simple",q:"'I ___ finish the report yesterday.' (négatif)",c:["don't","didn't","wasn't","haven't"],a:1,e:"Négatif au passé simple → 'didn't + infinitif'."},
+  {s:"L8 — Passé simple",q:"'What ___ you do last night?'",c:["do","did","were","have"],a:1,e:"Question au passé simple → 'did'. 'What did you do last night?'"},
+  {s:"L8 — Passé simple",q:"Quel est le passé de 'have' ?",c:["haved","had","has","have"],a:1,e:"'Have' est irrégulier : have → had."},
+  {s:"L9 — Présent continu",q:"'She ___ a blue dress right now.'",c:["wear","wears","is wearing","wore"],a:2,e:"Action en cours → présent continu : is + verbe-ing."},
+  {s:"L9 — Présent continu",q:"Comment dit-on 'veste' en anglais ?",c:["coat","scarf","jacket","hat"],a:2,e:"'Jacket' = veste. 'Coat' = manteau, 'scarf' = écharpe."},
+  {s:"L9 — Présent continu",q:"Quelle phrase décrit une habitude ?",c:["She is wearing glasses.","She usually wears glasses.","She is usually wear glasses.","She wearing glasses always."],a:1,e:"Habitudes → présent simple. 'She usually wears glasses.'"},
+  {s:"L9 — Présent continu",q:"'___ you wearing a coat today?' (question)",c:["Do","Does","Are","Is"],a:2,e:"Question au présent continu avec you → 'Are'. 'Are you wearing a coat?'"},
+  {s:"L10 — Loisirs & Going to",q:"'She ___ tennis every weekend.' (habitude)",c:["plays","is playing","going to play","play"],a:0,e:"Habitude régulière → présent simple. She → 'plays'."},
+  {s:"L10 — Loisirs & Going to",q:"'We ___ visit Paris next summer.' (projet décidé)",c:["will","are going to","go","were"],a:1,e:"Projet prévu → 'going to'. 'We are going to visit Paris.'"},
+  {s:"L11 — Comparatifs & Superlatifs",q:"'London is ___ than Lyon.' (grand — comparatif)",c:["more big","biggest","bigger","most big"],a:2,e:"Adjectif court → comparatif = adj + -er + than. 'bigger than'."},
+  {s:"L11 — Comparatifs & Superlatifs",q:"Quel est le comparatif irrégulier de 'good' ?",c:["gooder","more good","better","the best"],a:2,e:"'Good' est irrégulier : good → better → the best."},
+];
+
+let cur=0,score=0,answered=false,studentName="",studentEmail="",secScores={};
+let _startTime=null,_timerInterval=null,_elapsed=0;
+
+function startTimer(){
+  _startTime=Date.now();
+  document.getElementById("timer-wrap").style.display="flex";
+  _timerInterval=setInterval(updateTimer,1000);
+}
+function updateTimer(){
+  _elapsed=Math.floor((Date.now()-_startTime)/1000);
+  const m=Math.floor(_elapsed/60),s=_elapsed%60;
+  const d=document.getElementById("timer-display");
+  d.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  if(_elapsed>1800)d.className="timer-display danger";
+  else if(_elapsed>1200)d.className="timer-display warning";
+  else d.className="timer-display";
+}
+function stopTimer(){clearInterval(_timerInterval);_elapsed=Math.floor((Date.now()-_startTime)/1000);return _elapsed;}
+function formatTime(secs){const m=Math.floor(secs/60),s=secs%60;if(m===0)return s+" secondes";if(s===0)return m+" minute"+(m>1?"s":"");return m+" min "+s+" sec";}
+function getTimeComment(secs,total){const perQ=secs/total;if(perQ<20)return "🚀 Très rapide — en moyenne "+Math.round(perQ)+"s par question !";if(perQ<40)return "⚡ Bonne allure — en moyenne "+Math.round(perQ)+"s par question.";if(perQ<60)return "🎯 Rythme réfléchi — en moyenne "+Math.round(perQ)+"s par question.";return "🧠 Très attentif(ve) — en moyenne "+Math.round(perQ)+"s par question.";}
+
+function startQuiz(){
+  const n=document.getElementById("student-name");
+  const e=document.getElementById("student-email");
+  studentName=n.value.trim();
+  studentEmail=e.value.trim();
+  let ok=true;
+  if(!studentName){n.classList.add("err");ok=false;}else n.classList.remove("err");
+  if(!studentEmail||!studentEmail.includes("@")){e.classList.add("err");ok=false;}else e.classList.remove("err");
+  if(!ok)return;
+  document.getElementById("intro").style.display="none";
+  document.getElementById("quiz").style.display="block";
+  cur=0;score=0;secScores={};startTimer();
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=QUESTIONS[cur];
+  document.getElementById("prog-label").textContent="Question "+(cur+1)+" / "+QUESTIONS.length;
+  document.getElementById("prog-score").textContent="Score : "+score;
+  document.getElementById("prog-fill").style.width=(((cur+1)/QUESTIONS.length)*100)+"%";
+  document.getElementById("section-badge").textContent=q.s;
+  document.getElementById("q-num").textContent="QUESTION "+(cur+1);
+  document.getElementById("q-text").textContent=q.q;
+  const ch=document.getElementById("choices");
+  ch.innerHTML="";
+  ["A","B","C","D"].forEach((l,i)=>{
+    const b=document.createElement("button");
+    b.className="choice-btn";
+    b.innerHTML='<span class="choice-letter">'+l+'</span>'+q.c[i];
+    b.onclick=()=>answerQ(i);
+    ch.appendChild(b);
+  });
+  const fb=document.getElementById("feedback");
+  fb.style.display="none";fb.className="feedback";
+  const nb=document.getElementById("btn-next");
+  nb.classList.remove("show");
+  nb.textContent=cur<QUESTIONS.length-1?"Question suivante →":"Voir mes résultats 🏆";
+}
+
+function answerQ(idx){
+  if(answered)return;
+  answered=true;
+  const q=QUESTIONS[cur];
+  const btns=document.querySelectorAll(".choice-btn");
+  const fb=document.getElementById("feedback");
+  if(!secScores[q.s])secScores[q.s]={ok:0,t:0};
+  secScores[q.s].t++;
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.a){
+    score++;btns[idx].classList.add("correct");
+    fb.className="feedback good";fb.innerHTML="✅ Correct ! "+q.e;
+    secScores[q.s].ok++;
+  }else{
+    btns[idx].classList.add("wrong");btns[q.a].classList.add("correct");
+    fb.className="feedback bad";fb.innerHTML="❌ Bonne réponse : <strong>"+q.c[q.a]+"</strong>. "+q.e;
+  }
+  fb.style.display="block";
+  document.getElementById("prog-score").textContent="Score : "+score;
+  document.getElementById("btn-next").classList.add("show");
+}
+
+function nextQuestion(){
+  cur++;
+  if(cur>=QUESTIONS.length)showResults();
+  else{renderQ();document.getElementById("q-card").scrollIntoView({behavior:"smooth",block:"start"});}
+}
+
+async function showResults(){
+  document.getElementById("quiz").style.display="none";
+  const duration=stopTimer();
+  const total=QUESTIONS.length,pct=Math.round(score/total*100);
+  const isA2=pct>=85, isA1=pct>=70;
+
+  let emoji,vclass,vt,vd,certHTML="";
+  if(pct>=95){
+    emoji="🏆";vclass="a2";
+    vt="Exceptionnel ! Niveau A2 confirmé avec excellence.";
+    vd="Vous avez démontré une maîtrise remarquable des bases de l'anglais. Vous êtes prêt(e) pour le programme Professional B1-B2 !";
+  } else if(isA2){
+    emoji="⭐";vclass="a2";
+    vt="Félicitations — Certificat A2 obtenu !";
+    vd="Vous avez atteint le seuil de 85% et validez le niveau A2. Vos bases sont solides, vous pouvez avancer avec confiance.";
+  } else if(isA1){
+    emoji="🌟";vclass="a1";
+    vt="Module validé — Certificat A1 obtenu !";
+    vd="Vous avez atteint 70% et validez le niveau A1. Pour obtenir le certificat A2, il vous faudra atteindre 85%. Continuez à pratiquer !";
+  } else if(pct>=50){
+    emoji="💪";vclass="fail";
+    vt="Pas encore validé — continuez !";
+    vd="Vous n'avez pas encore atteint le seuil de 70%. Révisez les sections difficiles et retentez le quiz.";
+  } else {
+    emoji="📚";vclass="fail";
+    vt="Module à retravailler.";
+    vd="Reprenez les leçons du programme Essentials et retentez le quiz dans quelques jours.";
+  }
+
+  if(isA2){
+    certHTML='<div class="cert-strip a2"><div class="cert-title">ATTESTATION DE RÉUSSITE</div><div class="cert-name">'+studentName+'</div><div class="cert-level">Niveau A2 · Programme Essentials · Learn Right</div><div class="cert-seal">🏅</div></div>';
+  } else if(isA1){
+    certHTML='<div class="cert-strip a1"><div class="cert-title">ATTESTATION DE RÉUSSITE</div><div class="cert-name">'+studentName+'</div><div class="cert-level">Niveau A1 · Programme Essentials · Learn Right</div><div class="cert-seal">🥈</div></div>';
+  }
+
+  let bdown="";
+  Object.entries(secScores).forEach(([s,{ok,t}])=>{
+    const sp=Math.round(ok/t*100);
+    bdown+='<div class="section-row"><div class="sr-label">'+s+'</div><div class="sr-bar-track"><div class="sr-bar-fill" style="width:'+sp+'%;background:'+(sp>=70?'var(--blue)':'var(--red)')+'"></div></div><div class="sr-score">'+ok+'/'+t+'</div></div>';
+  });
+
+  const barClass = isA2?"a2":isA1?"a1":"fail";
+  const details=Object.entries(secScores).map(([s,{ok,t}])=>s+": "+ok+"/"+t).join(" | ");
+  const now=new Date().toLocaleString("fr-FR");
+  const resultatStr = isA2?"CERTIFIÉ A2":(isA1?"CERTIFIÉ A1":"NON VALIDÉ");
+
+  document.getElementById("results").innerHTML='<div class="result-card"><span class="result-emoji">'+emoji+'</span><h2>Résultats de <span class="result-name">'+studentName+'</span></h2><p class="result-email">'+studentEmail+'</p><div class="result-time"><span class="rt-icon">⏱️</span><div><div class="rt-val">'+formatTime(duration)+'</div><div class="rt-lbl">'+getTimeComment(duration,total)+'</div></div></div><div class="score-big">'+score+'<span class="score-max">/'+total+'</span></div><div class="score-pct" style="color:'+(isA2?'#0277BD':isA1?'var(--blue)':'var(--red)')+'">'+pct+'%</div><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill '+barClass+'" style="width:'+pct+'%"></div></div><div class="score-bar-labels"><span>0%</span><span style="color:var(--blue)">70% A1</span><span style="color:#0277BD">85% A2</span><span>100%</span></div></div><div class="verdict-box '+vclass+'"><div class="verdict-title">'+vt+'</div><div class="verdict-text">'+vd+'</div></div><div class="breakdown"><h3>📊 Résultats par section</h3>'+bdown+'</div><div id="tally-status"></div>'+certHTML+'<p style="font-size:12px;color:#aaa;margin-top:18px;">✅ Votre quiz a été soumis. Une seule tentative est autorisée par élève.</p>'+'</div>';
+
+  document.getElementById("results").style.display="block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+  await sendTally({prenom:studentName,email:studentEmail,score,total,pct:pct+"%",resultat:resultatStr,details,date:now,duration:formatTime(duration)});
+}
+
+async function sendTally(d){
+  const el=document.getElementById("tally-status");
+  el.innerHTML='<div class="status-box status-sending">📤 Ouverture de la fenêtre de confirmation — cliquez sur Envoyer pour finaliser.</div>';
+  try{
+    if(typeof Tally === "undefined"){throw new Error("Tally script not loaded");}
+    Tally.openPopup(TALLY_FORM_ID, {
+      layout: "modal",
+      width: 500,
+      hideTitle: true,
+      autoClose: 2500,
+      hiddenFields: {
+        prenom: d.prenom, email: d.email, score: String(d.score), sur: String(d.total),
+        pourcentage: d.pct, resultat: d.resultat, details_sections: d.details, date_quiz: d.date
+      },
+      onSubmit: function(){
+        el.innerHTML='<div class="status-box status-ok">✅ Résultats envoyés à votre professeure avec succès !</div>';
+      },
+      onClose: function(){
+        if(!el.innerHTML.includes("succès")){
+          el.innerHTML='<div class="status-box status-err">⚠️ Fenêtre fermée sans envoi. <button onclick="sendTally(window._lastResultData)" style="background:none;border:none;color:var(--blue);font-weight:700;text-decoration:underline;cursor:pointer;font-size:14px;">Réessayer l\'envoi</button></div>';
+        }
+      }
+    });
+    window._lastResultData = d;
+  }catch(err){
+    var subjLine = "Quiz Essentials - " + d.prenom + " - " + d.pct;
+    var bodyLine = "Resultats du quiz" + String.fromCharCode(10) + String.fromCharCode(10)
+      + "Prenom : " + d.prenom + String.fromCharCode(10)
+      + "Email : " + d.email + String.fromCharCode(10)
+      + "Score : " + d.score + "/" + d.total + " (" + d.pct + ")" + String.fromCharCode(10)
+      + "Resultat : " + d.resultat + String.fromCharCode(10)
+      + "Date : " + d.date + String.fromCharCode(10) + String.fromCharCode(10)
+      + "Details par section :" + String.fromCharCode(10)
+      + d.details.split(" | ").join(String.fromCharCode(10));
+    var subj=encodeURIComponent(subjLine);
+    var body=encodeURIComponent(bodyLine);
+    var mailLink="mailto:contact@learnright.fr?subject="+subj+"&body="+body;
+    el.innerHTML='<div class="status-box status-err">⚠️ <a href="'+mailLink+'" style="color:var(--blue);font-weight:700;text-decoration:underline">Envoyer les résultats par email →</a></div>';
+  }
+}
+</script>
+</body>
+</html>
