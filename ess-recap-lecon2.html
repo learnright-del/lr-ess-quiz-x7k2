@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Récapitulatif Leçon 2 – Learn Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#3D2B1F;--blue:#C4785A;--sky:#E0AE8E;--gold:#B8873F;--gold-light:#D9B872;--green:#6FA378;--green-dark:#4A7C59;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#F5F0E8;background-image:linear-gradient(rgba(61,43,31,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(61,43,31,0.05) 1px, transparent 1px);background-size:38px 38px;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#3D2B1F 0%,#C4785A 100%);padding:40px 24px 60px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(196,120,90,.12),transparent 70%);}
+  .hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(184,135,63,.1),transparent 70%);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;position:relative;z-index:1;}
+  .brand-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--sky),var(--blue));border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:26px;font-weight:800;color:white;box-shadow:0 4px 16px rgba(196,120,90,.45);}
+  .brand-name{font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:white;letter-spacing:1px;}
+  .brand-name span{color:var(--gold);}
+  .hero-badge{display:inline-block;background:rgba(184,135,63,.2);border:1px solid rgba(184,135,63,.4);border-radius:20px;padding:4px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold-light);text-transform:uppercase;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1{font-family:'Inter',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:800;color:white;line-height:1.15;margin-bottom:10px;position:relative;z-index:1;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero-sub{color:rgba(255,255,255,.6);font-size:14px;letter-spacing:1px;position:relative;z-index:1;}
+  .progress-bar-wrap{max-width:340px;margin:24px auto 0;position:relative;z-index:1;}
+  .progress-label{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
+  .progress-track{height:6px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;}
+  .progress-fill{height:100%;width:16.66%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:10px;animation:grow 1s ease .5s both;}
+  @keyframes grow{from{width:0;}to{width:16.66%;}}
+
+  /* CONTENT */
+  .content{max-width:780px;margin:0 auto;padding:40px 20px 60px;}
+
+  /* INTRO */
+  .intro-card{background:white;border-radius:20px;padding:28px;margin-bottom:32px;box-shadow:0 4px 20px rgba(0,0,0,.07);border-left:5px solid var(--sky);animation:fadeUp .5s ease both;}
+  .teacher-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+  .intro-card p{font-size:15px;color:rgba(61,43,31,.85);line-height:1.8;}
+  .intro-card p strong{color:var(--navy);}
+
+  /* SECTION BLOCK */
+  .section-block{background:white;border-radius:20px;padding:28px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.06);animation:fadeUp .5s ease both;}
+  .section-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #EDE3D6;}
+  .section-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .icon-blue{background:#F3E3D9;}.icon-gold{background:#FFF8E7;}.icon-green{background:#E9F2EA;}.icon-purple{background:#F6E9E4;}.icon-red{background:#FBEAE7;}
+  .section-header h2{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:var(--navy);line-height:1.2;}
+  .section-header p{font-size:12px;color:rgba(61,43,31,.5);margin-top:2px;}
+
+  /* FAMILY GRID */
+  .fam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+  .fam-pill{background:#FBF6EE;border-radius:12px;padding:12px 8px;text-align:center;transition:transform .18s;cursor:default;}
+  .fam-pill:hover{transform:scale(1.05);}
+  .fam-emoji{font-size:22px;display:block;margin-bottom:4px;}
+  .fam-en{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:var(--blue);}
+  .fam-ph{font-size:10px;color:rgba(61,43,31,.4);font-style:italic;margin-top:1px;}
+  .fam-fr{font-size:11px;color:rgba(61,43,31,.5);margin-top:2px;}
+
+  /* POSSESSIVE TABLE */
+  .poss-table{width:100%;border-collapse:collapse;}
+  .poss-table tr{border-bottom:1px solid #EDE3D6;}
+  .poss-table tr:last-child{border-bottom:none;}
+  .poss-table tr:hover{background:#FBF6EE;}
+  .poss-table td{padding:10px 8px;font-size:14px;vertical-align:middle;}
+  .poss-table td:first-child{font-size:13px;color:rgba(61,43,31,.55);font-weight:600;width:25%;}
+  .poss-table td:nth-child(2){font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:var(--blue);width:20%;}
+  .poss-table td:nth-child(3){color:rgba(61,43,31,.75);font-weight:600;font-size:13px;width:30%;}
+  .poss-table td:last-child{font-size:12px;color:rgba(61,43,31,.5);font-style:italic;}
+
+  /* ADJECTIVES GRID */
+  .adj-section{margin-bottom:16px;}
+  .adj-label{font-size:12px;font-weight:800;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+  .adj-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .adj-tag{background:#F3E3D9;border-radius:14px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--navy);display:flex;flex-direction:column;align-items:center;gap:1px;transition:transform .15s;cursor:default;text-align:center;}
+  .adj-tag:hover{transform:scale(1.05);}
+  .adj-tag .ph{font-size:9px;color:rgba(61,43,31,.4);font-style:italic;font-weight:400;}
+  .adj-tag .fr{font-size:11px;color:rgba(61,43,31,.4);font-weight:400;}
+
+  /* STRUCTURES */
+  .struct-list{display:flex;flex-direction:column;gap:10px;}
+  .struct-row{background:#FBF6EE;border-radius:12px;padding:14px 16px;border-left:4px solid var(--c);}
+  .struct-row:nth-child(1){--c:#C4785A;}.struct-row:nth-child(2){--c:#6FA378;}.struct-row:nth-child(3){--c:#B8873F;}.struct-row:nth-child(4){--c:#96432E;}.struct-row:nth-child(5){--c:#C0392B;}.struct-row:nth-child(6){--c:#A85D3F;}
+  .struct-en{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:var(--navy);}
+  .struct-en .kw{color:var(--c);}
+  .struct-fr{font-size:12px;color:rgba(61,43,31,.55);margin-top:3px;}
+
+  /* DIALOGUE */
+  .dialogue-recap{display:flex;flex-direction:column;gap:10px;}
+  .drec-line{display:flex;gap:12px;align-items:flex-start;}
+  .drec-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px;}
+  .av-a{background:linear-gradient(135deg,#E0AE8E,#C4785A);}.av-b{background:linear-gradient(135deg,#D9B872,#B8873F);}
+  .drec-bubble{flex:1;background:#FBF6EE;border-radius:12px;padding:10px 14px;}
+  .drec-en{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--navy);}
+  .drec-fr{font-size:11px;color:rgba(61,43,31,.4);margin-top:2px;}
+
+  /* CHECKLIST */
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .checklist li{display:flex;align-items:center;gap:12px;font-size:14px;color:rgba(61,43,31,.85);line-height:1.5;}
+  .check-icon{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#6FA378,#4A7C59);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 2px 8px rgba(111,163,120,.3);}
+
+  /* HOMEWORK */
+  .homework-box{background:linear-gradient(135deg,#FFF8E7,#FFFDF5);border:2px dashed rgba(184,135,63,.4);border-radius:16px;padding:22px 24px;margin-bottom:24px;}
+  .homework-box h3{font-family:'Inter',sans-serif;font-size:17px;font-weight:800;color:#B5651D;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .homework-box ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .homework-box li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(61,43,31,.75);line-height:1.6;}
+  .hw-bullet{width:22px;height:22px;border-radius:50%;background:var(--gold);color:white;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+  /* NEXT LESSON */
+  .next-lesson{background:linear-gradient(135deg,var(--navy),#C4785A);border-radius:20px;padding:28px;margin-bottom:24px;color:white;position:relative;overflow:hidden;}
+  .next-lesson::after{content:'3';position:absolute;right:20px;bottom:-20px;font-family:'Inter',sans-serif;font-size:120px;font-weight:900;color:rgba(255,255,255,.05);line-height:1;}
+  .next-lesson h3{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .next-lesson ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .next-lesson li{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.75);}
+  .next-lesson li::before{content:'→';color:var(--gold);font-weight:900;}
+
+  /* QUOTE */
+  .quote-box{text-align:center;padding:24px;background:white;border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:24px;}
+  .quote-text{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:6px;}
+  .quote-text em{color:var(--blue);font-style:normal;}
+
+  footer{background:var(--navy);text-align:center;padding:24px;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:2px;}
+  footer strong{color:var(--gold);}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  .section-block:nth-child(1){animation-delay:.05s}.section-block:nth-child(2){animation-delay:.10s}.section-block:nth-child(3){animation-delay:.15s}.section-block:nth-child(4){animation-delay:.20s}.section-block:nth-child(5){animation-delay:.25s}.section-block:nth-child(6){animation-delay:.30s}
+
+.audio-btn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:2px solid var(--blue);background:#FBF6EE;color:var(--blue);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .15s,color .15s;padding:0;}
+.audio-btn:hover{background:rgba(196,120,90,.14);}
+.audio-btn.playing{background:var(--blue);color:white;transform:scale(1.08);}
+.pill-audio{position:relative;cursor:pointer;}
+.pill-audio-icon{position:absolute;top:6px;right:8px;font-size:10px;color:rgba(61,43,31,.3);transition:color .15s,transform .15s;}
+.pill-audio-icon.playing{color:var(--blue);transform:scale(1.3);}
+.adj-tag{position:relative;cursor:pointer;padding-right:26px !important;}
+.adj-tag .tag-audio-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;color:rgba(61,43,31,.35);}
+.adj-tag .tag-audio-icon.playing{color:var(--blue);transform:translateY(-50%) scale(1.3);}
+.struct-row{position:relative;padding-right:50px;}
+.struct-audio{position:absolute;right:14px;top:50%;transform:translateY(-50%);}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
+  <div class="hero-badge">📚 Récapitulatif · Débutants</div>
+  <h1>Leçon <em>2</em> — My Family!</h1>
+  <p class="hero-sub">Votre résumé complet à garder et réviser</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-label"><span>Progression</span><span>Leçon 2 / 12</span></div>
+    <div class="progress-track"><div class="progress-fill"></div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <div class="teacher-tag">👩‍🏫 Message de votre professeure</div>
+    <p>Bravo pour cette <strong>deuxième leçon</strong> ! Vous savez maintenant parler de votre famille en anglais — c'est énorme ! Relisez cette fiche <strong>quelques minutes chaque jour</strong> et entraînez-vous à décrire les membres de votre famille à voix haute. <strong>Practice makes perfect!</strong> 🌟</p>
+  </div>
+
+  <!-- VOCABULAIRE FAMILLE -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-blue">👨‍👩‍👧‍👦</div>
+      <div><h2>Vocabulaire · My Family</h2><p>Les membres de la famille à connaître</p></div>
+    </div>
+    <div class="fam-grid" id="fam-grid"></div>
+  </div>
+
+  <!-- ADJECTIFS POSSESSIFS -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-gold">🔑</div>
+      <div><h2>Adjectifs Possessifs · Possessive Adjectives</h2><p>My, your, his, her, our, their...</p></div>
+    </div>
+    <table class="poss-table">
+      <tr><td>I</td><td>MY</td><td>mon / ma / mes</td><td>My mother is kind. <button class="audio-btn" onclick="playClip('aud_p1',this)">🔊</button><audio id="aud_p1" data-clip src="audio_l2/p1.mp3"></audio></td></tr>
+      <tr><td>You</td><td>YOUR</td><td>ton / ta / tes</td><td>Your brother is tall. <button class="audio-btn" onclick="playClip('aud_p2',this)">🔊</button><audio id="aud_p2" data-clip src="audio_l2/p2.mp3"></audio></td></tr>
+      <tr><td>He</td><td>HIS</td><td>son / sa (masc.)</td><td>His sister is funny. <button class="audio-btn" onclick="playClip('aud_p3',this)">🔊</button><audio id="aud_p3" data-clip src="audio_l2/p3.mp3"></audio></td></tr>
+      <tr><td>She</td><td>HER</td><td>son / sa (fém.)</td><td>Her father is smart. <button class="audio-btn" onclick="playClip('aud_p4',this)">🔊</button><audio id="aud_p4" data-clip src="audio_l2/p4.mp3"></audio></td></tr>
+      <tr><td>It</td><td>ITS</td><td>son / sa (neutre)</td><td>Its name is Max. <button class="audio-btn" onclick="playClip('aud_p5',this)">🔊</button><audio id="aud_p5" data-clip src="audio_l2/p5.mp3"></audio></td></tr>
+      <tr><td>We</td><td>OUR</td><td>notre / nos</td><td>Our family is big. <button class="audio-btn" onclick="playClip('aud_p6',this)">🔊</button><audio id="aud_p6" data-clip src="audio_l2/p6.mp3"></audio></td></tr>
+      <tr><td>They</td><td>THEIR</td><td>leur / leurs</td><td>Their uncle is kind. <button class="audio-btn" onclick="playClip('aud_p7',this)">🔊</button><audio id="aud_p7" data-clip src="audio_l2/p7.mp3"></audio></td></tr>
+    </table>
+    <div style="margin-top:14px;background:#FFF8E7;border-radius:10px;padding:12px 16px;font-size:13px;color:rgba(61,43,31,.75);line-height:1.7;">
+      ⚡ <strong>Règle d'or :</strong> L'adjectif possessif ne change JAMAIS selon le nom — seulement selon la personne qui possède. <em>His mother / His brother / His children</em> → toujours HIS !
+    </div>
+  </div>
+
+  <!-- ADJECTIFS DESCRIPTIFS -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-purple">✨</div>
+      <div><h2>Adjectifs · Describing People</h2><p>Physique et personnalité</p></div>
+    </div>
+    <div class="adj-section">
+      <div class="adj-label">👤 Apparence physique</div>
+      <div class="adj-tags" id="physical-tags"></div>
+    </div>
+    <div style="height:16px;"></div>
+    <div class="adj-section">
+      <div class="adj-label">💫 Personnalité</div>
+      <div class="adj-tags" id="personality-tags"></div>
+    </div>
+    <div style="margin-top:14px;background:#FBF6EE;border-radius:10px;padding:12px 16px;font-size:13px;color:rgba(61,43,31,.75);line-height:1.7;">
+      ⚡ <strong>Règle :</strong> Adjectif <strong>AVANT</strong> le nom : <em>a tall man</em> · Adjectif <strong>APRÈS</strong> to be : <em>He IS tall</em>
+    </div>
+  </div>
+
+  <!-- PHRASES TYPES -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-green">🔧</div>
+      <div><h2>Phrases Types · Key Structures</h2><p>Les structures essentielles de la leçon</p></div>
+    </div>
+    <div class="struct-list">
+      <div class="struct-row"><div class="struct-en"><span class="kw">This is</span> my mother.</div><div class="struct-fr">Voici ma mère. (présenter)</div><button class="audio-btn struct-audio" onclick="playClip('aud_s1',this)">🔊</button><audio id="aud_s1" data-clip src="audio_l2/s1.mp3"></audio></div>
+      <div class="struct-row"><div class="struct-en"><span class="kw">She is</span> kind and beautiful.</div><div class="struct-fr">Elle est gentille et belle. (décrire)</div><button class="audio-btn struct-audio" onclick="playClip('aud_s2',this)">🔊</button><audio id="aud_s2" data-clip src="audio_l2/s2.mp3"></audio></div>
+      <div class="struct-row"><div class="struct-en"><span class="kw">He is</span> tall and funny.</div><div class="struct-fr">Il est grand et drôle. (décrire)</div><button class="audio-btn struct-audio" onclick="playClip('aud_s3',this)">🔊</button><audio id="aud_s3" data-clip src="audio_l2/s3.mp3"></audio></div>
+      <div class="struct-row"><div class="struct-en"><span class="kw">I have</span> one brother and two sisters.</div><div class="struct-fr">J'ai un frère et deux sœurs.</div><button class="audio-btn struct-audio" onclick="playClip('aud_s4',this)">🔊</button><audio id="aud_s4" data-clip src="audio_l2/s4.mp3"></audio></div>
+      <div class="struct-row"><div class="struct-en"><span class="kw">Do you have</span> a brother?</div><div class="struct-fr">Tu as un frère ? (question)</div><button class="audio-btn struct-audio" onclick="playClip('aud_s5',this)">🔊</button><audio id="aud_s5" data-clip src="audio_l2/s5.mp3"></audio></div>
+      <div class="struct-row"><div class="struct-en"><span class="kw">Yes, I do.</span> / <span class="kw">No, I don't.</span></div><div class="struct-fr">Oui. / Non. (répondre)</div><button class="audio-btn struct-audio" onclick="playClip('aud_s6',this)">🔊</button><audio id="aud_s6" data-clip src="audio_l2/s6.mp3"></audio></div>
+    </div>
+  </div>
+
+  <!-- DIALOGUE -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-blue">💬</div>
+      <div><h2>Dialogue · À savoir par cœur</h2><p>Présenter sa famille</p></div>
+    </div>
+    <div class="dialogue-recap">
+      <div class="drec-line"><div class="drec-avatar av-a">👩</div><div class="drec-bubble"><div class="drec-en">Tell me about your family!</div><div class="drec-fr">Parle-moi de ta famille !</div></div><button class="audio-btn" onclick="playClip('aud_dl1',this)">🔊</button><audio id="aud_dl1" data-clip src="audio_l2/dl1.mp3"></audio></div>
+      <div class="drec-line"><div class="drec-avatar av-b">👨</div><div class="drec-bubble"><div class="drec-en">This is my mother. Her name is Fatima. She is kind and beautiful.</div><div class="drec-fr">Voici ma mère. Elle s'appelle Fatima. Elle est gentille et belle.</div></div><button class="audio-btn" onclick="playClip('aud_dl2',this)">🔊</button><audio id="aud_dl2" data-clip src="audio_l2/dl2.mp3"></audio></div>
+      <div class="drec-line"><div class="drec-avatar av-a">👩</div><div class="drec-bubble"><div class="drec-en">And your father? What is he like?</div><div class="drec-fr">Et ton père ? Comment est-il ?</div></div><button class="audio-btn" onclick="playClip('aud_dl3',this)">🔊</button><audio id="aud_dl3" data-clip src="audio_l2/dl3.mp3"></audio></div>
+      <div class="drec-line"><div class="drec-avatar av-b">👨</div><div class="drec-bubble"><div class="drec-en">My father is tall and funny! He is a teacher.</div><div class="drec-fr">Mon père est grand et drôle ! Il est professeur.</div></div><button class="audio-btn" onclick="playClip('aud_dl4',this)">🔊</button><audio id="aud_dl4" data-clip src="audio_l2/dl4.mp3"></audio></div>
+      <div class="drec-line"><div class="drec-avatar av-a">👩</div><div class="drec-bubble"><div class="drec-en">Do you have brothers or sisters?</div><div class="drec-fr">Tu as des frères ou des sœurs ?</div></div><button class="audio-btn" onclick="playClip('aud_dl5',this)">🔊</button><audio id="aud_dl5" data-clip src="audio_l2/dl5.mp3"></audio></div>
+      <div class="drec-line"><div class="drec-avatar av-b">👨</div><div class="drec-bubble"><div class="drec-en">Yes! I have one brother. He is young and smart.</div><div class="drec-fr">Oui ! J'ai un frère. Il est jeune et intelligent.</div></div><button class="audio-btn" onclick="playClip('aud_dl6',this)">🔊</button><audio id="aud_dl6" data-clip src="audio_l2/dl6.mp3"></audio></div>
+    </div>
+  </div>
+
+  <!-- CE QUE VOUS SAVEZ FAIRE -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-green">✅</div>
+      <div><h2>Ce que vous savez faire · What you can do</h2><p>Vos acquis après la leçon 2</p></div>
+    </div>
+    <ul class="checklist">
+      <li><div class="check-icon">✓</div>Nommer les membres de votre famille en anglais</li>
+      <li><div class="check-icon">✓</div>Utiliser les adjectifs possessifs (my, your, his, her...)</li>
+      <li><div class="check-icon">✓</div>Décrire quelqu'un physiquement et par sa personnalité</li>
+      <li><div class="check-icon">✓</div>Présenter un membre de sa famille : "This is my..."</li>
+      <li><div class="check-icon">✓</div>Construire des phrases affirmatives, négatives et interrogatives</li>
+      <li><div class="check-icon">✓</div>Tenir une conversation sur sa famille</li>
+    </ul>
+  </div>
+
+  <!-- DEVOIR -->
+  <div class="homework-box">
+    <h3>📝 Devoir pour la prochaine fois · Homework</h3>
+    <ul>
+      <li><div class="hw-bullet">1</div>Prenez une photo de votre famille et <strong>décrivez chaque personne en 2 phrases</strong> en anglais : <em>This is my... He/She is... and...</em></li>
+      <li><div class="hw-bullet">2</div>Apprenez les <strong>8 adjectifs possessifs</strong> par cœur — faites une liste et testez-vous !</li>
+      <li><div class="hw-bullet">3</div>Révisez le dialogue modèle et rejouez-le en utilisant <strong>votre vraie famille</strong>.</li>
+      <li><div class="hw-bullet">4</div><strong>Bonus :</strong> Apprenez 5 adjectifs de personnalité et 5 adjectifs physiques supplémentaires.</li>
+    </ul>
+  </div>
+
+  <!-- PROCHAIN COURS -->
+  <div class="next-lesson">
+    <h3>🚀 Au prochain cours · Lesson 3</h3>
+    <ul>
+      <li>Ma maison — <em>My home</em></li>
+      <li>Les pièces de la maison — <em>living room, bedroom, kitchen...</em></li>
+      <li>Les prépositions de lieu — <em>in, on, under, next to...</em></li>
+      <li>Décrire où se trouvent les choses — <em>The table is in the kitchen.</em></li>
+    </ul>
+  </div>
+
+  <!-- CITATION -->
+  <div class="quote-box">
+    <div class="quote-text">"<em>Language</em> is the road map of a culture."</div>
+    <div style="font-size:13px;color:rgba(61,43,31,.55);margin-bottom:6px;font-style:italic;">La langue est la carte routière d'une culture.</div>
+    <div style="font-size:11px;color:rgba(61,43,31,.4);letter-spacing:1px;">— Rita Mae Brown · LEARN RIGHT 💪</div>
+  </div>
+
+</div>
+
+<footer>© <strong>Learn Right</strong> · English for Every Level · Leçon 2 — My Family</footer>
+
+<script>
+function playClip(id, el){
+  document.querySelectorAll('audio[data-clip]').forEach(a=>{ if(a.id!==id){a.pause();a.currentTime=0;} });
+  document.querySelectorAll('.playing').forEach(b=>{ if(b!==el) b.classList.remove('playing'); });
+  const audio = document.getElementById(id);
+  if(!audio) return;
+  if(!audio.paused){
+    audio.pause(); audio.currentTime=0; el.classList.remove('playing');
+  } else {
+    audio.play(); el.classList.add('playing');
+    audio.onended = ()=>{ el.classList.remove('playing'); };
+  }
+}
+
+const family = [
+  {emoji:'👨',en:'Father / Dad',ph:'FAA-ter / DAD',fr:'Père',id:'f1'},{emoji:'👩',en:'Mother / Mum',ph:'MUH-ter / MOM',fr:'Mère',id:'f2'},
+  {emoji:'👦',en:'Brother',ph:'BRUH-ter',fr:'Frère',id:'f3'},{emoji:'👧',en:'Sister',ph:'SIS-ter',fr:'Sœur',id:'f4'},
+  {emoji:'👴',en:'Grandfather',ph:'GRAN-faa-ter',fr:'Grand-père',id:'f5'},{emoji:'👵',en:'Grandmother',ph:'GRAN-muh-ter',fr:'Grand-mère',id:'f6'},
+  {emoji:'👨',en:'Uncle',ph:'UNN-kel',fr:'Oncle',id:'f7'},{emoji:'👩',en:'Aunt',ph:'AANT',fr:'Tante',id:'f8'},
+  {emoji:'🧒',en:'Cousin',ph:'KUZ-en',fr:'Cousin(e)',id:'f9'},{emoji:'💑',en:'Husband / Wife',ph:'HUZ-bend / OUAYF',fr:'Mari / Femme',id:'f10'},
+  {emoji:'👶',en:'Baby',ph:'BAY-bii',fr:'Bébé',id:'f11'},{emoji:'🧒',en:'Child / Children',ph:'TCHAYLD / TCHIL-dren',fr:'Enfant(s)',id:'f12'},
+];
+
+const physical = [
+  {en:'Tall',ph:'TOL',fr:'Grand',id:'phys1'},{en:'Short',ph:'CHORT',fr:'Petit',id:'phys2'},{en:'Strong',ph:'STRONG',fr:'Fort',id:'phys3'},
+  {en:'Slim',ph:'SLIM',fr:'Mince',id:'phys4'},{en:'Old',ph:'OHLD',fr:'Vieux',id:'phys5'},{en:'Young',ph:'YUNG',fr:'Jeune',id:'phys6'},
+  {en:'Beautiful',ph:'BYOU-ti-ful',fr:'Beau/Belle',id:'phys7'},{en:'Chubby',ph:'TCHUH-bii',fr:'Rond(e)',id:'phys8'},
+];
+
+const personality = [
+  {en:'Kind',ph:'KAYND',fr:'Gentil',id:'pers1'},{en:'Funny',ph:'FUH-nii',fr:'Drôle',id:'pers2'},{en:'Smart',ph:'SMAART',fr:'Intelligent',id:'pers3'},
+  {en:'Brave',ph:'BREYV',fr:'Courageux',id:'pers4'},{en:'Shy',ph:'CHAY',fr:'Timide',id:'pers5'},{en:'Lazy',ph:'LEY-zii',fr:'Paresseux',id:'pers6'},
+  {en:'Cheerful',ph:'TCHIR-ful',fr:'Joyeux',id:'pers7'},{en:'Energetic',ph:'e-ner-JE-tik',fr:'Énergique',id:'pers8'},
+];
+
+const fg = document.getElementById('fam-grid');
+family.forEach(({emoji,en,ph,fr,id}) => {
+  const pill = document.createElement('div');
+  pill.className = 'fam-pill pill-audio';
+  pill.innerHTML = `<span class="fam-emoji">${emoji}</span><div class="fam-en">${en}</div><div class="fam-ph">${ph}</div><div class="fam-fr">${fr}</div><span class="pill-audio-icon">🔊</span><audio id="aud_${id}" data-clip src="audio_l2/${id}.mp3"></audio>`;
+  pill.onclick = () => playClip(`aud_${id}`, pill.querySelector('.pill-audio-icon'));
+  fg.appendChild(pill);
+});
+
+['physical-tags','personality-tags'].forEach((gridId,i) => {
+  const arr = i===0 ? physical : personality;
+  const el = document.getElementById(gridId);
+  arr.forEach(({en,ph,fr,id}) => {
+    const tag = document.createElement('div');
+    tag.className = 'adj-tag';
+    tag.innerHTML = `<span class="en">${en}</span><span class="ph">${ph}</span><span class="fr">${fr}</span><span class="tag-audio-icon">🔊</span><audio id="aud_${id}" data-clip src="audio_l2/${id}.mp3"></audio>`;
+    tag.onclick = () => playClip(`aud_${id}`, tag.querySelector('.tag-audio-icon'));
+    el.appendChild(tag);
+  });
+});
+</script>
+</body>
+</html>
