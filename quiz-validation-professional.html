@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiz de Validation — Professional B1/B2 · Learn Right</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#3D2B1F;--blue:#C4785A;--sky:#E0AE8E;--gold:#B8873F;--gold-dark:#96702F;--green:#6FA378;--red:#C0392B;--purple:#96432E;--lgray:#F5F0E8;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--lgray);
+    background-image:
+      linear-gradient(rgba(61,43,31,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61,43,31,0.05) 1px, transparent 1px);
+    background-size: 38px 38px;
+    font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;
+  }
+  .site-header{background:var(--navy);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:white;}
+  .brand-name{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:white;}
+  .brand-name span{color:var(--gold);}
+  .header-badge{background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:16px;padding:4px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:800;color:white;letter-spacing:2px;}
+  .timer-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:5px 12px;}
+  .timer-icon{font-size:14px;}
+  .timer-display{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:white;letter-spacing:2px;min-width:52px;}
+  .timer-display.warning{color:#FFB300;}
+  .timer-display.danger{color:var(--red);animation:blink .8s ease infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+  #intro{max-width:700px;margin:48px auto;padding:0 20px;}
+  .intro-card{background:white;border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;}
+  .intro-icon{font-size:56px;margin-bottom:16px;display:block;}
+  .intro-card h1{font-family:'Inter',sans-serif;font-size:32px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .intro-card h1 em{font-style:normal;color:var(--purple);}
+  .intro-card p{font-size:15px;color:rgba(61,43,31,.7);line-height:1.8;margin-bottom:24px;}
+  .intro-stats{display:flex;justify-content:center;gap:28px;margin-bottom:24px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat-val{font-family:'Inter',sans-serif;font-size:26px;font-weight:900;color:var(--purple);}
+  .stat-lbl{font-size:12px;color:rgba(61,43,31,.55);letter-spacing:1px;text-transform:uppercase;}
+  .seuils{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+  .seuil{border-radius:14px;padding:14px 18px;text-align:center;}
+  .seuil-b1{background:#F6E9E4;border:2px solid var(--purple);}
+  .seuil-b2{background:linear-gradient(135deg,#FBF3E3,#F5E6C8);border:2px solid var(--gold-dark);}
+  .seuil-val{font-family:'Inter',sans-serif;font-size:28px;font-weight:900;color:var(--purple);}
+  .seuil-b2 .seuil-val{color:var(--gold-dark);}
+  .seuil-lbl{font-size:12px;font-weight:700;color:rgba(61,43,31,.7);margin-top:2px;}
+  .seuil-cert{font-size:11px;color:rgba(61,43,31,.55);margin-top:4px;}
+  .rules{background:var(--lgray);border-radius:14px;padding:16px 20px;text-align:left;margin-bottom:24px;}
+  .rules li{font-size:14px;color:rgba(61,43,31,.85);margin-bottom:6px;display:flex;gap:8px;}
+  .rules li::before{content:'✓';color:var(--green);font-weight:900;flex-shrink:0;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;}
+  @media(max-width:520px){.form-grid{grid-template-columns:1fr;}}
+  .form-group{display:flex;flex-direction:column;gap:6px;text-align:left;}
+  .form-group label{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:1px;text-transform:uppercase;}
+  .form-group input{padding:12px 16px;border:2px solid #E4D9CC;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:border-color .2s;}
+  .form-group input:focus{border-color:var(--purple);}
+  .form-group input.err{border-color:var(--red);}
+  .email-hint{font-size:12px;color:rgba(61,43,31,.55);text-align:left;margin-bottom:20px;}
+  .btn-start{background:linear-gradient(135deg,var(--purple),var(--blue));border:none;border-radius:14px;padding:14px 40px;font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:white;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 4px 16px rgba(150,67,46,.35);width:100%;}
+  .btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(150,67,46,.4);}
+  #quiz{display:none;max-width:780px;margin:0 auto;padding:24px 20px 60px;}
+  .progress-wrap{background:white;border-radius:16px;padding:16px 20px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .prog-label{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--navy);}
+  .prog-score{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--green);}
+  .progress-bar{height:8px;background:#EFE6D8;border-radius:10px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:10px;transition:width .4s ease;}
+  .section-badge{display:inline-block;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:8px;padding:2px 10px;font-size:11px;font-weight:700;color:white;letter-spacing:1px;margin-top:6px;}
+  .q-card{background:white;border-radius:20px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.07);margin-bottom:16px;animation:slideIn .25s ease;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .q-num{font-size:11px;font-weight:700;color:var(--purple);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+  .q-text{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:20px;}
+  .audio-player{display:flex;align-items:center;gap:14px;background:var(--lgray);border-radius:14px;padding:14px 18px;margin-bottom:20px;}
+  .btn-listen{flex-shrink:0;width:48px;height:48px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--purple),var(--blue));color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .18s;}
+  .btn-listen:hover{transform:scale(1.08);}
+  .btn-listen.playing{animation:pulse 1s ease infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(150,67,46,.4);}50%{box-shadow:0 0 0 8px rgba(150,67,46,0);}}
+  .audio-title{font-size:13px;font-weight:700;color:var(--navy);}
+  .audio-sub{font-size:11.5px;color:rgba(61,43,31,.55);margin-top:2px;}
+  .choices{display:flex;flex-direction:column;gap:10px;}
+  .choice-btn{background:var(--lgray);border:2px solid #E4D9CC;border-radius:12px;padding:12px 18px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:12px;}
+  .choice-btn:hover:not(:disabled){background:#F6E9E4;border-color:var(--purple);transform:translateX(4px);}
+  .choice-letter{width:28px;height:28px;border-radius:50%;background:white;border:2px solid #DCCFBE;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:800;color:rgba(61,43,31,.55);flex-shrink:0;transition:all .18s;}
+  .choice-btn:hover:not(:disabled) .choice-letter{background:var(--purple);border-color:var(--purple);color:white;}
+  .choice-btn.correct{background:#E9F2EA;border-color:var(--green);}
+  .choice-btn.correct .choice-letter{background:var(--green);border-color:var(--green);color:white;}
+  .choice-btn.wrong{background:#FBEAE7;border-color:var(--red);}
+  .choice-btn.wrong .choice-letter{background:var(--red);border-color:var(--red);color:white;}
+  .choice-btn:disabled{cursor:not-allowed;opacity:.85;}
+  .feedback{border-radius:12px;padding:12px 16px;margin-top:12px;font-size:14px;font-weight:700;display:none;}
+  .feedback.good{background:#E9F2EA;color:#4A7C59;}
+  .feedback.bad{background:#FBEAE7;color:#A93226;}
+  .q-nav{display:flex;justify-content:flex-end;margin-top:16px;}
+  .btn-next{background:linear-gradient(135deg,var(--purple),var(--blue));border:none;border-radius:12px;padding:11px 28px;font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:white;cursor:pointer;transition:transform .18s;display:none;}
+  .btn-next:hover{transform:scale(1.04);}
+  .btn-next.show{display:inline-block;}
+  #results{display:none;max-width:700px;margin:48px auto;padding:0 20px 60px;}
+  .result-card{background:white;border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;}
+  .result-emoji{font-size:64px;margin-bottom:16px;display:block;}
+  .result-card h2{font-family:'Inter',sans-serif;font-size:28px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+  .result-name{color:var(--purple);}
+  .result-email{color:rgba(61,43,31,.55);font-size:13px;margin-bottom:12px;}
+  .result-time{background:var(--lgray);border-radius:14px;padding:16px 20px;margin:16px 0;display:flex;align-items:center;justify-content:center;gap:16px;}
+  .rt-icon{font-size:28px;}
+  .rt-val{font-family:'Inter',sans-serif;font-size:26px;font-weight:900;color:var(--navy);}
+  .rt-lbl{font-size:12px;color:rgba(61,43,31,.55);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+  .score-big{font-family:'Inter',sans-serif;font-size:72px;font-weight:900;color:var(--purple);line-height:1;margin:16px 0 4px;}
+  .score-max{font-size:20px;color:rgba(61,43,31,.45);}
+  .score-pct{font-family:'Inter',sans-serif;font-size:22px;font-weight:700;margin-bottom:20px;}
+  .score-bar-wrap{margin:20px 0;}
+  .score-bar-track{height:14px;background:#EFE6D8;border-radius:10px;overflow:hidden;margin-bottom:8px;}
+  .score-bar-fill{height:100%;border-radius:10px;transition:width 1s ease .3s;}
+  .score-bar-fill.b2{background:linear-gradient(90deg,var(--gold-dark),var(--gold));}
+  .score-bar-fill.b1{background:linear-gradient(90deg,var(--purple),var(--blue));}
+  .score-bar-fill.fail{background:linear-gradient(90deg,var(--gold),#FFB300);}
+  .score-bar-labels{display:flex;justify-content:space-between;font-size:11px;color:rgba(61,43,31,.45);}
+  .verdict-box{border-radius:16px;padding:18px 22px;margin:20px 0;}
+  .verdict-box.b2{background:linear-gradient(135deg,#FBF3E3,#F5E6C8);border:2px solid var(--gold-dark);}
+  .verdict-box.b1{background:#F6E9E4;border:2px solid var(--purple);}
+  .verdict-box.fail{background:#FFF8E7;border:2px solid var(--gold);}
+  .verdict-title{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px;}
+  .verdict-box.b2 .verdict-title{color:var(--gold-dark);}
+  .verdict-box.b1 .verdict-title{color:var(--purple);}
+  .verdict-box.fail .verdict-title{color:#B5651D;}
+  .verdict-text{font-size:14px;color:rgba(61,43,31,.7);line-height:1.7;}
+  .cert-strip{border-radius:16px;padding:24px;margin:20px 0;color:white;position:relative;overflow:hidden;}
+  .cert-strip.b2{background:linear-gradient(135deg,var(--navy),var(--gold-dark));}
+  .cert-strip.b1{background:linear-gradient(135deg,var(--navy),var(--purple));}
+  .cert-strip::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);}
+  .cert-title{font-size:11px;letter-spacing:3px;opacity:.6;margin-bottom:4px;}
+  .cert-name{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px;}
+  .cert-level{font-size:13px;opacity:.7;}
+  .cert-seal{font-size:36px;position:absolute;right:24px;top:50%;transform:translateY(-50%);}
+  .breakdown{background:var(--lgray);border-radius:14px;padding:18px;margin:20px 0;text-align:left;}
+  .breakdown h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:12px;}
+  .section-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .sr-label{font-size:13px;color:rgba(61,43,31,.7);flex:1;}
+  .sr-bar-track{width:100px;height:8px;background:#EDE3D6;border-radius:6px;overflow:hidden;flex-shrink:0;}
+  .sr-bar-fill{height:100%;border-radius:6px;}
+  .sr-score{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--navy);min-width:36px;text-align:right;}
+  .status-box{border-radius:12px;padding:12px 18px;margin:16px 0;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;}
+  .status-sending{background:#F6E9E4;border:1.5px solid var(--purple);color:var(--purple);}
+  .status-ok{background:#E9F2EA;border:1.5px solid var(--green);color:#4A7C59;}
+  .status-err{background:#FBEAE7;border:1.5px solid var(--red);color:#A93226;}
+  .btn-restart{background:var(--lgray);border:2px solid #DCCFBE;border-radius:12px;padding:12px 28px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--navy);cursor:pointer;margin-top:16px;transition:all .18s;}
+  .btn-restart:hover{background:#EFE6D8;}
+</style>
+<script src="https://tally.so/widgets/embed.js"></script>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="brand">
+    <div class="brand-icon">L</div>
+    <div class="brand-name">LEARN <span>RIGHT</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="timer-wrap" id="timer-wrap" style="display:none;"><span class="timer-icon">⏱️</span><span class="timer-display" id="timer-display">00:00</span></div>
+    <div class="header-badge">PROFESSIONAL B1-B2</div>
+  </div>
+</div>
+
+<div id="intro">
+  <div class="intro-card">
+    <span class="intro-icon">📝</span>
+    <h1>Quiz de validation<br><em>Professional B1-B2</em></h1>
+    <p>Ce quiz de 68 questions couvre l'ensemble du programme Professional. Il valide vos acquis sur les 12 leçons : grammaire avancée, vocabulaire professionnel, communication et compréhension orale.</p>
+    <div class="intro-stats">
+      <div class="stat"><div class="stat-val">68</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat"><div class="stat-val">B1-B2</div><div class="stat-lbl">Niveau</div></div>
+      <div class="stat"><div class="stat-val">⏱️</div><div class="stat-lbl">Chronométré</div></div>
+    </div>
+    <div class="seuils">
+      <div class="seuil seuil-b1">
+        <div class="seuil-val">70%</div>
+        <div class="seuil-lbl">Certificat B1</div>
+        <div class="seuil-cert">48/68 bonnes réponses</div>
+      </div>
+      <div class="seuil seuil-b2">
+        <div class="seuil-val">85%</div>
+        <div class="seuil-lbl">Certificat B2 ⭐</div>
+        <div class="seuil-cert">58/68 bonnes réponses</div>
+      </div>
+    </div>
+    <ul class="rules">
+      <li>Une seule bonne réponse par question</li>
+      <li>Correction et explication après chaque réponse</li>
+      <li>70% → Certificat B1 · 85% → Certificat B2</li>
+      <li>⏱️ Le quiz est chronométré dès le départ — votre temps sera affiché en fin de quiz</li>
+      <li>Vos résultats seront envoyés automatiquement à votre professeure</li>
+    </ul>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Prénom *</label>
+        <input type="text" id="student-name" placeholder="Votre prénom" maxlength="40"/>
+      </div>
+      <div class="form-group">
+        <label>Adresse e-mail *</label>
+        <input type="email" id="student-email" placeholder="votre@email.com" maxlength="100"/>
+      </div>
+    </div>
+    <p class="email-hint">🔒 Votre email est utilisé uniquement pour recevoir votre attestation.</p>
+    <button class="btn-start" onclick="startQuiz()">Commencer le quiz →</button>
+  </div>
+</div>
+
+<div id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="prog-label" id="prog-label">Question 1 / 68</span>
+      <span class="prog-score" id="prog-score">Score : 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:1.5%"></div></div>
+    <span class="section-badge" id="section-badge"></span>
+  </div>
+  <div class="q-card" id="q-card">
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div id="audio-zone"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="q-nav"><button class="btn-next" id="btn-next" onclick="nextQuestion()">Question suivante →</button></div>
+  </div>
+</div>
+
+<div id="results"></div>
+<audio id="quiz-audio-player" style="display:none;"></audio>
+
+<script>
+const TALLY_FORM_ID = "RGr71J";
+
+const QUESTIONS = [
+  {s:"L1 — Present Perfect",q:"Choisissez la forme correcte : 'She ___ to Paris three times.'",c:["has been","had been","has gone","went"],a:0,e:"'Has been' = est allée et revenue. 'Has gone' = est partie et n'est pas encore revenue."},
+  {s:"L1 — Present Perfect",q:"'I ___ this film already. Let's watch something else.'",c:["had seen","saw","have seen","see"],a:2,e:"'Already' avec le PP → 'I have seen'. Le résultat présent d'une action passée."},
+  {s:"L1 — Present Perfect",q:"'Have you finished your report ___?'",c:["for","since","yet","already"],a:2,e:"'Yet' dans les questions et négatives = déjà / encore. 'Have you finished yet?'"},
+  {s:"L1 — Present Perfect",q:"'She has worked here ___ 2019.'",c:["since","ago","for","during"],a:0,e:"'Since' + point précis dans le temps. 'For' + durée (for 5 years)."},
+  {s:"L2 — Perfect Continu & Will",q:"'I ___ for this company for 10 years and I love it here.'",c:["work","have been working","had worked","worked"],a:1,e:"Activité qui a commencé dans le passé et continue → PP continu (have been + ING)."},
+  {s:"L2 — Perfect Continu & Will",q:"'Look at those clouds. It ___ rain.'",c:["shall","would","will","is going to"],a:3,e:"Preuve visible → 'going to'. 'Will' s'utilise pour une décision spontanée."},
+  {s:"L2 — Perfect Continu & Will",q:"'I promise I ___ you as soon as I arrive.'",c:["am going to call","will call","call","called"],a:1,e:"Promesse ou décision spontanée → 'will'. 'I will call you.'"},
+  {s:"L2 — Perfect Continu & Will",q:"'She looks exhausted. She ___ all day.'",c:["has been working","has worked","is working","worked"],a:0,e:"Résultat visible d'une activité continue → PP continu. 'She has been working all day.'"},
+  {s:"L3 — Modaux",q:"'You ___ wear a suit — it's a casual office.'",c:["don't have to","can't","mustn't","shouldn't"],a:0,e:"'Don't have to' = ce n'est pas obligatoire (pas d'obligation). 'Mustn't' = interdit."},
+  {s:"L3 — Modaux",q:"'She ___ be the new manager — she's too young.' (déduction négative)",c:["mustn't","wouldn't","shouldn't","can't"],a:3,e:"Déduction négative certaine → 'can't be'. 'She can't be the manager.'"},
+  {s:"L3 — Modaux",q:"'You ___ have told me earlier! Now it's too late.' (reproche)",c:["might","must","should","could"],a:2,e:"Reproche sur le passé → 'should have + PP'. 'You should have told me.'"},
+  {s:"L3 — Modaux",q:"'___ I use your phone? Mine is dead.'",c:["Must","Should","May","Have to"],a:2,e:"Demande de permission polie → 'May I...?' ou 'Could I...?'"},
+  {s:"L4 — Conditionnelles",q:"'If I ___ you, I would accept that offer.'",c:["had been","am","was","were"],a:3,e:"Conditionnel 2 (hypothèse irréelle au présent) → 'If I were you...' (were pour toutes les personnes)."},
+  {s:"L4 — Conditionnelles",q:"'If she ___ harder, she would have passed the exam.'",c:["studied","would study","had studied","studies"],a:2,e:"Conditionnel 3 (regret sur le passé) → If + past perfect, would have + PP."},
+  {s:"L4 — Conditionnelles",q:"'Unless you ___ now, you'll miss the train.'",c:["leave","will leave","left","don't leave"],a:0,e:"'Unless' = if not → 'Unless you leave' = if you don't leave. Toujours + présent simple."},
+  {s:"L4 — Conditionnelles",q:"'I wish I ___ speak Spanish.' (regret présent)",c:["had","would","could","can"],a:2,e:"'I wish + could' = regret sur une capacité présente. 'I wish I could speak Spanish.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'This report ___ by the team last week.'",c:["wrote","was written","has written","is written"],a:1,e:"Passif au passé simple → was/were + PP. 'The report was written by the team.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'The new policy ___ next Monday.' (futur passif)",c:["will be announced","will announce","has been announced","is announcing"],a:0,e:"Passif futur → will be + PP. 'The policy will be announced next Monday.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'The project ___ for three months.' (passif PP continu)",c:["was developed","has been developing","is being developed","has been developed"],a:2,e:"Passif en cours actuellement → is being + PP. 'The project is being developed.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'She ___ to attend the conference.' (modal passif)",c:["is expected","expects","was expecting","has expected"],a:0,e:"Modal passif → is/are + PP. 'She is expected to attend' = On s'attend à ce qu'elle assiste."},
+  {s:"L5 — Passif & Discours Indirect",q:"'I work in London.' → She said she ___ in London.",c:["works","has worked","had worked","worked"],a:3,e:"Discours indirect : présent simple → prétérit. 'She said she worked in London.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'Have you finished the report?' → He asked me if I ___ the report.",c:["had finished","have finished","finished","would finish"],a:0,e:"Question au discours indirect : PP → past perfect. 'He asked if I had finished.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'Don't be late!' → She told me ___ late.",c:["don't be","not to be","to not be","wasn't to be"],a:1,e:"Impératif négatif au DI → told me not to + infinitif. 'She told me not to be late.'"},
+  {s:"L5 — Passif & Discours Indirect",q:"'We will finish tomorrow.' → They said they ___ the next day.",c:["would finish","finished","had finished","will finish"],a:0,e:"Will → would au discours indirect. 'They said they would finish the next day.'"},
+  {s:"L6 — Relatives & Connecteurs",q:"'The woman ___ called this morning is my client.'",c:["whom","which","who","whose"],a:2,e:"'Who' pour les personnes (sujet). 'Which' pour les choses. 'Whose' = dont."},
+  {s:"L6 — Relatives & Connecteurs",q:"'The report, ___ I wrote last week, has been approved.'",c:["who","that","what","which"],a:3,e:"Relative non-définissante (entre virgules) → 'which' uniquement. Pas 'that'."},
+  {s:"L6 — Relatives & Connecteurs",q:"'This is the colleague ___ car was stolen.'",c:["that","who","which","whose"],a:3,e:"Possession → 'whose'. 'The colleague whose car was stolen.'"},
+  {s:"L6 — Relatives & Connecteurs",q:"'The city ___ I was born has changed a lot.'",c:["where","that","which","who"],a:0,e:"Lieu → 'where'. 'The city where I was born.' On peut aussi dire 'in which'."},
+  {s:"L6 — Relatives & Connecteurs",q:"'___ the bad weather, the event was a great success.'",c:["Although","However","Despite","Nevertheless"],a:2,e:"'Despite / In spite of' + nom/gérondif. 'Although' + sujet + verbe."},
+  {s:"L6 — Relatives & Connecteurs",q:"'The results were poor. ___, the team remained motivated.'",c:["Although","Nevertheless","In spite of","Despite"],a:1,e:"'Nevertheless' / 'However' relient deux phrases. 'Despite' / 'Although' relient deux propositions."},
+  {s:"L6 — Relatives & Connecteurs",q:"'___ he worked hard, he didn't get promoted.'",c:["In spite of","Even though","Despite","However"],a:1,e:"'Even though' renforce 'although' (= même si). Suivi d'un sujet + verbe."},
+  {s:"L6 — Relatives & Connecteurs",q:"'She is highly qualified. ___, she struggles with public speaking.'",c:["Therefore","Furthermore","However","Moreover"],a:2,e:"'However' introduit une opposition/nuance. 'Therefore' = donc (conséquence)."},
+  {s:"L7 — Emails Professionnels",q:"Comment commencer un email formel à quelqu'un dont vous ne connaissez pas le nom ?",c:["Hi there,","Dear Sir or Madam,","Hello,","To whom it may concern,"],a:1,e:"'Dear Sir or Madam' est la formule standard quand on ne connaît pas le destinataire."},
+  {s:"L7 — Emails Professionnels",q:"'I am writing ___ your job advertisement dated 15 June.'",c:["with reference to","for","regarding to","about"],a:0,e:"'With reference to' est la formule formelle pour indiquer l'objet. 'Regarding' (sans 'to') est aussi correct."},
+  {s:"L7 — Emails Professionnels",q:"Comment terminer formellement un email quand vous connaissez le nom du destinataire ?",c:["Yours faithfully,","Best wishes,","Kind regards,","Yours sincerely,"],a:3,e:"'Yours sincerely' quand vous connaissez le nom. 'Yours faithfully' quand vous ne le connaissez pas."},
+  {s:"L7 — Emails Professionnels",q:"'Please find ___ my CV and cover letter.'",c:["joined","included","enclosed","attached"],a:3,e:"'Please find attached' est la formule standard pour indiquer une pièce jointe dans un email."},
+  {s:"L8 — Réunions & Présentations",q:"En réunion, comment interrompre poliment quelqu'un ?",c:["Wait, listen to me.","Sorry to interrupt, but...","Stop, I want to say something.","That's wrong, actually..."],a:1,e:"'Sorry to interrupt, but...' / 'If I could just add...' sont les formules polies standard."},
+  {s:"L8 — Réunions & Présentations",q:"'I'd like to ___ to my second point.' (passer au suivant)",c:["proceed to","continue","move on","go"],a:2,e:"'Move on to' est la formule naturelle en anglais professionnel pour passer à l'élément suivant."},
+  {s:"L8 — Réunions & Présentations",q:"'___ sum up, the project is on track and within budget.'",c:["To","In","For","As"],a:0,e:"'To sum up' / 'To summarise' / 'In conclusion' pour conclure une présentation."},
+  {s:"L8 — Réunions & Présentations",q:"Comment demander des clarifications de façon professionnelle ?",c:["I don't understand.","What do you mean?","Could you elaborate on that point?","Say that again?"],a:2,e:"'Could you elaborate on that?' / 'Could you clarify what you mean by...?' sont les formules professionnelles."},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"Quel est le synonyme formel de 'to get' dans un contexte professionnel ?",c:["to pick up","to receive","to take","to grab"],a:1,e:"'To receive' est le terme formel. Ex: 'I received your email' plutôt que 'I got your email'."},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"'The merger will ___ in significant cost savings.' (entraîner)",c:["result to","result","result for","result in"],a:3,e:"'Result in' = avoir pour résultat, entraîner. C'est une collocation fixe en anglais professionnel."},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"Complétez avec la bonne collocation : 'to ___ a decision'",c:["make","have","take","do"],a:0,e:"'Make a decision' est la collocation correcte. 'Take a decision' est aussi acceptable en anglais britannique."},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"'Despite the challenges, the company managed to ___ its targets.'",c:["reach","meet","arrive","touch"],a:1,e:"'Meet targets/deadlines/expectations' est la collocation standard en anglais professionnel."},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"'You're coming to the meeting, ___?' (question tag)",c:["are you","aren't you","don't you","won't you"],a:1,e:"Phrase positive (you're = you are) → tag négatif avec le même auxiliaire. 'You're coming, aren't you?'"},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"'They won't be late, ___?' (question tag)",c:["won't they","will they","don't they","aren't they"],a:1,e:"Phrase négative (won't) → tag positif avec le même auxiliaire. 'They won't be late, will they?'"},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"Que signifie l'expression business 'to touch base' ?",c:["Envoyer un email formel","Prendre contact / faire le point","Recommencer un projet depuis le début","Signer un contrat"],a:1,e:"'To touch base (with someone)' = prendre contact, faire le point rapidement. Ex : 'I'll touch base with the client this afternoon.'"},
+  {s:"L9 — Vocabulaire Pro, Question Tags & Idioms",q:"Quelle expression signifie 'aller droit au but' ?",c:["Back to the drawing board","The ball is in your court","Cut to the chase","Hit the ground running"],a:2,e:"'To cut to the chase' = aller droit au but, sans détour. 'The ball is in your court' = c'est à vous de jouer."},
+  {s:"L10 — Grammaire B2 Avancée",q:"'___ was the lack of communication that led to the project failure.' (mise en relief)",c:["It","What","That","This"],a:0,e:"Cleft sentence 'It is/was... that' met en valeur un élément clé. 'It was the lack of communication that led to...'"},
+  {s:"L10 — Grammaire B2 Avancée",q:"'___ we need is more time and support.' (mise en relief)",c:["It","What","That","This"],a:1,e:"Cleft sentence 'What... is' met en valeur ce dont on a besoin. 'What we need is more time.'"},
+  {s:"L10 — Grammaire B2 Avancée",q:"'I ___ understand your concerns.' (insistance forte)",c:["really","do","am","have"],a:1,e:"DO/DOES/DID emphatique renforce l'affirmation. 'I do understand your concerns' = je comprends vraiment."},
+  {s:"L10 — Grammaire B2 Avancée",q:"'___ have I seen such dedication.' (inversion après négation)",c:["Never","Not","Ever","Always"],a:0,e:"Inversion après 'Never' en tête de phrase : Never + auxiliaire + sujet. 'Never have I seen...'"},
+  {s:"L10 — Grammaire B2 Avancée",q:"Quelle structure signifie 'Certes / Il est vrai que' pour introduire une concession ?",c:["Regardless of","Admittedly","For all","Despite"],a:1,e:"'Admittedly' = certes, il faut l'admettre. Ex : 'Admittedly, the plan has weaknesses, but it remains our best option.'"},
+  {s:"L10 — Grammaire B2 Avancée",q:"'___ I'd like to extend the deadline, the contract does not allow it.' (bien que — formel)",c:["Much as","For all","Granted","Regardless of"],a:0,e:"'Much as' = bien que / si... que (registre formel). 'Much as I'd like to..., the contract does not allow it.'"},
+  {s:"L10 — Grammaire B2 Avancée",q:"'___ its high price, the product sells very well.' (malgré tout + nom)",c:["Even though","For all","Much as","Admittedly"],a:1,e:"'For all' + nom = malgré tout, en dépit de. 'For all its high price, the product sells well.'"},
+  {s:"L10 — Grammaire B2 Avancée",q:"Que signifie 'Regardless of' ?",c:["Indépendamment de / Peu importe","Bien que","Certes","Malgré tout (+ nom)"],a:0,e:"'Regardless of' = indépendamment de, peu importe. Ex : 'Regardless of the outcome, we tried our best.'"},
+  {s:"L11 — Compréhension & Expression",q:"Quelle stratégie d'écoute consiste à repérer des signaux comme 'The key point is...' ou 'However...' ?",c:["L'écoute globale","Repérer les signaux","L'inférence","La récupération"],a:1,e:"Repérer les signaux = identifier les mots/expressions qui annoncent une idée importante ou un changement (however, in other words...)."},
+  {s:"L11 — Compréhension & Expression",q:"En anglais oral rapide, que signifie la forme contractée 'gonna' ?",c:["Go on","Going to","Got nothing","Going now"],a:1,e:"'Gonna' = going to (à l'oral rapide). De même, 'wanna' = want to, 'gotta' = have got to."},
+  {s:"L11 — Compréhension & Expression",q:"Vous perdez le fil pendant une conversation en anglais. Quelle est la meilleure stratégie de récupération ?",c:["Abandonner et changer de sujet","Paniquer et demander de tout recommencer","Rester calme et se raccrocher aux mots reconnus","Répondre au hasard"],a:2,e:"La stratégie de récupération consiste à ne pas paniquer et à se raccrocher aux mots qu'on a reconnus pour reconstruire le sens."},
+  {s:"L11 — Compréhension & Expression",q:"Que signifie le filler 'Come to think of it...' ?",c:["Pour le dire autrement","À la réflexion","C'est logique","Et autre chose encore"],a:1,e:"'Come to think of it' = à la réflexion, en y repensant."},
+  {s:"L11 — Compréhension & Expression",q:"Quel filler signifie 'Et autre chose encore...' ?",c:["And another thing...","That makes sense.","Fair enough.","Come to think of it..."],a:0,e:"'And another thing...' sert à ajouter un point supplémentaire à ce qu'on vient de dire."},
+  {s:"L11 — Compréhension & Expression",q:"'What I mean is...' sert à :",c:["Clarifier ce qu'on vient de dire","Gagner du temps avant de répondre","Changer de sujet","Terminer la conversation"],a:0,e:"'What I mean is...' introduit une clarification ou reformulation de sa propre idée."},
+  {s:"L11 — Compréhension & Expression",q:"Quelle phrase utilise-t-on pour demander poliment une répétition ?",c:["Just to confirm...","I'm sorry, I didn't quite catch that — could you repeat?","If I understand correctly...","I'm afraid I'm not following."],a:1,e:"Cette formule signale poliment qu'on n'a pas bien entendu et demande une répétition."},
+  {s:"L11 — Compréhension & Expression",q:"'___ — the deadline is Friday, correct?' (vérifier une information précise)",c:["Just to confirm","I'm not following","Could you repeat","Fair enough"],a:0,e:"'Just to confirm' sert à vérifier un fait précis avant de continuer."},
+  {s:"L11 — Compréhension & Expression",q:"'I'm afraid I'm not following —' signifie :",c:["Je suis d'accord avec vous","Je ne suis pas sûr(e) de comprendre le sens général","Je n'ai pas entendu ce que vous avez dit","Je dois partir maintenant"],a:1,e:"'I'm not following' = je ne suis pas sûr(e) de comprendre le sens général de ce qui est dit (différent de ne pas avoir entendu)."},
+  {s:"L11 — Compréhension & Expression",q:"Écoutez la phrase. Que signifie réellement cette remarque ?",c:["La personne est totalement d'accord", "La personne exprime un désaccord de façon polie", "La personne demande des clarifications", "La personne ne comprend pas ce qui a été dit"],a:1,e:"'Not sure we're quite aligned' = je ne suis pas sûr qu'on soit sur la même longueur d'onde. C'est une façon polie d'exprimer un désaccord en contexte professionnel.",type:"audio",audioFile:"audio1.mp3"},
+  {s:"L11 — Compréhension & Expression",q:"Écoutez la phrase. Que demande cette personne ?",c:["De jouer à un jeu vendredi soir", "D'envoyer un rapport lundi matin", "De remettre un rapport avant la fin de la journée vendredi", "De préparer une présentation pour vendredi"],a:2,e:"'End of play' est une expression professionnelle britannique qui signifie 'fin de journée de travail'. 'Could you possibly' rend la demande plus polie.",type:"audio",audioFile:"audio2.mp3"},
+  {s:"L11 — Compréhension & Expression",q:"Écoutez la phrase. Quelle est l'intention réelle du locuteur ?",c:["Il est enthousiaste et va répondre immédiatement", "Il refuse catégoriquement la proposition", "Il esquive et évite de s'engager pour l'instant", "Il demande plus d'informations avant de décider"],a:2,e:"'Let me come back to you on that' est une formule pour différer une réponse sans s'engager. 'Interesting approach' est souvent diplomatique plutôt qu'un vrai compliment.",type:"audio",audioFile:"audio3.mp3"}
+];
+
+let cur=0,score=0,answered=false,studentName="",studentEmail="",secScores={};
+let _startTime=null,_timerInterval=null,_elapsed=0;
+
+
+const AUDIO_FOLDER = "";
+
+function playAudioFile(filename, btn){
+  const audioEl = document.getElementById("quiz-audio-player");
+  audioEl.src = AUDIO_FOLDER + filename;
+  audioEl.play().catch(function(err){ console.error("Erreur audio:", err); });
+  btn.classList.add("playing");
+  audioEl.onended = function(){ btn.classList.remove("playing"); };
+}
+
+function startTimer(){
+  _startTime=Date.now();
+  document.getElementById("timer-wrap").style.display="flex";
+  _timerInterval=setInterval(updateTimer,1000);
+}
+function updateTimer(){
+  _elapsed=Math.floor((Date.now()-_startTime)/1000);
+  const m=Math.floor(_elapsed/60),s=_elapsed%60;
+  const d=document.getElementById("timer-display");
+  d.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  if(_elapsed>1800)d.className="timer-display danger";
+  else if(_elapsed>1200)d.className="timer-display warning";
+  else d.className="timer-display";
+}
+function stopTimer(){clearInterval(_timerInterval);_elapsed=Math.floor((Date.now()-_startTime)/1000);return _elapsed;}
+function formatTime(secs){const m=Math.floor(secs/60),s=secs%60;if(m===0)return s+" secondes";if(s===0)return m+" minute"+(m>1?"s":"");return m+" min "+s+" sec";}
+function getTimeComment(secs,total){const perQ=secs/total;if(perQ<20)return "🚀 Très rapide — en moyenne "+Math.round(perQ)+"s par question !";if(perQ<40)return "⚡ Bonne allure — en moyenne "+Math.round(perQ)+"s par question.";if(perQ<60)return "🎯 Rythme réfléchi — en moyenne "+Math.round(perQ)+"s par question.";return "🧠 Très attentif(ve) — en moyenne "+Math.round(perQ)+"s par question.";}
+
+function startQuiz(){
+  const n=document.getElementById("student-name");
+  const e=document.getElementById("student-email");
+  studentName=n.value.trim();
+  studentEmail=e.value.trim();
+  let ok=true;
+  if(!studentName){n.classList.add("err");ok=false;}else n.classList.remove("err");
+  if(!studentEmail||!studentEmail.includes("@")){e.classList.add("err");ok=false;}else e.classList.remove("err");
+  if(!ok)return;
+  document.getElementById("intro").style.display="none";
+  document.getElementById("quiz").style.display="block";
+  cur=0;score=0;secScores={};startTimer();
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=QUESTIONS[cur];
+  document.getElementById("prog-label").textContent="Question "+(cur+1)+" / "+QUESTIONS.length;
+  document.getElementById("prog-score").textContent="Score : "+score;
+  document.getElementById("prog-fill").style.width=(((cur+1)/QUESTIONS.length)*100)+"%";
+  document.getElementById("section-badge").textContent=q.s;
+  const audioZone=document.getElementById("audio-zone");
+  if(audioZone) audioZone.innerHTML="";
+  document.getElementById("q-num").textContent="QUESTION "+(cur+1);
+  document.getElementById("q-text").textContent=q.q;
+
+  if(q.type==="audio" && q.audioFile){
+    const az=document.getElementById("audio-zone");
+    if(az){
+      const wrap=document.createElement("div");
+      wrap.className="audio-player";
+      const btn=document.createElement("button");
+      btn.className="btn-listen";
+      btn.innerHTML="🔊";
+      btn.onclick=function(){playAudioFile(q.audioFile, btn);};
+      const info=document.createElement("div");
+      info.className="audio-info";
+      info.innerHTML='<div class="audio-title">Cliquez pour écouter la phrase</div><div class="audio-sub">Vous pouvez réécouter autant de fois que nécessaire</div>';
+      wrap.appendChild(btn);
+      wrap.appendChild(info);
+      az.appendChild(wrap);
+    }
+  }
+  const ch=document.getElementById("choices");
+  ch.innerHTML="";
+  ["A","B","C","D"].forEach((l,i)=>{
+    const b=document.createElement("button");
+    b.className="choice-btn";
+    b.innerHTML='<span class="choice-letter">'+l+'</span>'+q.c[i];
+    b.onclick=()=>answerQ(i);
+    ch.appendChild(b);
+  });
+  const fb=document.getElementById("feedback");
+  fb.style.display="none";fb.className="feedback";
+  const nb=document.getElementById("btn-next");
+  nb.classList.remove("show");
+  nb.textContent=cur<QUESTIONS.length-1?"Question suivante →":"Voir mes résultats 🏆";
+}
+
+function answerQ(idx){
+  if(answered)return;
+  answered=true;
+  const q=QUESTIONS[cur];
+  const btns=document.querySelectorAll(".choice-btn");
+  const fb=document.getElementById("feedback");
+  if(!secScores[q.s])secScores[q.s]={ok:0,t:0};
+  secScores[q.s].t++;
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.a){
+    score++;btns[idx].classList.add("correct");
+    fb.className="feedback good";fb.innerHTML="✅ Correct ! "+q.e;
+    secScores[q.s].ok++;
+  }else{
+    btns[idx].classList.add("wrong");btns[q.a].classList.add("correct");
+    fb.className="feedback bad";fb.innerHTML="❌ Bonne réponse : <strong>"+q.c[q.a]+"</strong>. "+q.e;
+  }
+  fb.style.display="block";
+  document.getElementById("prog-score").textContent="Score : "+score;
+  document.getElementById("btn-next").classList.add("show");
+}
+
+function nextQuestion(){
+  cur++;
+  if(cur>=QUESTIONS.length)showResults();
+  else{renderQ();document.getElementById("q-card").scrollIntoView({behavior:"smooth",block:"start"});}
+}
+
+async function showResults(){
+  document.getElementById("quiz").style.display="none";
+  const duration=stopTimer();
+  const total=QUESTIONS.length,pct=Math.round(score/total*100);
+  const isB2=pct>=85, isB1=pct>=70;
+
+  let emoji,vclass,vt,vd,certHTML="";
+  if(pct>=95){
+    emoji="🏆";vclass="b2";
+    vt="Exceptionnel ! Niveau B2 confirmé avec excellence.";
+    vd="Vous avez démontré une maîtrise remarquable de l'anglais professionnel B2. Vous êtes prêt(e) pour le programme Mastery C1-C2 !";
+  } else if(isB2){
+    emoji="⭐";vclass="b2";
+    vt="Félicitations — Certificat B2 obtenu !";
+    vd="Vous avez atteint le seuil de 85% et validez le niveau B2. Votre maîtrise de l'anglais professionnel est confirmée.";
+  } else if(isB1){
+    emoji="🌟";vclass="b1";
+    vt="Module validé — Certificat B1 obtenu !";
+    vd="Vous avez atteint 70% et validez le niveau B1. Pour obtenir le certificat B2, il vous faudra atteindre 85%. Continuez à pratiquer !";
+  } else if(pct>=50){
+    emoji="💪";vclass="fail";
+    vt="Pas encore validé — continuez !";
+    vd="Vous n'avez pas encore atteint le seuil de 70%. Révisez les sections difficiles et retentez le quiz.";
+  } else {
+    emoji="📚";vclass="fail";
+    vt="Module à retravailler.";
+    vd="Reprenez les leçons du programme Professional et retentez le quiz dans quelques jours.";
+  }
+
+  if(isB2){
+    certHTML='<div class="cert-strip b2"><div class="cert-title">ATTESTATION DE RÉUSSITE</div><div class="cert-name">'+studentName+'</div><div class="cert-level">Niveau B2 · Programme Professional · Learn Right</div><div class="cert-seal">🏅</div></div>';
+  } else if(isB1){
+    certHTML='<div class="cert-strip b1"><div class="cert-title">ATTESTATION DE RÉUSSITE</div><div class="cert-name">'+studentName+'</div><div class="cert-level">Niveau B1 · Programme Professional · Learn Right</div><div class="cert-seal">🥈</div></div>';
+  }
+
+  let bdown="";
+  Object.entries(secScores).forEach(([s,{ok,t}])=>{
+    const sp=Math.round(ok/t*100);
+    bdown+='<div class="section-row"><div class="sr-label">'+s+'</div><div class="sr-bar-track"><div class="sr-bar-fill" style="width:'+sp+'%;background:'+(sp>=70?'var(--purple)':'var(--red)')+'"></div></div><div class="sr-score">'+ok+'/'+t+'</div></div>';
+  });
+
+  const barClass = isB2?"b2":isB1?"b1":"fail";
+  const details=Object.entries(secScores).map(([s,{ok,t}])=>s+": "+ok+"/"+t).join(" | ");
+  const now=new Date().toLocaleString("fr-FR");
+  const resultatStr = isB2?"CERTIFIÉ B2":(isB1?"CERTIFIÉ B1":"NON VALIDÉ");
+
+  document.getElementById("results").innerHTML='<div class="result-card"><span class="result-emoji">'+emoji+'</span><h2>Résultats de <span class="result-name">'+studentName+'</span></h2><p class="result-email">'+studentEmail+'</p><div class="result-time"><span class="rt-icon">⏱️</span><div><div class="rt-val">'+formatTime(duration)+'</div><div class="rt-lbl">'+getTimeComment(duration,total)+'</div></div></div><div class="score-big">'+score+'<span class="score-max">/'+total+'</span></div><div class="score-pct" style="color:'+(isB2?'var(--gold-dark)':isB1?'var(--purple)':'var(--red)')+'">'+pct+'%</div><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill '+barClass+'" style="width:'+pct+'%"></div></div><div class="score-bar-labels"><span>0%</span><span style="color:var(--purple)">70% B1</span><span style="color:var(--gold-dark)">85% B2</span><span>100%</span></div></div><div class="verdict-box '+vclass+'"><div class="verdict-title">'+vt+'</div><div class="verdict-text">'+vd+'</div></div><div class="breakdown"><h3>📊 Résultats par section</h3>'+bdown+'</div><div id="tally-status"></div>'+certHTML+'<p style="font-size:12px;color:rgba(61,43,31,.45);margin-top:18px;">✅ Votre quiz a été soumis. Une seule tentative est autorisée par élève.</p>'+'</div>';
+
+  document.getElementById("results").style.display="block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+  await sendTally({prenom:studentName,email:studentEmail,score,total,pct:pct+"%",resultat:resultatStr,details,date:now,duration:formatTime(duration)});
+}
+
+async function sendTally(d){
+  const el=document.getElementById("tally-status");
+  el.innerHTML='<div class="status-box status-sending">📤 Ouverture de la fenêtre de confirmation — cliquez sur Envoyer pour finaliser.</div>';
+  try{
+    if(typeof Tally === "undefined"){throw new Error("Tally script not loaded");}
+    Tally.openPopup(TALLY_FORM_ID, {
+      layout: "modal",
+      width: 500,
+      hideTitle: true,
+      autoClose: 2500,
+      hiddenFields: {
+        prenom: d.prenom, email: d.email, score: String(d.score), sur: String(d.total),
+        pourcentage: d.pct, resultat: d.resultat, details_sections: d.details, date_quiz: d.date
+      },
+      onSubmit: function(){
+        el.innerHTML='<div class="status-box status-ok">✅ Résultats envoyés à votre professeure avec succès !</div>';
+      },
+      onClose: function(){
+        if(!el.innerHTML.includes("succès")){
+          el.innerHTML='<div class="status-box status-err">⚠️ Fenêtre fermée sans envoi. <button onclick="sendTally(window._lastResultData)" style="background:none;border:none;color:var(--purple);font-weight:700;text-decoration:underline;cursor:pointer;font-size:14px;">Réessayer l\'envoi</button></div>';
+        }
+      }
+    });
+    window._lastResultData = d;
+  }catch(err){
+    var subjLine = "Quiz Professional - " + d.prenom + " - " + d.pct;
+    var bodyLine = "Resultats du quiz" + String.fromCharCode(10) + String.fromCharCode(10)
+      + "Prenom : " + d.prenom + String.fromCharCode(10)
+      + "Email : " + d.email + String.fromCharCode(10)
+      + "Score : " + d.score + "/" + d.total + " (" + d.pct + ")" + String.fromCharCode(10)
+      + "Resultat : " + d.resultat + String.fromCharCode(10)
+      + "Date : " + d.date + String.fromCharCode(10) + String.fromCharCode(10)
+      + "Details par section :" + String.fromCharCode(10)
+      + d.details.split(" | ").join(String.fromCharCode(10));
+    var subj=encodeURIComponent(subjLine);
+    var body=encodeURIComponent(bodyLine);
+    var mailLink="mailto:contact@learnright.fr?subject="+subj+"&body="+body;
+    el.innerHTML='<div class="status-box status-err">⚠️ <a href="'+mailLink+'" style="color:var(--purple);font-weight:700;text-decoration:underline">Envoyer les résultats par email →</a></div>';
+  }
+}
+</script>
+</body>
+</html>
