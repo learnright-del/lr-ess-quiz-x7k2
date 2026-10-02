@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiz de Démarrage — Mastery C1/C2 · Learn Right</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#0B1220;--orange:#FF6B1A;--orange-dark:#C65A1E;--sky:#FFC9A3;--gold-dark:#C65A1E;--green:#3FB27F;--red:#C0392B;--lgray:#F5F0E8;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--lgray);
+    background-image:
+      linear-gradient(rgba(11,18,32,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(11,18,32,0.05) 1px, transparent 1px);
+    background-size: 38px 38px;
+    font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;
+  }
+  .site-header{background:var(--navy);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--orange-dark),var(--orange));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:white;}
+  .brand-name{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;color:white;}
+  .brand-name span{color:var(--orange);}
+  .header-badge{background:linear-gradient(135deg,var(--orange-dark),var(--orange));border-radius:16px;padding:4px 14px;font-family:'Inter',sans-serif;font-size:11px;font-weight:800;color:white;letter-spacing:2px;}
+  .timer-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:5px 12px;}
+  .timer-icon{font-size:14px;}
+  .timer-display{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:white;letter-spacing:2px;min-width:52px;}
+  .timer-display.warning{color:#FFB300;}
+  .timer-display.danger{color:var(--red);animation:blink .8s ease infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.4;}}
+  #intro{max-width:700px;margin:48px auto;padding:0 20px;}
+  .intro-card{background:white;border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;}
+  .intro-icon{font-size:56px;margin-bottom:16px;display:block;}
+  .intro-card h1{font-family:'Inter',sans-serif;font-size:32px;font-weight:800;color:var(--navy);margin-bottom:8px;}
+  .intro-card h1 em{font-style:normal;color:var(--orange-dark);}
+  .intro-card p{font-size:15px;color:rgba(11,18,32,.7);line-height:1.8;margin-bottom:24px;}
+  .intro-stats{display:flex;justify-content:center;gap:28px;margin-bottom:24px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat-val{font-family:'Inter',sans-serif;font-size:26px;font-weight:900;color:var(--orange-dark);}
+  .stat-lbl{font-size:12px;color:rgba(11,18,32,.55);letter-spacing:1px;text-transform:uppercase;}
+  .seuils{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+  .seuil{border-radius:14px;padding:14px 18px;text-align:center;}
+  .seuil-b2{background:#FBEDE4;border:2px solid var(--orange-dark);}
+  .seuil-c1{background:linear-gradient(135deg,#FFF3E9,#FFE2CC);border:2px solid var(--orange);}
+  .seuil-val{font-family:'Inter',sans-serif;font-size:28px;font-weight:900;color:var(--orange-dark);}
+  .seuil-c1 .seuil-val{color:var(--orange);}
+  .seuil-lbl{font-size:12px;font-weight:700;color:rgba(11,18,32,.7);margin-top:2px;}
+  .seuil-cert{font-size:11px;color:rgba(11,18,32,.55);margin-top:4px;}
+  .rules{background:var(--lgray);border-radius:14px;padding:16px 20px;text-align:left;margin-bottom:24px;}
+  .rules li{font-size:14px;color:rgba(11,18,32,.85);margin-bottom:6px;display:flex;gap:8px;}
+  .rules li::before{content:'✓';color:var(--green);font-weight:900;flex-shrink:0;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;}
+  @media(max-width:520px){.form-grid{grid-template-columns:1fr;}}
+  .form-group{display:flex;flex-direction:column;gap:6px;text-align:left;}
+  .form-group label{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:1px;text-transform:uppercase;}
+  .form-group input{padding:12px 16px;border:2px solid #E4D9CC;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:border-color .2s;}
+  .form-group input:focus{border-color:var(--orange-dark);}
+  .form-group input.err{border-color:var(--red);}
+  .email-hint{font-size:12px;color:rgba(11,18,32,.55);text-align:left;margin-bottom:20px;}
+  .btn-start{background:linear-gradient(135deg,var(--navy),var(--orange-dark));border:none;border-radius:14px;padding:14px 40px;font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:white;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 4px 16px rgba(198,90,30,.35);width:100%;}
+  .btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(198,90,30,.4);}
+  #quiz{display:none;max-width:780px;margin:0 auto;padding:24px 20px 60px;}
+  .progress-wrap{background:white;border-radius:16px;padding:16px 20px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .prog-label{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--navy);}
+  .prog-score{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--green);}
+  .progress-bar{height:8px;background:#EFE6D8;border-radius:10px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--orange-dark));border-radius:10px;transition:width .4s ease;}
+  .section-badge{display:inline-block;background:linear-gradient(135deg,var(--navy),var(--orange-dark));border-radius:8px;padding:2px 10px;font-size:11px;font-weight:700;color:white;letter-spacing:1px;margin-top:6px;}
+  .q-card{background:white;border-radius:20px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.07);margin-bottom:16px;animation:slideIn .25s ease;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .q-num{font-size:11px;font-weight:700;color:var(--orange-dark);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+  .q-text{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:20px;}
+  .choices{display:flex;flex-direction:column;gap:10px;}
+  .choice-btn{background:var(--lgray);border:2px solid #E4D9CC;border-radius:12px;padding:12px 18px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:12px;}
+  .choice-btn:hover:not(:disabled){background:#FBEDE4;border-color:var(--orange-dark);transform:translateX(4px);}
+  .choice-letter{width:28px;height:28px;border-radius:50%;background:white;border:2px solid #DCCFBE;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:12px;font-weight:800;color:rgba(11,18,32,.55);flex-shrink:0;transition:all .18s;}
+  .choice-btn:hover:not(:disabled) .choice-letter{background:var(--orange-dark);border-color:var(--orange-dark);color:white;}
+  .choice-btn.correct{background:#E9F2EA;border-color:var(--green);}
+  .choice-btn.correct .choice-letter{background:var(--green);border-color:var(--green);color:white;}
+  .choice-btn.wrong{background:#FBEAE7;border-color:var(--red);}
+  .choice-btn.wrong .choice-letter{background:var(--red);border-color:var(--red);color:white;}
+  .choice-btn:disabled{cursor:not-allowed;opacity:.85;}
+  .feedback{border-radius:12px;padding:12px 16px;margin-top:12px;font-size:14px;font-weight:700;display:none;}
+  .feedback.good{background:#E9F2EA;color:#4A7C59;}
+  .feedback.bad{background:#FBEAE7;color:#A93226;}
+  .q-nav{display:flex;justify-content:flex-end;margin-top:16px;}
+  .btn-next{background:linear-gradient(135deg,var(--navy),var(--orange-dark));border:none;border-radius:12px;padding:11px 28px;font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:white;cursor:pointer;transition:transform .18s;display:none;}
+  .btn-next:hover{transform:scale(1.04);}
+  .btn-next.show{display:inline-block;}
+  #results{display:none;max-width:700px;margin:48px auto;padding:0 20px 60px;}
+  .result-card{background:white;border-radius:24px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;}
+  .result-emoji{font-size:64px;margin-bottom:16px;display:block;}
+  .result-card h2{font-family:'Inter',sans-serif;font-size:28px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+  .result-name{color:var(--orange-dark);}
+  .result-email{color:rgba(11,18,32,.55);font-size:13px;margin-bottom:12px;}
+  .result-time{background:var(--lgray);border-radius:14px;padding:16px 20px;margin:16px 0;display:flex;align-items:center;justify-content:center;gap:16px;}
+  .rt-icon{font-size:28px;}
+  .rt-val{font-family:'Inter',sans-serif;font-size:26px;font-weight:900;color:var(--navy);}
+  .rt-lbl{font-size:12px;color:rgba(11,18,32,.55);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+  .score-big{font-family:'Inter',sans-serif;font-size:72px;font-weight:900;color:var(--orange-dark);line-height:1;margin:16px 0 4px;}
+  .score-max{font-size:20px;color:rgba(11,18,32,.45);}
+  .score-pct{font-family:'Inter',sans-serif;font-size:22px;font-weight:700;margin-bottom:20px;}
+  .score-bar-wrap{margin:20px 0;}
+  .score-bar-track{height:14px;background:#EFE6D8;border-radius:10px;overflow:hidden;margin-bottom:8px;}
+  .score-bar-fill{height:100%;border-radius:10px;transition:width 1s ease .3s;}
+  .score-bar-fill.c1{background:linear-gradient(90deg,var(--orange-dark),var(--orange));}
+  .score-bar-fill.b2{background:linear-gradient(90deg,var(--navy),var(--orange-dark));}
+  .score-bar-fill.fail{background:linear-gradient(90deg,var(--orange),#FFB300);}
+  .score-bar-labels{display:flex;justify-content:space-between;font-size:11px;color:rgba(11,18,32,.45);}
+  .verdict-box{border-radius:16px;padding:18px 22px;margin:20px 0;}
+  .verdict-box.c1{background:linear-gradient(135deg,#FFF3E9,#FFE2CC);border:2px solid var(--orange);}
+  .verdict-box.b2{background:#FBEDE4;border:2px solid var(--orange-dark);}
+  .verdict-box.fail{background:#FFF8E7;border:2px solid #D9A441;}
+  .verdict-title{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px;}
+  .verdict-box.c1 .verdict-title{color:var(--orange-dark);}
+  .verdict-box.b2 .verdict-title{color:var(--orange-dark);}
+  .verdict-box.fail .verdict-title{color:#B5651D;}
+  .verdict-text{font-size:14px;color:rgba(11,18,32,.7);line-height:1.7;}
+  .breakdown{background:var(--lgray);border-radius:14px;padding:18px;margin:20px 0;text-align:left;}
+  .breakdown h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:12px;}
+  .section-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .sr-label{font-size:13px;color:rgba(11,18,32,.7);flex:1;}
+  .sr-bar-track{width:100px;height:8px;background:#EDE3D6;border-radius:6px;overflow:hidden;flex-shrink:0;}
+  .sr-bar-fill{height:100%;border-radius:6px;}
+  .sr-score{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--navy);min-width:36px;text-align:right;}
+  .status-box{border-radius:12px;padding:12px 18px;margin:16px 0;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;}
+  .status-sending{background:#FBEDE4;border:1.5px solid var(--orange-dark);color:var(--orange-dark);}
+  .status-ok{background:#E9F2EA;border:1.5px solid var(--green);color:#4A7C59;}
+  .status-err{background:#FBEAE7;border:1.5px solid var(--red);color:#A93226;}
+  .btn-restart{background:var(--lgray);border:2px solid #DCCFBE;border-radius:12px;padding:12px 28px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--navy);cursor:pointer;margin-top:16px;transition:all .18s;}
+  .btn-restart:hover{background:#EFE6D8;}
+</style>
+<script src="https://tally.so/widgets/embed.js"></script>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="brand">
+    <div class="brand-icon">L</div>
+    <div class="brand-name">LEARN <span>RIGHT</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="timer-wrap" id="timer-wrap" style="display:none;"><span class="timer-icon">⏱️</span><span class="timer-display" id="timer-display">00:00</span></div>
+    <div class="header-badge">MASTERY C1-C2</div>
+  </div>
+</div>
+
+<div id="intro">
+  <div class="intro-card">
+    <span class="intro-icon">🚀</span>
+    <h1>Quiz de démarrage<br><em>Mastery C1-C2</em></h1>
+    <p>Avant de démarrer votre programme Mastery, ce quiz de 40 questions évalue ce que vous savez déjà en anglais — grammaire avancée, nuances, vocabulaire et registre — afin de déterminer votre niveau de départ. Vous retrouverez un quiz similaire à la fin du programme pour mesurer tout le chemin parcouru !</p>
+    <div class="intro-stats">
+      <div class="stat"><div class="stat-val">40</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat"><div class="stat-val">B2-C1</div><div class="stat-lbl">Niveau</div></div>
+      <div class="stat"><div class="stat-val">⏱️</div><div class="stat-lbl">Chronométré</div></div>
+    </div>
+    <div class="seuils">
+      <div class="seuil seuil-b2">
+        <div class="seuil-val">70%</div>
+        <div class="seuil-lbl">Niveau B2</div>
+        <div class="seuil-cert">28/40 bonnes réponses</div>
+      </div>
+      <div class="seuil seuil-c1">
+        <div class="seuil-val">85%</div>
+        <div class="seuil-lbl">Niveau C1 ⭐</div>
+        <div class="seuil-cert">34/40 bonnes réponses</div>
+      </div>
+    </div>
+    <ul class="rules">
+      <li>Une seule bonne réponse par question</li>
+      <li>Correction et explication après chaque réponse</li>
+      <li>70% → Niveau B2 confirmé · 85% → Niveau C1 déjà en place</li>
+      <li>⏱️ Le quiz est chronométré dès le départ — votre temps sera affiché en fin de quiz</li>
+      <li>Vos résultats seront envoyés automatiquement à votre professeure</li>
+    </ul>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Prénom *</label>
+        <input type="text" id="student-name" placeholder="Votre prénom" maxlength="40"/>
+      </div>
+      <div class="form-group">
+        <label>Adresse e-mail *</label>
+        <input type="email" id="student-email" placeholder="votre@email.com" maxlength="100"/>
+      </div>
+    </div>
+    <p class="email-hint">🔒 Votre email est utilisé uniquement pour recevoir vos résultats.</p>
+    <button class="btn-start" onclick="startQuiz()">Commencer le quiz →</button>
+  </div>
+</div>
+
+<div id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="prog-label" id="prog-label">Question 1 / 40</span>
+      <span class="prog-score" id="prog-score">Score : 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:2.5%"></div></div>
+    <span class="section-badge" id="section-badge"></span>
+  </div>
+  <div class="q-card" id="q-card">
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="q-nav"><button class="btn-next" id="btn-next" onclick="nextQuestion()">Question suivante →</button></div>
+  </div>
+</div>
+
+<div id="results"></div>
+
+<script>
+const TALLY_FORM_ID = "MASTERY_FORM_ID_A_CONFIRMER";
+
+const QUESTIONS = [
+  {s:"Temps Avancés",q:"'By the time she arrived, the meeting ___ already started.'",c:["has","had","have","was"],a:1,e:"Past perfect (had + participe passé) pour une action antérieure à un autre moment du passé."},
+  {s:"Temps Avancés",q:"'I ___ this report for over three hours — I need a break.'",c:["am writing","have been writing","wrote","write"],a:1,e:"Present perfect continu pour une action commencée dans le passé qui continue, avec emphase sur la durée."},
+  {s:"Temps Avancés",q:"'This is the first time I ___ this kind of presentation.'",c:["give","gave","have given","had given"],a:2,e:"'The first time' + present perfect est une structure fixe en anglais : 'the first time I have given'."},
+  {s:"Temps Avancés",q:"'She ___ to three different countries before she turned 25.'",c:["has travelled","had travelled","travelled","was travelling"],a:1,e:"Past perfect car l'action est antérieure à un autre repère passé ('before she turned 25')."},
+  {s:"Temps Avancés",q:"'No sooner ___ the email than she regretted it.'",c:["she had sent","had she sent","she sent","did she sent"],a:1,e:"'No sooner' en tête de phrase entraîne l'inversion sujet/auxiliaire : 'No sooner had she sent...'"},
+  {s:"Modaux & Nuances",q:"'You ___ have told me earlier — now it's too late!'",c:["should","must","would","can"],a:0,e:"'Should have + participe passé' exprime un reproche ou un regret."},
+  {s:"Modaux & Nuances",q:"'She's not answering; she ___ be in a meeting.'",c:["must","should","can","need"],a:0,e:"'Must' pour une déduction logique forte au présent."},
+  {s:"Modaux & Nuances",q:"'Perhaps he ___ have missed the train — that would explain the delay.'",c:["might","must","should","needn't"],a:0,e:"'Might have + participe passé' pour une possibilité passée incertaine (perhaps)."},
+  {s:"Modaux & Nuances",q:"'You ___ have worried — everything turned out fine.'",c:["needn't","mustn't","shouldn't","couldn't"],a:0,e:"'Needn't have + participe passé' = ce n'était pas nécessaire (mais on l'a fait quand même)."},
+  {s:"Modaux & Nuances",q:"'If only I ___ listened to your advice.'",c:["would have","had","have","did"],a:1,e:"'If only + past perfect' exprime un regret sur le passé : 'If only I had listened...'"},
+  {s:"Conditionnels & Hypothèses",q:"'If I ___ you, I'd accept the offer immediately.'",c:["was","were","am","will be"],a:1,e:"Conditionnel 2 soutenu : 'were' s'utilise pour toutes les personnes, y compris 'I'."},
+  {s:"Conditionnels & Hypothèses",q:"'___ it not been for your help, we would have failed.'",c:["Had","Were","Did","Should"],a:0,e:"'Had it not been for' est la forme inversée de 'If it had not been for' (conditionnel 3)."},
+  {s:"Conditionnels & Hypothèses",q:"'I wish I ___ more time to prepare for the interview.'",c:["have","had","would have","having"],a:1,e:"'I wish + prétérit' pour un regret au présent : 'I wish I had more time.'"},
+  {s:"Conditionnels & Hypothèses",q:"'We wouldn't have missed the flight if we ___ earlier.'",c:["left","had left","would leave","leave"],a:1,e:"Conditionnel 3 : 'if + past perfect, would have + participe passé'."},
+  {s:"Conditionnels & Hypothèses",q:"'Should you ___ any questions, don't hesitate to contact us.'",c:["have","had","having","has"],a:0,e:"'Should + sujet + base verbale' est la forme inversée et formelle de 'If you have any questions...'"},
+  {s:"Passif & Discours Indirect",q:"'The new policy ___ next month.'",c:["will implement","will be implemented","is implementing","implements"],a:1,e:"Voix passive au futur : 'will be + participe passé'."},
+  {s:"Passif & Discours Indirect",q:"'He asked me ___ I had finished the report.'",c:["that","if","what","so"],a:1,e:"Question rapportée oui/non → 'asked + if/whether'."},
+  {s:"Passif & Discours Indirect",q:"'It ___ that the merger will be finalised by the end of the year.'",c:["says","is said","said","is saying"],a:1,e:"Structure passive impersonnelle : 'it is said that...' (= on dit que...)."},
+  {s:"Passif & Discours Indirect",q:"'She told me she ___ me the following day.'",c:["will call","would call","calls","called"],a:1,e:"Au discours indirect, 'will' devient 'would' (recul des temps)."},
+  {s:"Passif & Discours Indirect",q:"'The documents ___ to the client by courier yesterday.'",c:["sent","were sent","have sent","are sending"],a:1,e:"Voix passive au passé simple : 'were sent'."},
+  {s:"Connecteurs & Concessions",q:"'___ the delays, the project was delivered on time.'",c:["Despite","Notwithstanding","Because of","Due to"],a:1,e:"'Notwithstanding' est un connecteur de concession très soutenu (niveau C1), synonyme élégant de 'despite'."},
+  {s:"Connecteurs & Concessions",q:"'He is, ___, one of the most talented engineers I've met.'",c:["however","arguably","moreover","therefore"],a:1,e:"'Arguably' nuance une affirmation forte sans l'énoncer comme un fait absolu."},
+  {s:"Connecteurs & Concessions",q:"'___ she was exhausted, she finished the presentation.'",c:["Despite","Although","In spite of","Because"],a:1,e:"'Although' introduit une proposition complète (sujet + verbe conjugué), contrairement à 'despite'."},
+  {s:"Connecteurs & Concessions",q:"'The results were disappointing; ___, the team remained optimistic.'",c:["nevertheless","therefore","moreover","since"],a:0,e:"'Nevertheless' introduit une idée qui contraste avec ce qui précède (= malgré cela)."},
+  {s:"Connecteurs & Concessions",q:"'___ being under-resourced, the team delivered excellent results.'",c:["Although","Despite","Because","Unless"],a:1,e:"'Despite' est suivi d'un nom ou d'un gérondif, jamais d'une proposition avec sujet + verbe conjugué."},
+  {s:"Vocabulaire & Collocations",q:"'to ___ a conclusion'",c:["make","draw","take","do"],a:1,e:"'To draw a conclusion' = tirer une conclusion. Collocation fixe en anglais."},
+  {s:"Vocabulaire & Collocations",q:"'to ___ an impact'",c:["make","have","do","take"],a:1,e:"'To have an impact' = avoir un impact. Collocation fixe."},
+  {s:"Vocabulaire & Collocations",q:"'to ___ the bullet' (se résoudre à faire qqch de difficile)",c:["bite","hit","take","catch"],a:0,e:"'To bite the bullet' est un idiome signifiant se résoudre à affronter une situation difficile."},
+  {s:"Vocabulaire & Collocations",q:"'to ___ up with a solution'",c:["come","get","make","take"],a:0,e:"'To come up with' = trouver, proposer (une idée, une solution)."},
+  {s:"Vocabulaire & Collocations",q:"'to ___ out of time'",c:["run","go","fall","get"],a:0,e:"'To run out of time' = manquer de temps. Expression très fréquente."},
+  {s:"Expression & Communication",q:"Comment nuancer poliment un désaccord fort à l'écrit professionnel ?",c:["I totally disagree.","With respect, I'm not sure I fully agree.","You're wrong.","That's not right."],a:1,e:"'With respect, I'm not sure I fully agree' nuance le désaccord tout en restant courtois et professionnel."},
+  {s:"Expression & Communication",q:"Comment introduire une concession avant de contre-argumenter (niveau C1) ?",c:["Yes but...","While I take your point, I would argue that...","I don't care, but...","OK, however..."],a:1,e:"'While I take your point, I would argue that...' concède élégamment avant de contre-attaquer."},
+  {s:"Expression & Communication",q:"Quelle formule convient pour reconnaître un point faible avec élégance ?",c:["I admit it.","One must concede that...","Fine, you're right.","I guess so."],a:1,e:"'One must concede that...' est une formule soutenue pour reconnaître un point sans perdre en crédibilité."},
+  {s:"Expression & Communication",q:"Comment demander une clarification de façon très soutenue ?",c:["What do you mean?","Could you elaborate on that point?","Say that again?","Huh?"],a:1,e:"'Could you elaborate on that point?' est une formule soutenue et professionnelle pour demander un développement."},
+  {s:"Expression & Communication",q:"Quelle expression signale une transition logique forte (conséquence) au niveau C1 ?",c:["So","It therefore follows that...","And then","Because of this"],a:1,e:"'It therefore follows that...' est un connecteur de conséquence soutenu, typique du niveau C1."},
+  {s:"Grammaire Avancée",q:"'Never ___ such a disorganised meeting.'",c:["I have attended","have I attended","I attended","did I attended"],a:1,e:"'Never' en tête de phrase entraîne l'inversion sujet/auxiliaire : 'Never have I attended...'"},
+  {s:"Grammaire Avancée",q:"'It was ___ convinced the board, not the data.'",c:["that","who","which","what"],a:1,e:"Dans une cleft sentence mettant en avant une personne, on utilise 'who' (plutôt que 'that' à l'écrit formel)."},
+  {s:"Grammaire Avancée",q:"'Not only ___ the deadline, but she also exceeded expectations.'",c:["she met","did she meet","she did meet","met she"],a:1,e:"'Not only' en tête de phrase entraîne l'inversion avec l'auxiliaire DO : 'did she meet'."},
+  {s:"Grammaire Avancée",q:"'The manager, ___ decision was final, left no room for negotiation.'",c:["who","whose","who's","which"],a:1,e:"'Whose' exprime la possession (= dont la décision)."},
+  {s:"Grammaire Avancée",q:"'___ the board recognised was that the model was unsustainable.'",c:["What","That","It","Which"],a:0,e:"Cleft sentence avec 'What' pour mettre en avant une idée : 'What the board recognised was...'"}
+];
+
+let cur=0,score=0,answered=false,studentName="",studentEmail="",secScores={};
+let _startTime=null,_timerInterval=null,_elapsed=0;
+
+function startTimer(){
+  _startTime=Date.now();
+  document.getElementById("timer-wrap").style.display="flex";
+  _timerInterval=setInterval(updateTimer,1000);
+}
+function updateTimer(){
+  _elapsed=Math.floor((Date.now()-_startTime)/1000);
+  const m=Math.floor(_elapsed/60),s=_elapsed%60;
+  const d=document.getElementById("timer-display");
+  d.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  if(_elapsed>1800)d.className="timer-display danger";
+  else if(_elapsed>1200)d.className="timer-display warning";
+  else d.className="timer-display";
+}
+function stopTimer(){clearInterval(_timerInterval);_elapsed=Math.floor((Date.now()-_startTime)/1000);return _elapsed;}
+function formatTime(secs){const m=Math.floor(secs/60),s=secs%60;if(m===0)return s+" secondes";if(s===0)return m+" minute"+(m>1?"s":"");return m+" min "+s+" sec";}
+function getTimeComment(secs,total){const perQ=secs/total;if(perQ<20)return "🚀 Très rapide — en moyenne "+Math.round(perQ)+"s par question !";if(perQ<40)return "⚡ Bonne allure — en moyenne "+Math.round(perQ)+"s par question.";if(perQ<60)return "🎯 Rythme réfléchi — en moyenne "+Math.round(perQ)+"s par question.";return "🧠 Très attentif(ve) — en moyenne "+Math.round(perQ)+"s par question.";}
+
+function startQuiz(){
+  const n=document.getElementById("student-name");
+  const e=document.getElementById("student-email");
+  studentName=n.value.trim();
+  studentEmail=e.value.trim();
+  let ok=true;
+  if(!studentName){n.classList.add("err");ok=false;}else n.classList.remove("err");
+  if(!studentEmail||!studentEmail.includes("@")){e.classList.add("err");ok=false;}else e.classList.remove("err");
+  if(!ok)return;
+  document.getElementById("intro").style.display="none";
+  document.getElementById("quiz").style.display="block";
+  cur=0;score=0;secScores={};startTimer();
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=QUESTIONS[cur];
+  document.getElementById("prog-label").textContent="Question "+(cur+1)+" / "+QUESTIONS.length;
+  document.getElementById("prog-score").textContent="Score : "+score;
+  document.getElementById("prog-fill").style.width=(((cur+1)/QUESTIONS.length)*100)+"%";
+  document.getElementById("section-badge").textContent=q.s;
+  document.getElementById("q-num").textContent="QUESTION "+(cur+1);
+  document.getElementById("q-text").textContent=q.q;
+
+  const ch=document.getElementById("choices");
+  ch.innerHTML="";
+  ["A","B","C","D"].forEach((l,i)=>{
+    const b=document.createElement("button");
+    b.className="choice-btn";
+    b.innerHTML='<span class="choice-letter">'+l+'</span>'+q.c[i];
+    b.onclick=()=>answerQ(i);
+    ch.appendChild(b);
+  });
+  const fb=document.getElementById("feedback");
+  fb.style.display="none";fb.className="feedback";
+  const nb=document.getElementById("btn-next");
+  nb.classList.remove("show");
+  nb.textContent=cur<QUESTIONS.length-1?"Question suivante →":"Voir mes résultats 🏆";
+}
+
+function answerQ(idx){
+  if(answered)return;
+  answered=true;
+  const q=QUESTIONS[cur];
+  const btns=document.querySelectorAll(".choice-btn");
+  const fb=document.getElementById("feedback");
+  if(!secScores[q.s])secScores[q.s]={ok:0,t:0};
+  secScores[q.s].t++;
+  btns.forEach(b=>b.disabled=true);
+  if(idx===q.a){
+    score++;btns[idx].classList.add("correct");
+    fb.className="feedback good";fb.innerHTML="✅ Correct ! "+q.e;
+    secScores[q.s].ok++;
+  }else{
+    btns[idx].classList.add("wrong");btns[q.a].classList.add("correct");
+    fb.className="feedback bad";fb.innerHTML="❌ Bonne réponse : <strong>"+q.c[q.a]+"</strong>. "+q.e;
+  }
+  fb.style.display="block";
+  document.getElementById("prog-score").textContent="Score : "+score;
+  document.getElementById("btn-next").classList.add("show");
+}
+
+function nextQuestion(){
+  cur++;
+  if(cur>=QUESTIONS.length)showResults();
+  else{renderQ();document.getElementById("q-card").scrollIntoView({behavior:"smooth",block:"start"});}
+}
+
+async function showResults(){
+  document.getElementById("quiz").style.display="none";
+  const duration=stopTimer();
+  const total=QUESTIONS.length,pct=Math.round(score/total*100);
+  const isC1=pct>=85, isB2=pct>=70;
+
+  let emoji,vclass,vt,vd;
+  if(pct>=95){
+    emoji="🏆";vclass="c1";
+    vt="Exceptionnel ! Niveau C1 déjà bien installé.";
+    vd="Vous démarrez le programme Mastery avec un niveau déjà remarquable. Vos cours pourront se concentrer directement sur les nuances C2 et le style natif.";
+  } else if(isC1){
+    emoji="⭐";vclass="c1";
+    vt="Niveau C1 estimé au départ !";
+    vd="Vous atteignez le seuil de 85% : vous démarrez le programme avec de très bonnes bases. Le programme Mastery va affiner votre spontanéité et votre style natif jusqu'au C2.";
+  } else if(isB2){
+    emoji="🌟";vclass="b2";
+    vt="Niveau B2 confirmé au départ !";
+    vd="Vous atteignez le seuil de 70% : une base solide pour commencer le programme Mastery. Il reste des nuances C1 à installer — c'est exactement l'objectif du programme !";
+  } else if(pct>=50){
+    emoji="💪";vclass="fail";
+    vt="Niveau de départ : des bases à renforcer.";
+    vd="Ce résultat donne un point de départ clair à votre professeure pour adapter le programme à vos besoins. Chaque leçon va vous aider à progresser vers le C1-C2.";
+  } else {
+    emoji="📚";vclass="fail";
+    vt="Niveau de départ : beaucoup à construire, et c'est normal !";
+    vd="Ce quiz sert justement à savoir d'où vous partez. Le programme Mastery est là pour vous faire progresser pas à pas vers le C1-C2.";
+  }
+
+  let bdown="";
+  Object.entries(secScores).forEach(([s,{ok,t}])=>{
+    const sp=Math.round(ok/t*100);
+    bdown+='<div class="section-row"><div class="sr-label">'+s+'</div><div class="sr-bar-track"><div class="sr-bar-fill" style="width:'+sp+'%;background:'+(sp>=70?'var(--orange-dark)':'var(--red)')+'"></div></div><div class="sr-score">'+ok+'/'+t+'</div></div>';
+  });
+
+  const barClass = isC1?"c1":isB2?"b2":"fail";
+  const details=Object.entries(secScores).map(([s,{ok,t}])=>s+": "+ok+"/"+t).join(" | ");
+  const now=new Date().toLocaleString("fr-FR");
+  const resultatStr = isC1?"DÉPART C1":(isB2?"DÉPART B2":"DÉPART < B2");
+
+  document.getElementById("results").innerHTML='<div class="result-card"><span class="result-emoji">'+emoji+'</span><h2>Résultats de <span class="result-name">'+studentName+'</span></h2><p class="result-email">'+studentEmail+'</p><div class="result-time"><span class="rt-icon">⏱️</span><div><div class="rt-val">'+formatTime(duration)+'</div><div class="rt-lbl">'+getTimeComment(duration,total)+'</div></div></div><div class="score-big">'+score+'<span class="score-max">/'+total+'</span></div><div class="score-pct" style="color:'+(isC1?'var(--orange)':isB2?'var(--orange-dark)':'var(--red)')+'">'+pct+'%</div><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill '+barClass+'" style="width:'+pct+'%"></div></div><div class="score-bar-labels"><span>0%</span><span style="color:var(--orange-dark)">70% B2</span><span style="color:var(--orange)">85% C1</span><span>100%</span></div></div><div class="verdict-box '+vclass+'"><div class="verdict-title">'+vt+'</div><div class="verdict-text">'+vd+'</div></div><div class="breakdown"><h3>📊 Résultats par section</h3>'+bdown+'</div><div id="tally-status"></div><p style="font-size:12px;color:rgba(11,18,32,.45);margin-top:18px;">✅ Votre quiz a été soumis. Une seule tentative est autorisée par élève.</p>'+'</div>';
+
+  document.getElementById("results").style.display="block";
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+  await sendTally({prenom:studentName,email:studentEmail,score,total,pct:pct+"%",resultat:resultatStr,details,date:now,duration:formatTime(duration)});
+}
+
+async function sendTally(d){
+  const el=document.getElementById("tally-status");
+  el.innerHTML='<div class="status-box status-sending">📤 Ouverture de la fenêtre de confirmation — cliquez sur Envoyer pour finaliser.</div>';
+  try{
+    if(typeof Tally === "undefined"){throw new Error("Tally script not loaded");}
+    Tally.openPopup(TALLY_FORM_ID, {
+      layout: "modal",
+      width: 500,
+      hideTitle: true,
+      autoClose: 2500,
+      hiddenFields: {
+        prenom: d.prenom, email: d.email, score: String(d.score), sur: String(d.total),
+        pourcentage: d.pct, resultat: d.resultat, details_sections: d.details, date_quiz: d.date
+      },
+      onSubmit: function(){
+        el.innerHTML='<div class="status-box status-ok">✅ Résultats envoyés à votre professeure avec succès !</div>';
+      },
+      onClose: function(){
+        if(!el.innerHTML.includes("succès")){
+          el.innerHTML='<div class="status-box status-err">⚠️ Fenêtre fermée sans envoi. <button onclick="sendTally(window._lastResultData)" style="background:none;border:none;color:var(--orange-dark);font-weight:700;text-decoration:underline;cursor:pointer;font-size:14px;">Réessayer l\'envoi</button></div>';
+        }
+      }
+    });
+    window._lastResultData = d;
+  }catch(err){
+    var subjLine = "Quiz Demarrage Mastery - " + d.prenom + " - " + d.pct;
+    var bodyLine = "Resultats du quiz de demarrage" + String.fromCharCode(10) + String.fromCharCode(10)
+      + "Prenom : " + d.prenom + String.fromCharCode(10)
+      + "Email : " + d.email + String.fromCharCode(10)
+      + "Score : " + d.score + "/" + d.total + " (" + d.pct + ")" + String.fromCharCode(10)
+      + "Resultat : " + d.resultat + String.fromCharCode(10)
+      + "Date : " + d.date + String.fromCharCode(10) + String.fromCharCode(10)
+      + "Details par section :" + String.fromCharCode(10)
+      + d.details.split(" | ").join(String.fromCharCode(10));
+    var subj=encodeURIComponent(subjLine);
+    var body=encodeURIComponent(bodyLine);
+    var mailLink="mailto:contact@learnright.fr?subject="+subj+"&body="+body;
+    el.innerHTML='<div class="status-box status-err">⚠️ <a href="'+mailLink+'" style="color:var(--orange-dark);font-weight:700;text-decoration:underline">Envoyer les résultats par email →</a></div>';
+  }
+}
+</script>
+</body>
+</html>
