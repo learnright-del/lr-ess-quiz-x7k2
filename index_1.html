@@ -117,14 +117,6 @@
   .verdict-box.a1 .verdict-title{color:var(--blue);}
   .verdict-box.fail .verdict-title{color:#B5651D;}
   .verdict-text{font-size:14px;color:rgba(61,43,31,.7);line-height:1.7;}
-  .cert-strip{border-radius:16px;padding:24px;margin:20px 0;color:white;position:relative;overflow:hidden;}
-  .cert-strip.a2{background:linear-gradient(135deg,var(--navy),var(--gold-dark));}
-  .cert-strip.a1{background:linear-gradient(135deg,var(--navy),var(--blue));}
-  .cert-strip::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);}
-  .cert-title{font-size:11px;letter-spacing:3px;opacity:.6;margin-bottom:4px;}
-  .cert-name{font-family:'Inter',sans-serif;font-size:20px;font-weight:800;margin-bottom:2px;}
-  .cert-level{font-size:13px;opacity:.7;}
-  .cert-seal{font-size:36px;position:absolute;right:24px;top:50%;transform:translateY(-50%);}
   .breakdown{background:var(--lgray);border-radius:14px;padding:18px;margin:20px 0;text-align:left;}
   .breakdown h3{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:12px;}
   .section-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
@@ -399,19 +391,19 @@ async function showResults(){
   const total=QUESTIONS.length,pct=Math.round(score/total*100);
   const isA2=pct>=85, isA1=pct>=70;
 
-  let emoji,vclass,vt,vd,certHTML="";
+  let emoji,vclass,vt,vd;
   if(pct>=95){
     emoji="🏆";vclass="a2";
     vt="Exceptionnel ! Niveau A2 confirmé avec excellence.";
     vd="Vous avez démontré une maîtrise remarquable des bases de l'anglais. Vous êtes prêt(e) pour le programme Professional B1-B2 !";
   } else if(isA2){
     emoji="⭐";vclass="a2";
-    vt="Félicitations — Certificat A2 obtenu !";
+    vt="Félicitations — Niveau A2 validé !";
     vd="Vous avez atteint le seuil de 85% et validez le niveau A2. Vos bases sont solides, vous pouvez avancer avec confiance.";
   } else if(isA1){
     emoji="🌟";vclass="a1";
-    vt="Module validé — Certificat A1 obtenu !";
-    vd="Vous avez atteint 70% et validez le niveau A1. Pour obtenir le certificat A2, il vous faudra atteindre 85%. Continuez à pratiquer !";
+    vt="Niveau A1 validé !";
+    vd="Vous avez atteint 70% et validez le niveau A1. Pour valider le niveau A2, il vous faudra atteindre 85%. Continuez à pratiquer !";
   } else if(pct>=50){
     emoji="💪";vclass="fail";
     vt="Pas encore validé — continuez !";
@@ -420,12 +412,6 @@ async function showResults(){
     emoji="📚";vclass="fail";
     vt="Module à retravailler.";
     vd="Reprenez les leçons du programme Essentials et retentez le quiz dans quelques jours.";
-  }
-
-  if(isA2){
-    certHTML='<div class="cert-strip a2"><div class="cert-title">ATTESTATION DE RÉUSSITE</div><div class="cert-name">'+studentName+'</div><div class="cert-level">Niveau A2 · Programme Essentials · Learn Right</div><div class="cert-seal">🏅</div></div>';
-  } else if(isA1){
-    certHTML='<div class="cert-strip a1"><div class="cert-title">ATTESTATION DE RÉUSSITE</div><div class="cert-name">'+studentName+'</div><div class="cert-level">Niveau A1 · Programme Essentials · Learn Right</div><div class="cert-seal">🥈</div></div>';
   }
 
   let bdown="";
@@ -439,7 +425,7 @@ async function showResults(){
   const now=new Date().toLocaleString("fr-FR");
   const resultatStr = isA2?"CERTIFIÉ A2":(isA1?"CERTIFIÉ A1":"NON VALIDÉ");
 
-  document.getElementById("results").innerHTML='<div class="result-card"><span class="result-emoji">'+emoji+'</span><h2>Résultats de <span class="result-name">'+studentName+'</span></h2><p class="result-email">'+studentEmail+'</p><div class="result-time"><span class="rt-icon">⏱️</span><div><div class="rt-val">'+formatTime(duration)+'</div><div class="rt-lbl">'+getTimeComment(duration,total)+'</div></div></div><div class="score-big">'+score+'<span class="score-max">/'+total+'</span></div><div class="score-pct" style="color:'+(isA2?'var(--gold-dark)':isA1?'var(--blue)':'var(--red)')+'">'+pct+'%</div><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill '+barClass+'" style="width:'+pct+'%"></div></div><div class="score-bar-labels"><span>0%</span><span style="color:var(--blue)">70% A1</span><span style="color:var(--gold-dark)">85% A2</span><span>100%</span></div></div><div class="verdict-box '+vclass+'"><div class="verdict-title">'+vt+'</div><div class="verdict-text">'+vd+'</div></div><div class="breakdown"><h3>📊 Résultats par section</h3>'+bdown+'</div><div id="tally-status"></div>'+certHTML+'<p style="font-size:12px;color:rgba(61,43,31,.45);margin-top:18px;">✅ Votre quiz a été soumis. Une seule tentative est autorisée par élève.</p>'+'</div>';
+  document.getElementById("results").innerHTML='<div class="result-card"><span class="result-emoji">'+emoji+'</span><h2>Résultats de <span class="result-name">'+studentName+'</span></h2><p class="result-email">'+studentEmail+'</p><div class="result-time"><span class="rt-icon">⏱️</span><div><div class="rt-val">'+formatTime(duration)+'</div><div class="rt-lbl">'+getTimeComment(duration,total)+'</div></div></div><div class="score-big">'+score+'<span class="score-max">/'+total+'</span></div><div class="score-pct" style="color:'+(isA2?'var(--gold-dark)':isA1?'var(--blue)':'var(--red)')+'">'+pct+'%</div><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-bar-fill '+barClass+'" style="width:'+pct+'%"></div></div><div class="score-bar-labels"><span>0%</span><span style="color:var(--blue)">70% A1</span><span style="color:var(--gold-dark)">85% A2</span><span>100%</span></div></div><div class="verdict-box '+vclass+'"><div class="verdict-title">'+vt+'</div><div class="verdict-text">'+vd+'</div></div><div class="breakdown"><h3>📊 Résultats par section</h3>'+bdown+'</div><div id="tally-status"></div><p style="font-size:12px;color:rgba(61,43,31,.45);margin-top:18px;">✅ Votre quiz a été soumis. Une seule tentative est autorisée par élève.</p>'+'</div>';
 
   document.getElementById("results").style.display="block";
   document.getElementById("results").scrollIntoView({behavior:"smooth"});
