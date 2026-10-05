@@ -325,10 +325,46 @@ body {
 <hr class="sep"/>
 
 <!-- ═══════════════════════════════════════ -->
-<!-- PARTIE 2 : PHRASES AVEC RÉVÉLATION -->
+<!-- PARTIE 1b : EXERCICE VOCABULAIRE (NOUVEAU) -->
 <!-- ═══════════════════════════════════════ -->
 <div class="section-header">
   <div class="section-num">2</div>
+  <div>
+    <div class="section-label">Exercice — Testez le vocabulaire</div>
+    <span class="section-level level-ess">🔵 Essentials — A1/A2</span>
+  </div>
+</div>
+<div class="intro-box">Mettez en pratique les 5 mots que vous venez de découvrir.</div>
+
+<div class="exo-card">
+  <div class="exo-question">Quel mot anglais veut dire « assez / suffisant » ?</div>
+  <div class="exo-instr">Choisissez le mot correct.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, false, 'q4')"><span class="choice-letter">A</span> Thoroughly</div>
+    <div class="choice" onclick="checkChoice(this, true, 'q4')"><span class="choice-letter">B</span> Enough</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q4')"><span class="choice-letter">C</span> Comfortable</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q4')"><span class="choice-letter">D</span> Wednesday</div>
+  </div>
+  <div class="exo-feedback" id="fb-q4-good" style="display:none;" class="good">✅ Correct ! « Enough » = assez / suffisant. Rappel : le « gh » se prononce « f ».</div>
+  <div class="exo-feedback" id="fb-q4-bad" style="display:none;" class="bad">❌ La bonne réponse est « Enough » (= assez / suffisant). Rappel : le « gh » se prononce « f », comme dans « rough » ou « tough ».</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question" style="margin-bottom:16px;">Complétez avec le mot qui convient.</div>
+  <div class="gap-line">
+    This sofa is incredibly <input class="gap-input" id="gap3" placeholder="???">, I could sleep on it!
+  </div>
+  <button class="check-btn" onclick="checkGap('gap3','comfortable','fb-gap3')">Vérifier</button>
+  <div class="exo-feedback" id="fb-gap3" style="display:none;"></div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PARTIE 2 : PHRASES AVEC RÉVÉLATION -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-num">3</div>
   <div>
     <div class="section-label">Phrases clés — Cliquez pour révéler</div>
     <span class="section-level level-pro">🟡 Professional — B1/B2</span>
@@ -381,10 +417,46 @@ body {
 <hr class="sep"/>
 
 <!-- ═══════════════════════════════════════ -->
+<!-- PARTIE 2b : EXERCICE PHRASES CLÉS (NOUVEAU) -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-num">4</div>
+  <div>
+    <div class="section-label">Exercice — Phrases clés</div>
+    <span class="section-level level-pro">🟡 Professional — B1/B2</span>
+  </div>
+</div>
+<div class="intro-box">Vérifiez votre compréhension des 3 phrases professionnelles vues ci-dessus.</div>
+
+<div class="exo-card">
+  <div class="exo-question">Un collègue vous dit : « I'll get back to you on that. » Que veut-il dire ?</div>
+  <div class="exo-instr">Choisissez la bonne interprétation.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, false, 'q5')"><span class="choice-letter">A</span> Il refuse catégoriquement de répondre</div>
+    <div class="choice" onclick="checkChoice(this, true, 'q5')"><span class="choice-letter">B</span> Il va revenir vers vous plus tard avec une réponse</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q5')"><span class="choice-letter">C</span> Il n'a pas compris la question</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q5')"><span class="choice-letter">D</span> Il est contrarié</div>
+  </div>
+  <div class="exo-feedback" id="fb-q5-good" style="display:none;" class="good">✅ Exactement ! « I'll get back to you » = je vous recontacte / je vous reviens là-dessus. Une façon polie de différer une réponse.</div>
+  <div class="exo-feedback" id="fb-q5-bad" style="display:none;" class="bad">❌ La bonne réponse est B. « I'll get back to you on that » signifie qu'il va revenir vers vous avec une réponse plus tard — ce n'est ni un refus, ni de l'incompréhension.</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question" style="margin-bottom:16px;">Complétez la phrase.</div>
+  <div class="gap-line">
+    We're not quite on the same <input class="gap-input" id="gap4" placeholder="???"> here.
+  </div>
+  <button class="check-btn" onclick="checkGap('gap4','page','fb-gap4')">Vérifier</button>
+  <div class="exo-feedback" id="fb-gap4" style="display:none;"></div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ═══════════════════════════════════════ -->
 <!-- PARTIE 3 : QCM -->
 <!-- ═══════════════════════════════════════ -->
 <div class="section-header">
-  <div class="section-num">3</div>
+  <div class="section-num">5</div>
   <div>
     <div class="section-label">Exercice — Choisissez la bonne réponse</div>
     <span class="section-level level-ess">🔵 Essentials — A2</span>
@@ -423,7 +495,7 @@ body {
 <!-- PARTIE 4 : GAP FILL NIVEAU B2 -->
 <!-- ═══════════════════════════════════════ -->
 <div class="section-header">
-  <div class="section-num">4</div>
+  <div class="section-num">6</div>
   <div>
     <div class="section-label">Complétez les phrases</div>
     <span class="section-level level-pro">🟡 Professional — B2</span>
@@ -455,7 +527,7 @@ body {
 <!-- PARTIE 5 : MASTERY — UNDERSTATEMENT -->
 <!-- ═══════════════════════════════════════ -->
 <div class="section-header">
-  <div class="section-num">5</div>
+  <div class="section-num">7</div>
   <div>
     <div class="section-label">L'understatement britannique</div>
     <span class="section-level level-mas">🟠 Mastery — C1/C2</span>
@@ -508,10 +580,46 @@ body {
 <hr class="sep"/>
 
 <!-- ═══════════════════════════════════════ -->
+<!-- PARTIE 5b : EXERCICE UNDERSTATEMENT (NOUVEAU) -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-num">8</div>
+  <div>
+    <div class="section-label">Exercice — Comprendre l'understatement</div>
+    <span class="section-level level-mas">🟠 Mastery — C1/C2</span>
+  </div>
+</div>
+<div class="intro-box">Vérifiez que vous avez bien saisi le double sens de ces expressions britanniques.</div>
+
+<div class="exo-card">
+  <div class="exo-question">Un manager britannique vous dit : « That's a rather interesting approach. » Que pense-t-il vraiment ?</div>
+  <div class="exo-instr">Choisissez la bonne interprétation (understatement britannique).</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, false, 'q6')"><span class="choice-letter">A</span> Il trouve l'idée excellente</div>
+    <div class="choice" onclick="checkChoice(this, true, 'q6')"><span class="choice-letter">B</span> Il trouve l'idée franchement mauvaise, mais reste poli</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q6')"><span class="choice-letter">C</span> Il est indifférent</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q6')"><span class="choice-letter">D</span> Il n'a pas d'avis</div>
+  </div>
+  <div class="exo-feedback" id="fb-q6-good" style="display:none;" class="good">✅ Bravo ! C'est l'understatement britannique classique : « interesting » dit sur ce ton = critique polie mais sévère.</div>
+  <div class="exo-feedback" id="fb-q6-bad" style="display:none;" class="bad">❌ La bonne réponse est B. En anglais britannique, « rather interesting » dit avec ce ton est une critique déguisée, pas un compliment.</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question" style="margin-bottom:16px;">Complétez la phrase (= je ne dirais pas non).</div>
+  <div class="gap-line">
+    I <input class="gap-input" id="gap5" placeholder="???"> say no to a cup of tea.
+  </div>
+  <button class="check-btn" onclick="checkGap('gap5','wouldn\'t','fb-gap5')">Vérifier</button>
+  <div class="exo-feedback" id="fb-gap5" style="display:none;"></div>
+</div>
+
+<hr class="sep"/>
+
+<!-- ═══════════════════════════════════════ -->
 <!-- PARTIE 6 : DIALOGUE AUDIO -->
 <!-- ═══════════════════════════════════════ -->
 <div class="section-header">
-  <div class="section-num">6</div>
+  <div class="section-num">9</div>
   <div>
     <div class="section-label">Dialogue — Réunion professionnelle</div>
     <span class="section-level level-pro">🟡 Professional — B1/B2</span>
@@ -549,16 +657,53 @@ body {
   </div>
 </div>
 
+<hr class="sep"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- PARTIE 6b : EXERCICE DIALOGUE (NOUVEAU) -->
+<!-- ═══════════════════════════════════════ -->
+<div class="section-header">
+  <div class="section-num">10</div>
+  <div>
+    <div class="section-label">Exercice — Vocabulaire du dialogue</div>
+    <span class="section-level level-pro">🟡 Professional — B1/B2</span>
+  </div>
+</div>
+<div class="intro-box">Testez votre compréhension des expressions clés entendues dans le dialogue.</div>
+
+<div class="exo-card">
+  <div class="exo-question">Dans le dialogue, B dit : « could we just flag the budget issue? » Que signifie « flag » ici ?</div>
+  <div class="exo-instr">Choisissez le bon sens du mot dans ce contexte.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, false, 'q7')"><span class="choice-letter">A</span> Décorer avec des drapeaux</div>
+    <div class="choice" onclick="checkChoice(this, true, 'q7')"><span class="choice-letter">B</span> Signaler / attirer l'attention sur un point</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q7')"><span class="choice-letter">C</span> Ignorer complètement</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q7')"><span class="choice-letter">D</span> Résoudre immédiatement</div>
+  </div>
+  <div class="exo-feedback" id="fb-q7-good" style="display:none;" class="good">✅ Correct ! « To flag something » = signaler un point important, attirer l'attention dessus — très utilisé en réunion professionnelle.</div>
+  <div class="exo-feedback" id="fb-q7-bad" style="display:none;" class="bad">❌ La bonne réponse est B. « To flag » = signaler, mettre en avant un sujet — pas littéralement « mettre un drapeau ».</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question" style="margin-bottom:16px;">Complétez la phrase (= je les enverrai à tout le monde).</div>
+  <div class="gap-line">
+    I'll send the updated figures <input class="gap-input" id="gap6" placeholder="???"> after this.
+  </div>
+  <button class="check-btn" onclick="checkGap('gap6','round','fb-gap6')">Vérifier</button>
+  <div class="exo-feedback" id="fb-gap6" style="display:none;"></div>
+</div>
+
 <!-- ═══════════════════════════════════════ -->
 <!-- QCM FINAL MASTERY -->
 <!-- ═══════════════════════════════════════ -->
 <div class="section-header">
-  <div class="section-num">7</div>
+  <div class="section-num">11</div>
   <div>
-    <div class="section-label">Question finale — Niveau avancé</div>
+    <div class="section-label">Questions finales — Niveau avancé</div>
     <span class="section-level level-mas">🟠 Mastery — C1</span>
   </div>
 </div>
+<div class="intro-box">Pas d'explication cette fois : ces 5 questions testent des structures avancées sans préparation préalable. À vous de voir ce que vous maîtrisez déjà — la règle complète s'affiche avec la correction.</div>
 
 <div class="exo-card">
   <div class="exo-question">"Had I known about the delay, I would have adjusted the schedule." — Que signifie cette structure ?</div>
@@ -571,6 +716,58 @@ body {
   </div>
   <div class="exo-feedback" id="fb-q3-good" style="display:none;" class="good">✅ Excellent ! "Had I known..." est une inversion du conditionnel 3 (forme avancée C1). Au lieu de "If I had known...", on inverse : "Had I known..." — plus formel, très utilisé en anglais écrit professionnel et académique.</div>
   <div class="exo-feedback" id="fb-q3-bad" style="display:none;" class="bad">❌ La bonne réponse est C. "Had I known" = "If I had known" — c'est un conditionnel 3 avec inversion. Cette structure formelle remplace "if" par une inversion du sujet et de l'auxiliaire. C'est un point clé du niveau C1.</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question">"The committee insisted that the report _____ submitted by Friday."</div>
+  <div class="exo-instr">Choisissez la forme correcte du verbe.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, false, 'q8')"><span class="choice-letter">A</span> is</div>
+    <div class="choice" onclick="checkChoice(this, true, 'q8')"><span class="choice-letter">B</span> be</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q8')"><span class="choice-letter">C</span> was</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q8')"><span class="choice-letter">D</span> would be</div>
+  </div>
+  <div class="exo-feedback" id="fb-q8-good" style="display:none;" class="good">✅ Excellent ! C'est le <strong>subjonctif présent</strong> (mandative subjunctive). Après des verbes comme "insist", "suggest", "recommend", "demand" + "that", le verbe reste à la base verbale (be), sans -s et sans conjugaison, quel que soit le sujet : "that the report <strong>be</strong> submitted."</div>
+  <div class="exo-feedback" id="fb-q8-bad" style="display:none;" class="bad">❌ La bonne réponse est B, "be". Après "insist that", on utilise le <strong>subjonctif présent</strong> : le verbe reste à sa forme de base, sans conjugaison ("that the report <strong>be</strong> submitted"), même si le sujet est à la 3e personne du singulier.</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question">"Not only _____ the project on time, but he also stayed under budget."</div>
+  <div class="exo-instr">Choisissez la structure correcte.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, false, 'q9')"><span class="choice-letter">A</span> he completed</div>
+    <div class="choice" onclick="checkChoice(this, true, 'q9')"><span class="choice-letter">B</span> did he complete</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q9')"><span class="choice-letter">C</span> he did complete</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q9')"><span class="choice-letter">D</span> completed he</div>
+  </div>
+  <div class="exo-feedback" id="fb-q9-good" style="display:none;" class="good">✅ Parfait ! Quand une phrase commence par un adverbe restrictif ou négatif ("Not only", "Never", "Rarely", "Seldom"...), on applique l'<strong>inversion sujet-auxiliaire</strong>, comme dans une question : "Not only <strong>did he complete</strong>..." C'est une structure formelle très valorisée à l'écrit académique et professionnel.</div>
+  <div class="exo-feedback" id="fb-q9-bad" style="display:none;" class="bad">❌ La bonne réponse est B, "did he complete". Après "Not only" en début de phrase, on inverse l'auxiliaire et le sujet, comme dans une question : "Not only <strong>did he complete</strong> the project..." — c'est l'inversion après adverbe négatif/restrictif.</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question">"It wasn't until she reviewed the contract _____ she noticed the error."</div>
+  <div class="exo-instr">Choisissez le mot qui complète correctement la structure.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, true, 'q10')"><span class="choice-letter">A</span> that</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q10')"><span class="choice-letter">B</span> when</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q10')"><span class="choice-letter">C</span> then</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q10')"><span class="choice-letter">D</span> which</div>
+  </div>
+  <div class="exo-feedback" id="fb-q10-good" style="display:none;" class="good">✅ Correct ! C'est une <strong>phrase clivée</strong> ("cleft sentence") du type "It wasn't until... <strong>that</strong>...", utilisée pour mettre l'accent sur le moment précis où quelque chose s'est produit. Le "that" est obligatoire dans cette structure, qu'on ne peut pas remplacer par "when" ou "which".</div>
+  <div class="exo-feedback" id="fb-q10-bad" style="display:none;" class="bad">❌ La bonne réponse est A, "that". La structure "It wasn't until... <strong>that</strong>..." est une phrase clivée figée : "that" est le seul connecteur correct ici, même si le sens semble proche de "when".</div>
+</div>
+
+<div class="exo-card">
+  <div class="exo-question">"He hasn't finished the report, but she _____."</div>
+  <div class="exo-instr">Choisissez l'auxiliaire qui évite la répétition.</div>
+  <div class="choices">
+    <div class="choice" onclick="checkChoice(this, true, 'q11')"><span class="choice-letter">A</span> has</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q11')"><span class="choice-letter">B</span> did</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q11')"><span class="choice-letter">C</span> is</div>
+    <div class="choice" onclick="checkChoice(this, false, 'q11')"><span class="choice-letter">D</span> does</div>
+  </div>
+  <div class="exo-feedback" id="fb-q11-good" style="display:none;" class="good">✅ Exactement ! C'est une <strong>ellipse verbale</strong> : "she has" remplace "she has finished the report" sans le répéter. L'auxiliaire doit correspondre au temps du verbe sous-entendu (ici le Present Perfect, donc "has", pas "did" ou "does").</div>
+  <div class="exo-feedback" id="fb-q11-bad" style="display:none;" class="bad">❌ La bonne réponse est A, "has". Il s'agit d'une ellipse : "but she has" sous-entend "but she has finished the report". L'auxiliaire doit reprendre celui de la première proposition (Present Perfect → "has"), pas un autre temps.</div>
 </div>
 
 <!-- CTA FINAL -->
@@ -649,12 +846,20 @@ function checkGap(inputId, answer, fbId) {
     input.classList.add('correct'); input.classList.remove('wrong');
     fb.style.display = 'block'; fb.className = 'exo-feedback good';
     if (inputId === 'gap1') fb.innerHTML = '✅ Correct ! "If I <strong>had</strong> more time" — conditionnel 3. On exprime un regret sur le passé.';
-    else fb.innerHTML = '✅ Parfait ! "Suggested + <strong>V-ing</strong>" — après "suggest", toujours le gérondif.';
+    else if (inputId === 'gap2') fb.innerHTML = '✅ Parfait ! "Suggested + <strong>V-ing</strong>" — après "suggest", toujours le gérondif.';
+    else if (inputId === 'gap3') fb.innerHTML = '✅ Parfait ! "Comfortable" se prononce "comf-ta-ble" — seulement 3 syllabes, pas 4.';
+    else if (inputId === 'gap4') fb.innerHTML = '✅ Correct ! "On the same page" = être d\'accord / avoir la même compréhension.';
+    else if (inputId === 'gap5') fb.innerHTML = '✅ Parfait ! "I wouldn\'t say no to..." = une double négation polie pour dire "oui, avec plaisir".';
+    else if (inputId === 'gap6') fb.innerHTML = '✅ Exactement ! "Send round" = distribuer / envoyer à tout le monde.';
   } else {
     input.classList.add('wrong'); input.classList.remove('correct');
     fb.style.display = 'block'; fb.className = 'exo-feedback bad';
     if (inputId === 'gap1') fb.innerHTML = '❌ La réponse est "<strong>had</strong>". Conditionnel 3 = If + sujet + <strong>had</strong> + PP.';
-    else fb.innerHTML = '❌ La réponse est "<strong>postponing</strong>". Après "suggest" → gérondif (-ing).';
+    else if (inputId === 'gap2') fb.innerHTML = '❌ La réponse est "<strong>postponing</strong>". Après "suggest" → gérondif (-ing).';
+    else if (inputId === 'gap3') fb.innerHTML = '❌ La réponse est "<strong>comfortable</strong>". Attention à la prononciation : "comf-ta-ble", pas "com-for-ta-ble".';
+    else if (inputId === 'gap4') fb.innerHTML = '❌ La réponse est "<strong>page</strong>". "On the same page" = être d\'accord — une expression très courante en réunion.';
+    else if (inputId === 'gap5') fb.innerHTML = '❌ La réponse est "<strong>wouldn\'t</strong>". "I wouldn\'t say no to..." est une litote typiquement britannique pour accepter poliment.';
+    else if (inputId === 'gap6') fb.innerHTML = '❌ La réponse est "<strong>round</strong>". "Send round" = distribuer un document à toute l\'équipe.';
   }
 }
 </script>
