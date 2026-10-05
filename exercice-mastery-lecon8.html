@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exercices – Mastery Leçon 8 – Learn Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#0B1220;--navy2:#13213A;--blue:#FF6B1A;--sky:#FFC9A3;--gold:#E8A33D;--gold-light:#FFD9A0;--green:#3FB27F;--green-dark:#2E8C62;--red:#E05252;--red-dark:#C23B3B;--purple:#7C5CBF;--teal:#2F8F8A;--steel:#3B6EA5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#F5F0E8;background-image:linear-gradient(rgba(11,18,32,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(11,18,32,0.05) 1px, transparent 1px);background-size:38px 38px;font-family:'Inter',sans-serif;min-height:100vh;color:var(--navy);padding-bottom:40px;}
+
+  .scorebar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.15);font-size:13px;font-weight:700;}
+  .scorebar .sb-left{display:flex;align-items:center;gap:8px;}
+  .scorebar .sb-icon{font-size:16px;}
+  .scorebar .sb-val{font-size:15px;color:var(--sky);}
+  .scorebar .sb-reset{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:white;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;border-radius:16px;padding:6px 14px;cursor:pointer;}
+  .scorebar .sb-reset:hover{background:rgba(255,255,255,.25);}
+
+  .hero{background:linear-gradient(135deg,#0B1220 0%,#13213A 45%,#FF6B1A 130%);padding:38px 24px 46px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,26,.12),transparent 70%);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:white;box-shadow:0 4px 16px rgba(255,107,26,.45);}
+  .brand-name{font-size:19px;font-weight:800;color:white;letter-spacing:1px;}
+  .brand-name span{color:var(--gold);}
+  .level-badge{display:inline-block;background:rgba(255,107,26,.25);border:1px solid rgba(255,107,26,.4);border-radius:20px;padding:4px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sky);text-transform:uppercase;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(24px,4.5vw,36px);font-weight:800;color:white;line-height:1.2;margin-bottom:8px;position:relative;z-index:1;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero-sub{color:rgba(255,255,255,.7);font-size:13.5px;letter-spacing:.3px;position:relative;z-index:1;max-width:560px;margin:0 auto;line-height:1.6;}
+
+  .content{max-width:760px;margin:0 auto;padding:32px 20px 10px;}
+
+  .how-to{background:white;border-radius:18px;padding:20px 24px;margin-bottom:30px;box-shadow:0 4px 18px rgba(0,0,0,.06);border-left:5px solid var(--sky);font-size:13.5px;color:rgba(11,18,32,.8);line-height:1.7;}
+  .how-to strong{color:var(--navy);}
+
+  .section-head{display:flex;align-items:center;gap:12px;margin:40px 0 16px;}
+  .section-head .sn{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));color:white;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(255,107,26,.3);}
+  .section-head .st{flex:1;}
+  .section-head h2{font-size:18px;font-weight:800;color:var(--navy);}
+  .section-head p{font-size:12.5px;color:rgba(11,18,32,.55);margin-top:2px;}
+
+  .q-item{background:white;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 3px 14px rgba(0,0,0,.05);border-left:4px solid #E7EAF1;transition:border-color .2s;}
+  .q-item[data-status="correct"]{border-left-color:var(--green-dark);}
+  .q-item[data-status="incorrect"]{border-left-color:var(--red-dark);}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:white;border-radius:50%;font-size:11px;font-weight:800;margin-right:8px;flex-shrink:0;}
+  .q-prompt{font-size:14.5px;color:var(--navy);font-weight:600;line-height:1.5;}
+
+  .q-answer-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+  .q-input{font-family:'Inter',sans-serif;font-size:14px;padding:9px 14px;border-radius:10px;border:1.5px solid #E7EAF1;flex:1;min-width:140px;max-width:320px;background:#F4F6FA;color:var(--navy);}
+  .q-input:focus{outline:none;border-color:var(--blue);}
+  .q-check{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;border:none;border-radius:16px;padding:9px 18px;cursor:pointer;background:var(--blue);color:white;transition:opacity .15s;}
+  .q-check:hover{opacity:.88;}
+
+  .q-feedback{margin-top:10px;font-size:13px;font-weight:700;display:none;}
+  .q-item[data-status="correct"] .q-feedback{display:block;color:var(--green-dark);}
+  .q-item[data-status="incorrect"] .q-feedback{display:block;color:var(--red-dark);}
+  .q-feedback .fexp{display:block;margin-top:3px;font-size:12px;color:rgba(11,18,32,.55);font-weight:400;font-style:italic;}
+
+  .q-options{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .q-opt{font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;border:1.5px solid #E7EAF1;border-radius:12px;padding:10px 16px;cursor:pointer;background:#F4F6FA;color:var(--navy);transition:all .15s;text-align:left;}
+  .q-opt:hover:not(:disabled){border-color:var(--blue);}
+  .q-opt:disabled{cursor:default;}
+  .q-opt.opt-correct{background:#E8F3EA;border-color:var(--green-dark);color:var(--green-dark);font-weight:800;}
+  .q-opt.opt-incorrect{background:#FBEAE7;border-color:var(--red-dark);color:var(--red-dark);}
+
+  .info-box{background:#F6E9E4;border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(11,18,32,.8);line-height:1.6;margin-bottom:18px;}
+  .info-box strong{color:var(--navy);}
+
+  .bilan{display:none;background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:20px;padding:30px 28px;margin-top:44px;color:white;text-align:center;}
+  .bilan.show{display:block;}
+  .bilan .bicon{font-size:38px;margin-bottom:10px;}
+  .bilan h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .bilan p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.6;max-width:480px;margin:0 auto 18px;}
+  .bilan .score-big{font-size:34px;font-weight:900;color:var(--gold);margin-bottom:4px;}
+  .restart-btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:20px;padding:11px 24px;cursor:pointer;background:white;color:var(--navy);transition:opacity .15s;}
+  .restart-btn:hover{opacity:.88;}
+
+  footer{text-align:center;padding:28px 20px;color:rgba(11,18,32,.4);font-size:11px;letter-spacing:1.5px;}
+  footer strong{color:var(--purple);}
+</style>
+</head>
+<body>
+
+<div class="scorebar">
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
+</div>
+
+<div class="hero">
+  <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
+  <div class="level-badge">🟠 Mastery C1 · Exercices</div>
+  <h1>Leçon 8 — <em>Le Subjonctif Anglais</em></h1>
+  <p class="hero-sub">30 questions pour consolider le subjonctif présent, le subjonctif passé et les structures mandatives de la leçon.</p>
+</div>
+
+<div class="content">
+
+  <div class="how-to"><strong>Comment ça marche ?</strong> Répondez à chaque question (QCM ou réponse écrite), puis cliquez sur "Vérifier". Votre score se met à jour en direct en haut de la page. Vous pouvez recommencer autant de fois que vous le souhaitez.</div>
+
+  <div class="section-head"><div class="sn">1</div><div class="st"><h2>Subjonctif Présent</h2><p>Base verbale sans inflexion après les verbes de recommandation et structures mandatives</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="attend" data-explain="Le subjonctif présent utilise la base verbale sans inflexion, même à la 3e personne du singulier — jamais de -s.">
+    <div class="q-prompt"><span class="q-num">1</span>Complète : "I suggest that he <span class="blank">___</span> (attend) the meeting."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">2</span>Quelle phrase est correcte au subjonctif présent ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It is essential that the report be submitted on time.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Après 'it is essential that', on utilise le subjonctif (be), pas le présent simple (is).">It is essential that the report is submitted on time.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is essential that the report being submitted on time.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is essential that the report was submitted on time.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="not" data-explain="Au subjonctif négatif, on utilise 'not' directement devant le verbe : 'not be', jamais 'isn\'t' ou 'doesn\'t'.">
+    <div class="q-prompt"><span class="q-num">3</span>Complète (négatif) : "It is vital that the data <span class="blank">___</span> be shared before approval." (= not)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">4</span>Lequel de ces verbes NE déclenche PAS le subjonctif présent ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">like</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">recommend</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">insist</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">require</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="recommends" data-explain="Le verbe déclencheur (recommend) se conjugue normalement ; c'est le verbe APRÈS 'that' qui reste au subjonctif (be).">
+    <div class="q-prompt"><span class="q-num">5</span>Complète : "The committee <span class="blank">___</span> (recommend) that the policy be reviewed annually." (présent simple, 3e pers.)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">6</span>Quelle structure mandative introduit correctement un subjonctif présent ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It is important that every member be present.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Après une structure mandative (it is important that), on utilise le subjonctif.">It is important that every member is present.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is important every member being present.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is important for every member be present.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">2</div><div class="st"><h2>Subjonctif Passé</h2><p>Were remplace was pour toutes les personnes dans les hypothèses formelles</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="were" data-explain="Au subjonctif passé, 'were' remplace 'was' pour TOUTES les personnes (I were, he were, she were...), en registre soigné.">
+    <div class="q-prompt"><span class="q-num">7</span>Complète : "If I <span class="blank">___</span> in your position, I would accept the offer."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">8</span>"He speaks as if he were the CEO — but he's not." utilise quelle structure ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">As if + subjonctif passé (were)</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">As if + présent simple</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">As if + subjonctif présent</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">As if + conditionnel</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="were" data-explain="Après 'I wish' pour un regret présent, le style soigné utilise 'were' pour toutes les personnes plutôt que 'was'.">
+    <div class="q-prompt"><span class="q-num">9</span>Complète : "I wish the situation <span class="blank">___</span> different." (regret présent, style soigné)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Were" data-explain="« Were it not for » = « S\'il n\'y avait pas... / Sans... », une structure de subjonctif passé très soutenue.">
+    <div class="q-prompt"><span class="q-num">10</span>Complète : "<span class="blank">___</span> it not for her expertise, we would have failed."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">11</span>Dans un style courant (non soigné), laquelle de ces phrases est aussi acceptée à l'oral ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">If I was in your position... (courant, moins soigné)</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">If I be in your position...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">If I am being in your position...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">If I to be in your position...</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="were" data-explain="« As though + were » exprime une comparaison hypothétique, au subjonctif passé, pour toutes les personnes.">
+    <div class="q-prompt"><span class="q-num">12</span>Complète : "As though she <span class="blank">___</span> an expert, she spoke with total confidence." (= were)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">3</div><div class="st"><h2>Phrases Types</h2><p>Complète les 6 phrases clés de la leçon</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="submitted">
+    <div class="q-prompt"><span class="q-num">13</span>"It is essential that the report be <span class="blank">___</span> before the board meeting."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="reviewed">
+    <div class="q-prompt"><span class="q-num">14</span>"The committee recommended that the policy be <span class="blank">___</span> annually."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="accept">
+    <div class="q-prompt"><span class="q-num">15</span>"If I were in your position, I would <span class="blank">___</span> the offer without hesitation."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="present">
+    <div class="q-prompt"><span class="q-num">16</span>"It is vital that every member be <span class="blank">___</span> for the vote."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="resolved">
+    <div class="q-prompt"><span class="q-num">17</span>"The contract stipulates that all disputes be <span class="blank">___</span> through mediation."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="attend">
+    <div class="q-prompt"><span class="q-num">18</span>"She insisted that he <span class="blank">___</span> the training session regardless of his workload."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">4</div><div class="st"><h2>Application Pratique</h2><p>Transforme et reconnais les structures en contexte</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="submit" data-explain="Après 'require that', on utilise le subjonctif présent : la base verbale sans -s.">
+    <div class="q-prompt"><span class="q-num">19</span>Transforme au subjonctif : "The manager requires that every employee <span class="blank">___</span> (submit) the form by Friday."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">20</span>Quelle phrase illustre correctement une structure mandative avec subjonctif ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It is imperative that the board approve the budget immediately.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Après 'it is imperative that', on utilise le subjonctif (approve), pas le présent simple.">It is imperative that the board approves the budget immediately.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is imperative the board approving the budget immediately.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is imperative for the board approve the budget immediately.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="were" data-explain="Au subjonctif passé en style soigné, 'were' remplace 'was' même à la première personne.">
+    <div class="q-prompt"><span class="q-num">21</span>Transforme : "If I <span class="blank">___</span> (be) better at networking, I would land more contracts." (style soigné, subjonctif)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">22</span>Dans quel contexte le subjonctif anglais est-il le plus fréquent ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Documents juridiques, académiques et professionnels formels</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Messages texte entre amis</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Conversations très informelles</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="demanded|requested" data-explain="Les verbes 'demand' et 'request' déclenchent tous deux le subjonctif présent après 'that'.">
+    <div class="q-prompt"><span class="q-num">23</span>Complète avec un verbe déclencheur approprié : "The board <span class="blank">___</span> that the merger be postponed until further review." (= a demandé)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">24</span>Laquelle de ces phrases mélange incorrectement subjonctif et temps verbal ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It is essential that she attends the ceremony.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is essential that she attend the ceremony.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">She insisted that he leave immediately.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The judge ordered that the witness be recalled.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">5</div><div class="st"><h2>Révision Générale</h2><p>6 questions pour vérifier tous les acquis</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">25</span>Laquelle de ces phrases N'est PAS un subjonctif correct ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It is essential that the report is submitted on time.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is essential that the report be submitted on time.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">If I were in charge, I would restructure the department.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">She insisted that he attend the session.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="suggest|recommend|insist|require|demand|request|propose|stipulate" data-explain="Tous ces verbes de recommandation ou d'exigence déclenchent le subjonctif présent après 'that'.">
+    <div class="q-prompt"><span class="q-num">26</span>Donne un exemple de verbe déclencheur du subjonctif présent (suggest / recommend / insist / require / demand / request / propose / stipulate).</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">27</span>Le subjonctif passé (were pour toutes les personnes) sert principalement à :</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Exprimer une hypothèse ou un souhait de façon soignée et formelle</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Décrire une action habituelle au passé</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Former le passé composé</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Were" data-explain="« Were it not for » est une structure de subjonctif passé très soutenue, équivalente à « If it were not for ».">
+    <div class="q-prompt"><span class="q-num">28</span>Complète : "<span class="blank">___</span> it not for her expertise, we would have failed." (= Sans)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">29</span>Quelle phrase combine le mieux une structure mandative ET le subjonctif ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It is imperative that every member be present for the vote.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Every member must be present for the vote.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Every member is present for the vote.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">It is imperative every member is present for the vote.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="were" data-explain="« As if + were » exprime une comparaison hypothétique au subjonctif passé, pour toutes les personnes.">
+    <div class="q-prompt"><span class="q-num">30</span>Complète : "He speaks as if he <span class="blank">___</span> the CEO — but he's not."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+
+
+  <div class="bilan" id="bilan">
+    <div class="bicon">🎉</div>
+    <div class="score-big" id="bilanScore">0 / 30</div>
+    <h3 id="bilanTitle">Bilan de l'exercice</h3>
+    <p id="bilanMsg"></p>
+    <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
+  </div>
+
+</div>
+
+<footer>© <strong>Learn Right</strong> · English for Every Level · Exercices — Mastery C1 Leçon 8</footer>
+
+<script>
+const BILAN_MSG_90 = 'Excellent ! Vous maîtrisez parfaitement le subjonctif présent et le subjonctif passé. 🌟';
+const BILAN_MSG_70 = 'Bien joué ! Les bases sont solides — revoyez les structures qui vous ont posé problème avant la Leçon 9.';
+const BILAN_MSG_50 = 'Pas mal, mais il reste du travail. Reprenez le récap de la Leçon 8, surtout la différence entre subjonctif présent et structures mandatives.';
+const BILAN_MSG_0 = "Ne vous découragez pas — le subjonctif est l'une des structures les plus méconnues de l'anglais, même par les natifs. Relisez le récap et refaites cet exercice.";
+
+const allItems = Array.from(document.querySelectorAll('.q-item'));
+const TOTAL = allItems.length;
+
+function norm(s){
+  return s.trim().toLowerCase().replace(/['\u2019]/g,"'").replace(/[.!?,]/g,'').replace(/\s+/g,' ');
+}
+
+function updateScore(){
+  const correct = allItems.filter(it => it.getAttribute('data-status') === 'correct').length;
+  const answered = allItems.filter(it => it.getAttribute('data-status') !== 'pending').length;
+  document.getElementById('scoreVal').textContent = correct + ' / ' + TOTAL;
+  if(answered === TOTAL){
+    showBilan(correct);
+  } else {
+    document.getElementById('bilan').classList.remove('show');
+  }
+}
+
+function showBilan(correct){
+  const pct = Math.round(correct/TOTAL*100);
+  document.getElementById('bilanScore').textContent = correct + ' / ' + TOTAL;
+  let title, msg;
+  if(pct >= 90){ title = "Excellent travail ! \ud83c\udf1f"; msg = BILAN_MSG_90; }
+  else if(pct >= 70){ title = "Bien joue !"; msg = BILAN_MSG_70; }
+  else if(pct >= 50){ title = "Pas mal, continue !"; msg = BILAN_MSG_50; }
+  else { title = "On recommence ?"; msg = BILAN_MSG_0; }
+  document.getElementById('bilanTitle').textContent = title;
+  document.getElementById('bilanMsg').textContent = msg;
+  document.getElementById('bilan').classList.add('show');
+}
+
+function checkText(btn){
+  const item = btn.closest('.q-item');
+  const input = item.querySelector('.q-input');
+  const feedback = item.querySelector('.q-feedback');
+  const accepted = (item.getAttribute('data-answers') || '').split('|').map(norm);
+  const explain = item.getAttribute('data-explain') || '';
+  const userVal = norm(input.value);
+  const isCorrect = accepted.includes(userVal) && userVal.length > 0;
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    const shown = (item.getAttribute('data-answers') || '').split('|')[0];
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait \u2014 r\u00e9ponse attendue : <strong>' + shown + '</strong>' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  updateScore();
+}
+
+function checkMCQ(btn, isCorrect){
+  const item = btn.closest('.q-item');
+  const feedback = item.querySelector('.q-feedback');
+  const opts = item.querySelectorAll('.q-opt');
+  const explain = btn.getAttribute('data-explain') || '';
+  opts.forEach(o => o.disabled = true);
+  if(isCorrect){
+    btn.classList.add('opt-correct');
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    btn.classList.add('opt-incorrect');
+    opts.forEach(o => { if(o.getAttribute('data-correct') === 'true') o.classList.add('opt-correct'); });
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait.' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  updateScore();
+}
+
+function resetExercise(){
+  allItems.forEach(item => {
+    item.setAttribute('data-status', 'pending');
+    const input = item.querySelector('.q-input');
+    if(input) input.value = '';
+    const feedback = item.querySelector('.q-feedback');
+    if(feedback) feedback.innerHTML = '';
+    item.querySelectorAll('.q-opt').forEach(o => { o.disabled = false; o.classList.remove('opt-correct','opt-incorrect'); });
+  });
+  document.getElementById('bilan').classList.remove('show');
+  updateScore();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+updateScore();
+
+</script>
+</body>
+</html>
