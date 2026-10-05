@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exercices – Mastery Leçon 2 – Learn Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#0B1220;--navy2:#13213A;--blue:#FF6B1A;--sky:#FFC9A3;--gold:#E8A33D;--gold-light:#FFD9A0;--green:#3FB27F;--green-dark:#2E8C62;--red:#E05252;--red-dark:#C23B3B;--purple:#7C5CBF;--teal:#2F8F8A;--steel:#3B6EA5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#F5F0E8;background-image:linear-gradient(rgba(11,18,32,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(11,18,32,0.05) 1px, transparent 1px);background-size:38px 38px;font-family:'Inter',sans-serif;min-height:100vh;color:var(--navy);padding-bottom:40px;}
+
+  .scorebar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.15);font-size:13px;font-weight:700;}
+  .scorebar .sb-left{display:flex;align-items:center;gap:8px;}
+  .scorebar .sb-icon{font-size:16px;}
+  .scorebar .sb-val{font-size:15px;color:var(--sky);}
+  .scorebar .sb-reset{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:white;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;border-radius:16px;padding:6px 14px;cursor:pointer;}
+  .scorebar .sb-reset:hover{background:rgba(255,255,255,.25);}
+
+  .hero{background:linear-gradient(135deg,#0B1220 0%,#13213A 45%,#FF6B1A 130%);padding:38px 24px 46px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,26,.12),transparent 70%);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:white;box-shadow:0 4px 16px rgba(255,107,26,.45);}
+  .brand-name{font-size:19px;font-weight:800;color:white;letter-spacing:1px;}
+  .brand-name span{color:var(--gold);}
+  .level-badge{display:inline-block;background:rgba(255,107,26,.25);border:1px solid rgba(255,107,26,.4);border-radius:20px;padding:4px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sky);text-transform:uppercase;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(24px,4.5vw,36px);font-weight:800;color:white;line-height:1.2;margin-bottom:8px;position:relative;z-index:1;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero-sub{color:rgba(255,255,255,.7);font-size:13.5px;letter-spacing:.3px;position:relative;z-index:1;max-width:560px;margin:0 auto;line-height:1.6;}
+
+  .content{max-width:760px;margin:0 auto;padding:32px 20px 10px;}
+
+  .how-to{background:white;border-radius:18px;padding:20px 24px;margin-bottom:30px;box-shadow:0 4px 18px rgba(0,0,0,.06);border-left:5px solid var(--sky);font-size:13.5px;color:rgba(11,18,32,.8);line-height:1.7;}
+  .how-to strong{color:var(--navy);}
+
+  .section-head{display:flex;align-items:center;gap:12px;margin:40px 0 16px;}
+  .section-head .sn{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));color:white;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(255,107,26,.3);}
+  .section-head .st{flex:1;}
+  .section-head h2{font-size:18px;font-weight:800;color:var(--navy);}
+  .section-head p{font-size:12.5px;color:rgba(11,18,32,.55);margin-top:2px;}
+
+  .q-item{background:white;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 3px 14px rgba(0,0,0,.05);border-left:4px solid #E7EAF1;transition:border-color .2s;}
+  .q-item[data-status="correct"]{border-left-color:var(--green-dark);}
+  .q-item[data-status="incorrect"]{border-left-color:var(--red-dark);}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:white;border-radius:50%;font-size:11px;font-weight:800;margin-right:8px;flex-shrink:0;}
+  .q-prompt{font-size:14.5px;color:var(--navy);font-weight:600;line-height:1.5;}
+
+  .q-answer-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+  .q-input{font-family:'Inter',sans-serif;font-size:14px;padding:9px 14px;border-radius:10px;border:1.5px solid #E7EAF1;flex:1;min-width:140px;max-width:320px;background:#F4F6FA;color:var(--navy);}
+  .q-input:focus{outline:none;border-color:var(--blue);}
+  .q-check{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;border:none;border-radius:16px;padding:9px 18px;cursor:pointer;background:var(--blue);color:white;transition:opacity .15s;}
+  .q-check:hover{opacity:.88;}
+
+  .q-feedback{margin-top:10px;font-size:13px;font-weight:700;display:none;}
+  .q-item[data-status="correct"] .q-feedback{display:block;color:var(--green-dark);}
+  .q-item[data-status="incorrect"] .q-feedback{display:block;color:var(--red-dark);}
+  .q-feedback .fexp{display:block;margin-top:3px;font-size:12px;color:rgba(11,18,32,.55);font-weight:400;font-style:italic;}
+
+  .q-options{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .q-opt{font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;border:1.5px solid #E7EAF1;border-radius:12px;padding:10px 16px;cursor:pointer;background:#F4F6FA;color:var(--navy);transition:all .15s;text-align:left;}
+  .q-opt:hover:not(:disabled){border-color:var(--blue);}
+  .q-opt:disabled{cursor:default;}
+  .q-opt.opt-correct{background:#E8F3EA;border-color:var(--green-dark);color:var(--green-dark);font-weight:800;}
+  .q-opt.opt-incorrect{background:#FBEAE7;border-color:var(--red-dark);color:var(--red-dark);}
+
+  .info-box{background:#F6E9E4;border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(11,18,32,.8);line-height:1.6;margin-bottom:18px;}
+  .info-box strong{color:var(--navy);}
+
+  .bilan{display:none;background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:20px;padding:30px 28px;margin-top:44px;color:white;text-align:center;}
+  .bilan.show{display:block;}
+  .bilan .bicon{font-size:38px;margin-bottom:10px;}
+  .bilan h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .bilan p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.6;max-width:480px;margin:0 auto 18px;}
+  .bilan .score-big{font-size:34px;font-weight:900;color:var(--gold);margin-bottom:4px;}
+  .restart-btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:20px;padding:11px 24px;cursor:pointer;background:white;color:var(--navy);transition:opacity .15s;}
+  .restart-btn:hover{opacity:.88;}
+
+  footer{text-align:center;padding:28px 20px;color:rgba(11,18,32,.4);font-size:11px;letter-spacing:1.5px;}
+  footer strong{color:var(--purple);}
+</style>
+</head>
+<body>
+
+<div class="scorebar">
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
+</div>
+
+<div class="hero">
+  <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
+  <div class="level-badge">🟠 Mastery C1 · Exercices</div>
+  <h1>Leçon 2 — <em>Débat & Argumentation C1</em></h1>
+  <p class="hero-sub">30 questions pour consolider la méthode PEEL, les connecteurs C1, la réfutation élégante et les phrases clés de la leçon.</p>
+</div>
+
+<div class="content">
+
+  <div class="how-to"><strong>Comment ça marche ?</strong> Répondez à chaque question (QCM ou réponse écrite), puis cliquez sur "Vérifier". Votre score se met à jour en direct en haut de la page. Vous pouvez recommencer autant de fois que vous le souhaitez.</div>
+
+  <div class="section-head"><div class="sn">1</div><div class="st"><h2>Méthode PEEL</h2><p>Structurer un argument en 4 étapes</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">1</span>"A case in point is..." appartient à quelle étape de la méthode PEEL ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Point sert à énoncer la thèse, pas à donner une preuve.">Point</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Evidence</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Explain sert à analyser la preuve, pas à l'introduire.">Explain</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Link sert à conclure et relier, pas à prouver.">Link</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="contention" data-explain="« It is my contention that... » = « Je soutiens que... ».">
+    <div class="q-prompt"><span class="q-num">2</span>Complète l'étape "Point" : "It is my <span class="blank">___</span> that remote work does more harm than good."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">3</span>"This demonstrates that..." appartient à quelle étape de la méthode PEEL ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Point</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Evidence apporte la preuve brute, sans l'analyser.">Evidence</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Explain</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Link</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="stands" data-explain="« It therefore stands to reason that... » = « Il est donc logique que... ».">
+    <div class="q-prompt"><span class="q-num">4</span>Complète : "It therefore <span class="blank">___</span> to reason that hybrid models work best."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">5</span>Que signifie le "L" de la méthode PEEL ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Logic</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Link</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Limit</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Lead</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="evidence" data-explain="On apporte une preuve concrète — c'est l'étape Evidence.">
+    <div class="q-prompt"><span class="q-num">6</span>Quelle étape de PEEL illustre : "Research shows that productivity rose." ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">2</div><div class="st"><h2>Connecteurs C1 vs B2</h2><p>Monter d'un cran par rapport au niveau B2</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">7</span>Quel connecteur exprime l'OPPOSITION au niveau C1 ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Notwithstanding this</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est un connecteur d'addition, pas d'opposition.">What is more</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est un connecteur de conséquence.">It therefore follows that</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="remiss" data-explain="« It would be remiss not to... » = « Ce serait une erreur de ne pas... ».">
+    <div class="q-prompt"><span class="q-num">8</span>Complète le connecteur de CONCESSION : "It would be <span class="blank">___</span> not to acknowledge the risks."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">9</span>"By the same token" appartient à quelle catégorie ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Conséquence</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Addition</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Emphase</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="doubt" data-explain="« Without a shadow of a doubt » = « Sans l'ombre d'un doute ».">
+    <div class="q-prompt"><span class="q-num">10</span>Complète la phrase d'EMPHASE : "Without a shadow of a <span class="blank">___</span>, this is the right call."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">11</span>Quelle phrase exprime une CONSÉQUENCE ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est un connecteur d'addition.">Over and above this</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">It therefore follows that</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est un connecteur d'opposition.">Be that as it may</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="notwithstanding this|be that as it may" data-explain="Les deux sont acceptées : « Notwithstanding this » et « Be that as it may ».">
+    <div class="q-prompt"><span class="q-num">12</span>Donne un équivalent C1 de "but" pour exprimer l'opposition (une des deux expressions vues en cours).</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">3</div><div class="st"><h2>Réfuter &amp; Nuancer avec élégance</h2><p>Garder son professionnalisme même en désaccord</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">13</span>"I'm afraid that argument doesn't hold water" est un exemple de :</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Réfuter</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Concéder, c'est accepter un point avant de nuancer.">Concéder</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Nuancer, c'est éviter les positions trop tranchées.">Nuancer</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="argue" data-explain="« While I take your point, I would argue that... » = concéder puis contre-argumenter.">
+    <div class="q-prompt"><span class="q-num">14</span>Complète : "While I take your point, I would <span class="blank">___</span> that..."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">15</span>"There are merits to both sides of the argument" est un exemple de :</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Réfuter</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Concéder</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Nuancer</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="respect" data-explain="« With respect, I would challenge that assumption. » = réfuter tout en restant courtois.">
+    <div class="q-prompt"><span class="q-num">16</span>Complète la réfutation polie : "With <span class="blank">___</span>, I would challenge that assumption."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">17</span>Quelle phrase sert à CONCÉDER un point avant de nuancer son propos ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The reality is considerably more nuanced.</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">While I take your point, I would argue that...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">I'm afraid that argument doesn't hold water.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="the reality is considerably more nuanced" data-explain="« The reality is considerably more nuanced. »">
+    <div class="q-prompt"><span class="q-num">18</span>Donne une expression anglaise signifiant "la réalité est plus nuancée qu'il n'y paraît".</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">4</div><div class="st"><h2>Phrases Types</h2><p>Complète les 6 phrases clés de la leçon</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="contention">
+    <div class="q-prompt"><span class="q-num">19</span>"It is my <span class="blank">___</span> that remote work does more harm than good."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="said">
+    <div class="q-prompt"><span class="q-num">20</span>"One must concede that boundary erosion is a concern. That <span class="blank">___</span>,..."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="challenge">
+    <div class="q-prompt"><span class="q-num">21</span>"With respect, I would <span class="blank">___</span> that assumption — the data points otherwise."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="light">
+    <div class="q-prompt"><span class="q-num">22</span>"In <span class="blank">___</span> of the above, one can only conclude that a hybrid model is the answer."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="nuanced">
+    <div class="q-prompt"><span class="q-num">23</span>"The reality is considerably more <span class="blank">___</span> than a simple for/against position."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="borne">
+    <div class="q-prompt"><span class="q-num">24</span>"This is <span class="blank">___</span> out by the fact that productivity increased by 13% in remote settings."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">5</div><div class="st"><h2>Révision Générale</h2><p>6 questions pour vérifier tous les acquis</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">25</span>Que signifie le "P" de la méthode PEEL ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Point</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Proof</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Position</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">26</span>Lequel de ces deux connecteurs est le plus "C1" ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="« But » reste un niveau B1-B2.">But</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Notwithstanding this</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">27</span>"I'm afraid that argument doesn't hold water" veut dire que l'argument est :</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Convaincant</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Faible / bancal</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Hors sujet</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="therefore">
+    <div class="q-prompt"><span class="q-num">28</span>Complète le connecteur de conséquence : "It <span class="blank">___</span> follows that remote work requires new management styles."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">29</span>Qui a dit : "The aim of argument, or of discussion, should not be victory, but progress." ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Joseph Joubert</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est la citation de la Leçon 1, pas celle-ci.">Federico Fellini</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Winston Churchill</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="evidence" data-explain="P-E-E-L : la première lettre E est Evidence (la preuve), la seconde est Explain (l'analyse).">
+    <div class="q-prompt"><span class="q-num">30</span>Dans PEEL, que signifie la première lettre "E" (Evidence ou Explain) ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+
+
+  <div class="bilan" id="bilan">
+    <div class="bicon">🎉</div>
+    <div class="score-big" id="bilanScore">0 / 30</div>
+    <h3 id="bilanTitle">Bilan de l'exercice</h3>
+    <p id="bilanMsg"></p>
+    <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
+  </div>
+
+</div>
+
+<footer>© <strong>Learn Right</strong> · English for Every Level · Exercices — Mastery C1 Leçon 2</footer>
+
+<script>
+const BILAN_MSG_90 = "Excellent ! Vous maîtrisez parfaitement la méthode PEEL, les connecteurs C1 et l'art de débattre avec élégance. 🌟";
+const BILAN_MSG_70 = 'Bien joué ! Les bases sont solides — revoyez les connecteurs ou les phrases qui vous ont posé problème avant la Leçon 3.';
+const BILAN_MSG_50 = 'Pas mal, mais il reste du travail. Reprenez le récap de la Leçon 2, surtout la méthode PEEL et les connecteurs C1.';
+const BILAN_MSG_0 = 'Ne vous découragez pas — ces notions C1 demandent de la pratique. Relisez le récap et refaites cet exercice.';
+
+const allItems = Array.from(document.querySelectorAll('.q-item'));
+const TOTAL = allItems.length;
+
+function norm(s){
+  return s.trim().toLowerCase().replace(/['\u2019]/g,"'").replace(/[.!?,]/g,'').replace(/\s+/g,' ');
+}
+
+function updateScore(){
+  const correct = allItems.filter(it => it.getAttribute('data-status') === 'correct').length;
+  const answered = allItems.filter(it => it.getAttribute('data-status') !== 'pending').length;
+  document.getElementById('scoreVal').textContent = correct + ' / ' + TOTAL;
+  if(answered === TOTAL){
+    showBilan(correct);
+  } else {
+    document.getElementById('bilan').classList.remove('show');
+  }
+}
+
+function showBilan(correct){
+  const pct = Math.round(correct/TOTAL*100);
+  document.getElementById('bilanScore').textContent = correct + ' / ' + TOTAL;
+  let title, msg;
+  if(pct >= 90){ title = "Excellent travail ! \ud83c\udf1f"; msg = BILAN_MSG_90; }
+  else if(pct >= 70){ title = "Bien joue !"; msg = BILAN_MSG_70; }
+  else if(pct >= 50){ title = "Pas mal, continue !"; msg = BILAN_MSG_50; }
+  else { title = "On recommence ?"; msg = BILAN_MSG_0; }
+  document.getElementById('bilanTitle').textContent = title;
+  document.getElementById('bilanMsg').textContent = msg;
+  document.getElementById('bilan').classList.add('show');
+}
+
+function checkText(btn){
+  const item = btn.closest('.q-item');
+  const input = item.querySelector('.q-input');
+  const feedback = item.querySelector('.q-feedback');
+  const accepted = (item.getAttribute('data-answers') || '').split('|').map(norm);
+  const explain = item.getAttribute('data-explain') || '';
+  const userVal = norm(input.value);
+  const isCorrect = accepted.includes(userVal) && userVal.length > 0;
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    const shown = (item.getAttribute('data-answers') || '').split('|')[0];
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait \u2014 r\u00e9ponse attendue : <strong>' + shown + '</strong>' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  updateScore();
+}
+
+function checkMCQ(btn, isCorrect){
+  const item = btn.closest('.q-item');
+  const feedback = item.querySelector('.q-feedback');
+  const opts = item.querySelectorAll('.q-opt');
+  const explain = btn.getAttribute('data-explain') || '';
+  opts.forEach(o => o.disabled = true);
+  if(isCorrect){
+    btn.classList.add('opt-correct');
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    btn.classList.add('opt-incorrect');
+    opts.forEach(o => { if(o.getAttribute('data-correct') === 'true') o.classList.add('opt-correct'); });
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait.' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  updateScore();
+}
+
+function resetExercise(){
+  allItems.forEach(item => {
+    item.setAttribute('data-status', 'pending');
+    const input = item.querySelector('.q-input');
+    if(input) input.value = '';
+    const feedback = item.querySelector('.q-feedback');
+    if(feedback) feedback.innerHTML = '';
+    item.querySelectorAll('.q-opt').forEach(o => { o.disabled = false; o.classList.remove('opt-correct','opt-incorrect'); });
+  });
+  document.getElementById('bilan').classList.remove('show');
+  updateScore();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+updateScore();
+
+</script>
+</body>
+</html>
