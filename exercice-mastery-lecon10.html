@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exercices – Mastery Leçon 10 – Learn Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#0B1220;--navy2:#13213A;--blue:#FF6B1A;--sky:#FFC9A3;--gold:#E8A33D;--gold-light:#FFD9A0;--green:#3FB27F;--green-dark:#2E8C62;--red:#E05252;--red-dark:#C23B3B;--purple:#7C5CBF;--teal:#2F8F8A;--steel:#3B6EA5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#F5F0E8;background-image:linear-gradient(rgba(11,18,32,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(11,18,32,0.05) 1px, transparent 1px);background-size:38px 38px;font-family:'Inter',sans-serif;min-height:100vh;color:var(--navy);padding-bottom:40px;}
+
+  .scorebar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.15);font-size:13px;font-weight:700;}
+  .scorebar .sb-left{display:flex;align-items:center;gap:8px;}
+  .scorebar .sb-icon{font-size:16px;}
+  .scorebar .sb-val{font-size:15px;color:var(--sky);}
+  .scorebar .sb-reset{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:white;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;border-radius:16px;padding:6px 14px;cursor:pointer;}
+  .scorebar .sb-reset:hover{background:rgba(255,255,255,.25);}
+
+  .hero{background:linear-gradient(135deg,#0B1220 0%,#13213A 45%,#FF6B1A 130%);padding:38px 24px 46px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,26,.12),transparent 70%);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:white;box-shadow:0 4px 16px rgba(255,107,26,.45);}
+  .brand-name{font-size:19px;font-weight:800;color:white;letter-spacing:1px;}
+  .brand-name span{color:var(--gold);}
+  .level-badge{display:inline-block;background:rgba(255,107,26,.25);border:1px solid rgba(255,107,26,.4);border-radius:20px;padding:4px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sky);text-transform:uppercase;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(24px,4.5vw,36px);font-weight:800;color:white;line-height:1.2;margin-bottom:8px;position:relative;z-index:1;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero-sub{color:rgba(255,255,255,.7);font-size:13.5px;letter-spacing:.3px;position:relative;z-index:1;max-width:560px;margin:0 auto;line-height:1.6;}
+
+  .content{max-width:760px;margin:0 auto;padding:32px 20px 10px;}
+
+  .how-to{background:white;border-radius:18px;padding:20px 24px;margin-bottom:30px;box-shadow:0 4px 18px rgba(0,0,0,.06);border-left:5px solid var(--sky);font-size:13.5px;color:rgba(11,18,32,.8);line-height:1.7;}
+  .how-to strong{color:var(--navy);}
+
+  .section-head{display:flex;align-items:center;gap:12px;margin:40px 0 16px;}
+  .section-head .sn{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));color:white;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(255,107,26,.3);}
+  .section-head .st{flex:1;}
+  .section-head h2{font-size:18px;font-weight:800;color:var(--navy);}
+  .section-head p{font-size:12.5px;color:rgba(11,18,32,.55);margin-top:2px;}
+
+  .q-item{background:white;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 3px 14px rgba(0,0,0,.05);border-left:4px solid #E7EAF1;transition:border-color .2s;}
+  .q-item[data-status="correct"]{border-left-color:var(--green-dark);}
+  .q-item[data-status="incorrect"]{border-left-color:var(--red-dark);}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:white;border-radius:50%;font-size:11px;font-weight:800;margin-right:8px;flex-shrink:0;}
+  .q-prompt{font-size:14.5px;color:var(--navy);font-weight:600;line-height:1.5;}
+
+  .q-answer-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+  .q-input{font-family:'Inter',sans-serif;font-size:14px;padding:9px 14px;border-radius:10px;border:1.5px solid #E7EAF1;flex:1;min-width:140px;max-width:320px;background:#F4F6FA;color:var(--navy);}
+  .q-input:focus{outline:none;border-color:var(--blue);}
+  .q-check{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;border:none;border-radius:16px;padding:9px 18px;cursor:pointer;background:var(--blue);color:white;transition:opacity .15s;}
+  .q-check:hover{opacity:.88;}
+
+  .q-feedback{margin-top:10px;font-size:13px;font-weight:700;display:none;}
+  .q-item[data-status="correct"] .q-feedback{display:block;color:var(--green-dark);}
+  .q-item[data-status="incorrect"] .q-feedback{display:block;color:var(--red-dark);}
+  .q-feedback .fexp{display:block;margin-top:3px;font-size:12px;color:rgba(11,18,32,.55);font-weight:400;font-style:italic;}
+
+  .q-options{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .q-opt{font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;border:1.5px solid #E7EAF1;border-radius:12px;padding:10px 16px;cursor:pointer;background:#F4F6FA;color:var(--navy);transition:all .15s;text-align:left;}
+  .q-opt:hover:not(:disabled){border-color:var(--blue);}
+  .q-opt:disabled{cursor:default;}
+  .q-opt.opt-correct{background:#E8F3EA;border-color:var(--green-dark);color:var(--green-dark);font-weight:800;}
+  .q-opt.opt-incorrect{background:#FBEAE7;border-color:var(--red-dark);color:var(--red-dark);}
+
+  .info-box{background:#F6E9E4;border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(11,18,32,.8);line-height:1.6;margin-bottom:18px;}
+  .info-box strong{color:var(--navy);}
+
+  .bilan{display:none;background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:20px;padding:30px 28px;margin-top:44px;color:white;text-align:center;}
+  .bilan.show{display:block;}
+  .bilan .bicon{font-size:38px;margin-bottom:10px;}
+  .bilan h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .bilan p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.6;max-width:480px;margin:0 auto 18px;}
+  .bilan .score-big{font-size:34px;font-weight:900;color:var(--gold);margin-bottom:4px;}
+  .restart-btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:20px;padding:11px 24px;cursor:pointer;background:white;color:var(--navy);transition:opacity .15s;}
+  .restart-btn:hover{opacity:.88;}
+
+  footer{text-align:center;padding:28px 20px;color:rgba(11,18,32,.4);font-size:11px;letter-spacing:1.5px;}
+  footer strong{color:var(--purple);}
+</style>
+</head>
+<body>
+
+<div class="scorebar">
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
+</div>
+
+<div class="hero">
+  <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
+  <div class="level-badge">🟠 Mastery C1-C2 · Exercices</div>
+  <h1>Leçon 10 — <em>Grammaire C2 Avancée</em></h1>
+  <p class="hero-sub">30 questions pour consolider les nominalisations complexes, le discours indirect libre et les participes apposés de la leçon.</p>
+</div>
+
+<div class="content">
+
+  <div class="how-to"><strong>Comment ça marche ?</strong> Répondez à chaque question (QCM ou réponse écrite), puis cliquez sur "Vérifier". Votre score se met à jour en direct en haut de la page. Vous pouvez recommencer autant de fois que vous le souhaitez.</div>
+
+  <div class="section-head"><div class="sn">1</div><div class="st"><h2>Nominalisations Complexes</h2><p>Transformer des propositions en groupes nominaux denses</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="resignation" data-explain="« Resignation » est la nominalisation du verbe « to resign » — on compresse la proposition en un groupe nominal.">
+    <div class="q-prompt"><span class="q-num">1</span>Transforme : "that he resigned" → "his <span class="blank">___</span>" (nom dérivé du verbe)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="prematurity" data-explain="« Prematurity » est la nominalisation de l'adjectif « premature ».">
+    <div class="q-prompt"><span class="q-num">2</span>Transforme : "the decision was premature" → "the <span class="blank">___</span> of the decision" (nom dérivé de l'adjectif)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">3</span>Quelle structure illustre le mieux une « structure dense » de nominalisation ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">The extent to which the policy succeeded remains unclear.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The policy succeeded, but nobody is sure how much.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Did the policy succeed? Nobody knows.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The policy was successful in some ways.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="was said to" data-explain="« He was said to have known » est un double passif : passif de « say » + infinitif passé « to have known ».">
+    <div class="q-prompt"><span class="q-num">4</span>Complète (double passif) : "He <span class="blank">___</span> <span class="blank">___</span> have known about the risk." (= on dit qu'il savait)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">5</span>Quelle phrase utilise correctement le principe de nominalisation ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Their failure to meet the deadline surprised everyone.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The fact they failed to meet the deadline, it surprised everyone.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">They failed meeting the deadline surprised everyone.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Their failing of meeting the deadline surprised everyone.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="lateness" data-explain="« Lateness » nominalise l'idée exprimée par « the fact that they are late ».">
+    <div class="q-prompt"><span class="q-num">6</span>Transforme : "the fact that they are late" → "their <span class="blank">___</span>" (nom dérivé de l'adjectif « late »)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">2</div><div class="st"><h2>Discours Indirect Libre &amp; Participes</h2><p>Style littéraire et apposition stylistique de niveau C2</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">7</span>Laquelle de ces phrases illustre le discours indirect libre ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">The CEO was confident. The numbers were strong. Surely the board would approve.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The CEO said that he was confident and that the board would approve.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The CEO thought: "I am confident the board will approve."</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Is the CEO confident that the board will approve?</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Recognising|Recognizing" data-explain="Le participe présent en tête de phrase (« Recognising the urgency... ») remplace une proposition causale sans la nommer explicitement.">
+    <div class="q-prompt"><span class="q-num">8</span>Complète (participe présent apposé) : "<span class="blank">___</span> the urgency, the team worked through the night." (recognising)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Exhausted" data-explain="Le participe passé apposé (« Exhausted by... ») exprime la cause de façon concise, typique du style C2.">
+    <div class="q-prompt"><span class="q-num">9</span>Complète (participe passé apposé) : "<span class="blank">___</span> by months of negotiation, she finally accepted the terms." (exhausted)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">10</span>Quelle phrase illustre un « absolu nominatif » ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">All options having been exhausted, a vote was called.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Because all options had been exhausted, a vote was called.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">All options were exhausted, so a vote was called.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Incorrect : cette version a un participe apposé classique, pas un absolu nominatif (le sujet doit être explicite et différent : 'All options having been exhausted').">Having exhausted all options, a vote was called.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Reviewing" data-explain="Le participe présent en tête de phrase remplace « As she reviewed the report thoroughly... ».">
+    <div class="q-prompt"><span class="q-num">11</span>Complète (participe présent apposé) : "<span class="blank">___</span> the report thoroughly, she found several inconsistencies." (reviewing)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">12</span>Qu'est-ce qui caractérise le discours indirect libre, par rapport au discours rapporté classique ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Il mélange narrateur et personnage, sans verbe introducteur ('he said that...')</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Il utilise toujours des guillemets</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Il est réservé à l'oral informel</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Il nécessite systématiquement le passé simple</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">3</div><div class="st"><h2>Phrases Types</h2><p>Complète les 6 phrases clés de la leçon</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="contested">
+    <div class="q-prompt"><span class="q-num">13</span>"The extent to which climate change has affected agricultural yields remains <span class="blank">___</span>."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Notwithstanding">
+    <div class="q-prompt"><span class="q-num">14</span>"<span class="blank">___</span> the reservations expressed, the motion was carried unanimously." (= nonobstant)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="exhausted">
+    <div class="q-prompt"><span class="q-num">15</span>"Having <span class="blank">___</span> all other options, the board had little choice but to divest." (= épuisé)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="costly">
+    <div class="q-prompt"><span class="q-num">16</span>"The decision, taken in haste, was to prove <span class="blank">___</span> in the months that followed."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="restructured">
+    <div class="q-prompt"><span class="q-num">17</span>"So profound was the impact of the recession that entire sectors were <span class="blank">___</span>."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="heed">
+    <div class="q-prompt"><span class="q-num">18</span>"The fact that so few took <span class="blank">___</span> of the warnings makes the outcome all the more tragic." (= tenu compte)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">4</div><div class="st"><h2>Application Pratique</h2><p>Transforme et reconnais les structures en contexte</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="expansion" data-explain="Nominaliser « would expand » en « expansion » compresse la proposition en un groupe nominal dense.">
+    <div class="q-prompt"><span class="q-num">19</span>Réécris avec nominalisation : "The company announced that it would expand." → "The company announced its <span class="blank">___</span>." (= expansion)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">20</span>Quelle phrase utilise le mieux une structure de focalisation C2 (« the fact that »several) ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">The fact that she resigned so suddenly shocked the entire board.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Correct grammaticalement mais n'utilise pas la structure de focalisation « the fact that ».">She resigned so suddenly, which shocked the entire board.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">She resigned, and the board was shocked.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The board was shocked she resigned.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="Written" data-explain="Le participe passé en tête de phrase (« Written in haste... ») remplace la proposition causale « Because it was written... ».">
+    <div class="q-prompt"><span class="q-num">21</span>Réécris avec participe passé apposé : "Because it was written in haste, the report contained several errors." → "<span class="blank">___</span> in haste, the report contained several errors."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">22</span>Dans quel type de texte le discours indirect libre et les nominalisations denses sont-ils les plus fréquents ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Articles éditoriaux et romans littéraires de qualité</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">SMS entre amis</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Instructions techniques courtes</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="having" data-explain="L'absolu nominatif garde un sujet propre (« The negotiations ») suivi de « having + participe passé », sans conjonction.">
+    <div class="q-prompt"><span class="q-num">23</span>Transforme avec absolu nominatif : "Because the negotiations had failed, the two sides parted ways." → "The negotiations <span class="blank">___</span> failed, the two sides parted ways." (= ayant)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">24</span>Laquelle de ces phrases N'illustre PAS correctement une structure C2 vue dans la leçon ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">The fact he was late, it annoyed his colleagues.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The fact that he was late annoyed his colleagues.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Having arrived late, he apologised to the team.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">So late was he that the meeting had already started.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">5</div><div class="st"><h2>Révision Générale</h2><p>6 questions pour vérifier tous les acquis</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">25</span>Laquelle de ces phrases N'est PAS une nominalisation correcte ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">The team announced they will success the project.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The team announced the success of the project.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">His resignation surprised everyone.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The prematurity of the decision was widely criticised.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="in so far as|to such an extent that|the extent to which|the degree to which" data-explain="Ces structures expriment un degré ou une mesure de façon très soignée, typique du niveau C2.">
+    <div class="q-prompt"><span class="q-num">26</span>Donne un exemple de structure de degré avancée vue dans la leçon (in so far as / to such an extent that / the extent to which).</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">27</span>Les nominalisations complexes et le discours indirect libre servent principalement à :</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Produire un style dense, formel et littéraire typique du C2</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Simplifier le vocabulaire pour les débutants</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Remplacer systématiquement le présent par le passé</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="having" data-explain="« All options having been exhausted » est un absolu nominatif : sujet propre + having + participe passé, sans conjonction.">
+    <div class="q-prompt"><span class="q-num">28</span>Complète (absolu nominatif) : "All options <span class="blank">___</span> been exhausted, a vote was called." (= ayant)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">29</span>Quelle phrase combine le mieux nominalisation ET participe apposé ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Recognising the urgency of the situation, the board approved his resignation immediately.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The board recognised the situation was urgent, so they approved that he resigned.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">The situation was urgent. The board approved his resignation.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Because it was urgent, the board said yes to his resigning.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="tragic" data-explain="« All the more tragic » conclut la phrase-type de la leçon sur les structures de focalisation C2.">
+    <div class="q-prompt"><span class="q-num">30</span>Complète : "The fact that so few took heed of the warnings makes the outcome all the more <span class="blank">___</span>."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+
+
+  <div class="bilan" id="bilan">
+    <div class="bicon">🎉</div>
+    <div class="score-big" id="bilanScore">0 / 30</div>
+    <h3 id="bilanTitle">Bilan de l'exercice</h3>
+    <p id="bilanMsg"></p>
+    <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
+  </div>
+
+</div>
+
+<footer>© <strong>Learn Right</strong> · English for Every Level · Exercices — Mastery C1-C2 Leçon 10</footer>
+
+<script>
+const BILAN_MSG_90 = 'Excellent ! Vous maîtrisez parfaitement les nominalisations complexes et le discours indirect libre. Le niveau C2 est à portée de main ! 🌟';
+const BILAN_MSG_70 = 'Bien joué ! Les bases sont solides — revoyez les structures qui vous ont posé problème avant la Leçon 11.';
+const BILAN_MSG_50 = 'Pas mal, mais il reste du travail. Reprenez le récap de la Leçon 10, surtout les nominalisations et les participes apposés.';
+const BILAN_MSG_0 = 'Ne vous découragez pas — ces structures sont parmi les plus avancées de tout le programme Mastery. Relisez le récap et refaites cet exercice.';
+
+const allItems = Array.from(document.querySelectorAll('.q-item'));
+const TOTAL = allItems.length;
+
+function norm(s){
+  return s.trim().toLowerCase().replace(/['\u2019]/g,"'").replace(/[.!?,]/g,'').replace(/\s+/g,' ');
+}
+
+function updateScore(){
+  const correct = allItems.filter(it => it.getAttribute('data-status') === 'correct').length;
+  const answered = allItems.filter(it => it.getAttribute('data-status') !== 'pending').length;
+  document.getElementById('scoreVal').textContent = correct + ' / ' + TOTAL;
+  if(answered === TOTAL){
+    showBilan(correct);
+  } else {
+    document.getElementById('bilan').classList.remove('show');
+  }
+}
+
+function showBilan(correct){
+  const pct = Math.round(correct/TOTAL*100);
+  document.getElementById('bilanScore').textContent = correct + ' / ' + TOTAL;
+  let title, msg;
+  if(pct >= 90){ title = "Excellent travail ! \ud83c\udf1f"; msg = BILAN_MSG_90; }
+  else if(pct >= 70){ title = "Bien joue !"; msg = BILAN_MSG_70; }
+  else if(pct >= 50){ title = "Pas mal, continue !"; msg = BILAN_MSG_50; }
+  else { title = "On recommence ?"; msg = BILAN_MSG_0; }
+  document.getElementById('bilanTitle').textContent = title;
+  document.getElementById('bilanMsg').textContent = msg;
+  document.getElementById('bilan').classList.add('show');
+}
+
+function checkText(btn){
+  const item = btn.closest('.q-item');
+  const input = item.querySelector('.q-input');
+  const feedback = item.querySelector('.q-feedback');
+  const accepted = (item.getAttribute('data-answers') || '').split('|').map(norm);
+  const explain = item.getAttribute('data-explain') || '';
+  const userVal = norm(input.value);
+  const isCorrect = accepted.includes(userVal) && userVal.length > 0;
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    const shown = (item.getAttribute('data-answers') || '').split('|')[0];
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait \u2014 r\u00e9ponse attendue : <strong>' + shown + '</strong>' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  updateScore();
+}
+
+function checkMCQ(btn, isCorrect){
+  const item = btn.closest('.q-item');
+  const feedback = item.querySelector('.q-feedback');
+  const opts = item.querySelectorAll('.q-opt');
+  const explain = btn.getAttribute('data-explain') || '';
+  opts.forEach(o => o.disabled = true);
+  if(isCorrect){
+    btn.classList.add('opt-correct');
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    btn.classList.add('opt-incorrect');
+    opts.forEach(o => { if(o.getAttribute('data-correct') === 'true') o.classList.add('opt-correct'); });
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait.' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  updateScore();
+}
+
+function resetExercise(){
+  allItems.forEach(item => {
+    item.setAttribute('data-status', 'pending');
+    const input = item.querySelector('.q-input');
+    if(input) input.value = '';
+    const feedback = item.querySelector('.q-feedback');
+    if(feedback) feedback.innerHTML = '';
+    item.querySelectorAll('.q-opt').forEach(o => { o.disabled = false; o.classList.remove('opt-correct','opt-incorrect'); });
+  });
+  document.getElementById('bilan').classList.remove('show');
+  updateScore();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+updateScore();
+
+</script>
+</body>
+</html>
