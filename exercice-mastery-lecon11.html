@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Exercices – Mastery Leçon 11 – Learn Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#0B1220;--navy2:#13213A;--blue:#FF6B1A;--sky:#FFC9A3;--gold:#E8A33D;--gold-light:#FFD9A0;--green:#3FB27F;--green-dark:#2E8C62;--red:#E05252;--red-dark:#C23B3B;--purple:#7C5CBF;--teal:#2F8F8A;--steel:#3B6EA5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#F5F0E8;background-image:linear-gradient(rgba(11,18,32,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(11,18,32,0.05) 1px, transparent 1px);background-size:38px 38px;font-family:'Inter',sans-serif;min-height:100vh;color:var(--navy);padding-bottom:40px;}
+
+  .scorebar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.15);font-size:13px;font-weight:700;}
+  .scorebar .sb-left{display:flex;align-items:center;gap:8px;}
+  .scorebar .sb-icon{font-size:16px;}
+  .scorebar .sb-val{font-size:15px;color:var(--sky);}
+  .scorebar .sb-reset{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:white;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;border-radius:16px;padding:6px 14px;cursor:pointer;}
+  .scorebar .sb-reset:hover{background:rgba(255,255,255,.25);}
+
+  .hero{background:linear-gradient(135deg,#0B1220 0%,#13213A 45%,#FF6B1A 130%);padding:38px 24px 46px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,26,.12),transparent 70%);}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1;}
+  .brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--blue));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:white;box-shadow:0 4px 16px rgba(255,107,26,.45);}
+  .brand-name{font-size:19px;font-weight:800;color:white;letter-spacing:1px;}
+  .brand-name span{color:var(--gold);}
+  .level-badge{display:inline-block;background:rgba(255,107,26,.25);border:1px solid rgba(255,107,26,.4);border-radius:20px;padding:4px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sky);text-transform:uppercase;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(24px,4.5vw,36px);font-weight:800;color:white;line-height:1.2;margin-bottom:8px;position:relative;z-index:1;}
+  .hero h1 em{font-style:normal;color:var(--gold);}
+  .hero-sub{color:rgba(255,255,255,.7);font-size:13.5px;letter-spacing:.3px;position:relative;z-index:1;max-width:560px;margin:0 auto;line-height:1.6;}
+
+  .content{max-width:760px;margin:0 auto;padding:32px 20px 10px;}
+
+  .how-to{background:white;border-radius:18px;padding:20px 24px;margin-bottom:30px;box-shadow:0 4px 18px rgba(0,0,0,.06);border-left:5px solid var(--sky);font-size:13.5px;color:rgba(11,18,32,.8);line-height:1.7;}
+  .how-to strong{color:var(--navy);}
+
+  .section-head{display:flex;align-items:center;gap:12px;margin:40px 0 16px;}
+  .section-head .sn{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));color:white;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(255,107,26,.3);}
+  .section-head .st{flex:1;}
+  .section-head h2{font-size:18px;font-weight:800;color:var(--navy);}
+  .section-head p{font-size:12.5px;color:rgba(11,18,32,.55);margin-top:2px;}
+
+  .q-item{background:white;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 3px 14px rgba(0,0,0,.05);border-left:4px solid #E7EAF1;transition:border-color .2s;}
+  .q-item[data-status="correct"]{border-left-color:var(--green-dark);}
+  .q-item[data-status="incorrect"]{border-left-color:var(--red-dark);}
+  .q-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:white;border-radius:50%;font-size:11px;font-weight:800;margin-right:8px;flex-shrink:0;}
+  .q-prompt{font-size:14.5px;color:var(--navy);font-weight:600;line-height:1.5;}
+
+  .q-answer-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+  .q-input{font-family:'Inter',sans-serif;font-size:14px;padding:9px 14px;border-radius:10px;border:1.5px solid #E7EAF1;flex:1;min-width:140px;max-width:320px;background:#F4F6FA;color:var(--navy);}
+  .q-input:focus{outline:none;border-color:var(--blue);}
+  .q-check{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;border:none;border-radius:16px;padding:9px 18px;cursor:pointer;background:var(--blue);color:white;transition:opacity .15s;}
+  .q-check:hover{opacity:.88;}
+
+  .q-feedback{margin-top:10px;font-size:13px;font-weight:700;display:none;}
+  .q-item[data-status="correct"] .q-feedback{display:block;color:var(--green-dark);}
+  .q-item[data-status="incorrect"] .q-feedback{display:block;color:var(--red-dark);}
+  .q-feedback .fexp{display:block;margin-top:3px;font-size:12px;color:rgba(11,18,32,.55);font-weight:400;font-style:italic;}
+
+  .q-options{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .q-opt{font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;border:1.5px solid #E7EAF1;border-radius:12px;padding:10px 16px;cursor:pointer;background:#F4F6FA;color:var(--navy);transition:all .15s;text-align:left;}
+  .q-opt:hover:not(:disabled){border-color:var(--blue);}
+  .q-opt:disabled{cursor:default;}
+  .q-opt.opt-correct{background:#E8F3EA;border-color:var(--green-dark);color:var(--green-dark);font-weight:800;}
+  .q-opt.opt-incorrect{background:#FBEAE7;border-color:var(--red-dark);color:var(--red-dark);}
+
+  .info-box{background:#F6E9E4;border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(11,18,32,.8);line-height:1.6;margin-bottom:18px;}
+  .info-box strong{color:var(--navy);}
+
+  .bilan{display:none;background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:20px;padding:30px 28px;margin-top:44px;color:white;text-align:center;}
+  .bilan.show{display:block;}
+  .bilan .bicon{font-size:38px;margin-bottom:10px;}
+  .bilan h3{font-size:20px;font-weight:800;margin-bottom:8px;}
+  .bilan p{font-size:13.5px;color:rgba(255,255,255,.8);line-height:1.6;max-width:480px;margin:0 auto 18px;}
+  .bilan .score-big{font-size:34px;font-weight:900;color:var(--gold);margin-bottom:4px;}
+  .restart-btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:20px;padding:11px 24px;cursor:pointer;background:white;color:var(--navy);transition:opacity .15s;}
+  .restart-btn:hover{opacity:.88;}
+
+  footer{text-align:center;padding:28px 20px;color:rgba(11,18,32,.4);font-size:11px;letter-spacing:1.5px;}
+  footer strong{color:var(--purple);}
+</style>
+</head>
+<body>
+
+<div class="scorebar">
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
+</div>
+
+<div class="hero">
+  <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
+  <div class="level-badge">🟠 Mastery C1-C2 · Exercices</div>
+  <h1>Leçon 11 — <em>Compréhension &amp; Expression C2</em></h1>
+  <p class="hero-sub">30 questions pour consolider la compréhension de l'implicite, de l'ironie et des marqueurs discursifs natifs de la leçon.</p>
+</div>
+
+<div class="content">
+
+  <div class="how-to"><strong>Comment ça marche ?</strong> Répondez à chaque question (QCM ou réponse écrite), puis cliquez sur "Vérifier". Votre score se met à jour en direct en haut de la page. Vous pouvez recommencer autant de fois que vous le souhaitez.</div>
+
+  <div class="section-head"><div class="sn">1</div><div class="st"><h2>Comprendre l'Implicite C2</h2><p>Understatement, ironie et sous-entendus culturels</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">1</span>Un collègue britannique décrit un projet catastrophique comme « not entirely satisfactory ». Que veut-il réellement dire ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Le projet est un désastre complet.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le projet est globalement bon, avec de petits défauts.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Il n'a pas d'opinion sur le projet.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le projet est parfait.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="concerning" data-explain="« Slightly concerning » est un understatement classique : l'adverbe atténuateur masque une inquiétude bien plus forte qu'il n'y paraît.">
+    <div class="q-prompt"><span class="q-num">2</span>Complète (understatement) : « Slightly <span class="blank">___</span> » peut signifier, en registre britannique, « alarmant ».</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">3</span>Après un échec évident, un collègue dit sur un ton plat : « Well, that went well. » Qu'est-ce qui signale l'ironie ici ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Le contraste entre le ton neutre/plat et la réalité catastrophique du contexte.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le point d'exclamation à la fin de la phrase.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le mot « well » répété deux fois.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Rien ne signale l'ironie, la phrase est sincère.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="suggest" data-explain="« One might perhaps suggest... » est une formule de hedging : elle exprime en réalité une suggestion forte tout en adoucissant le ton en surface.">
+    <div class="q-prompt"><span class="q-num">4</span>Complète (hedging) : « One might perhaps <span class="blank">___</span> that the figures are misleading. » (= suggérer)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">5</span>Dans un contexte professionnel, que signifie réellement l'euphémisme « restructuring » ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Des licenciements massifs.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Une réorganisation sans impact sur les effectifs.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Une promotion collective.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Un déménagement de bureaux.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="whether" data-explain="« I wonder whether... » formulée comme une question rhétorique implique fortement que la réponse est non, sans l'affirmer directement.">
+    <div class="q-prompt"><span class="q-num">6</span>Transforme en question rhétorique implicite : « Personne n'a vraiment lu le rapport. » → « I wonder <span class="blank">___</span> anyone has actually read the report. » (= si)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">2</div><div class="st"><h2>Marqueurs Discursifs C2</h2><p>Les petits mots qui font sonner l'anglais vraiment natif</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="as" data-explain="« As it were » signale que l'expression qui précède est employée de façon métaphorique, pas littérale.">
+    <div class="q-prompt"><span class="q-num">7</span>Complète (pensée en direct, marque la métaphore) : « He's, <span class="blank">___</span> it were, the backbone of the team. » (= pour ainsi dire)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">8</span>Quelle expression sert à signaler une réservation stylistique, quand on cherche le mot juste ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">For want of a better word...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">To put it bluntly...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">If you follow me...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">You see what I mean?</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="or rather" data-explain="« Or rather » permet de corriger ou préciser élégamment ce qu'on vient de dire, en remontant le niveau de précision.">
+    <div class="q-prompt"><span class="q-num">9</span>Complète (correction élégante) : « He was rude — <span class="blank">___</span>, downright offensive. » (= ou plutôt)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">10</span>Quelle expression introduit un commentaire méta-discursif, où le locuteur commente sa propre façon de parler ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Not to put too fine a point on it...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="« So to speak » marque plutôt une métaphore, comme « as it were ».">So to speak...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">For lack of a better term...</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Or perhaps more accurately...</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="follow" data-explain="« If you follow me » vérifie que l'interlocuteur suit le raisonnement, tout en gardant un ton soigné et naturel.">
+    <div class="q-prompt"><span class="q-num">11</span>Complète (engagement de l'interlocuteur) : « It's a question of trust, if you <span class="blank">___</span> me. » (= suivez)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">12</span>À quoi servent principalement les marqueurs discursifs comme « so to speak », « or rather », « if you follow me » ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">À nuancer, corriger ou commenter son propre discours en temps réel, comme le ferait un locuteur natif cultivé.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">À remplacer systématiquement les temps verbaux.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">À simplifier le vocabulaire pour les débutants.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Ils n'ont aucune fonction, ce sont des mots vides.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">3</div><div class="st"><h2>Phrases Types</h2><p>Complète les 6 phrases clés de la leçon</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="reluctance">
+    <div class="q-prompt"><span class="q-num">13</span>"I couldn't help but notice a certain... <span class="blank">___</span> in the room when the figures were announced." (= réticence)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="coincidental">
+    <div class="q-prompt"><span class="q-num">14</span>"One has to ask whether the timing of this announcement is entirely <span class="blank">___</span>." (= fortuit)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="persuaded">
+    <div class="q-prompt"><span class="q-num">15</span>"With the greatest respect, I'm not entirely <span class="blank">___</span> by that line of reasoning." (= convaincu)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="wonders">
+    <div class="q-prompt"><span class="q-num">16</span>"I take your point entirely — and yet, one <span class="blank">___</span> whether..." (= se demande)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="reading">
+    <div class="q-prompt"><span class="q-num">17</span>"That is, if I may say so, a rather optimistic <span class="blank">___</span> of the situation." (= lecture/interprétation)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="when">
+    <div class="q-prompt"><span class="q-num">18</span>"The question, it seems to me, is not whether but <span class="blank">___</span>."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">4</div><div class="st"><h2>Application Pratique</h2><p>Reconnais et réagis aux nuances de registre en contexte</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">19</span>Un client dit : « The service was... adequate. » avec une pause marquée avant « adequate ». Que faut-il comprendre ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Le service était décevant, voire mauvais — la pause et le mot faible signalent un understatement.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le service était excellent.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le client n'a pas d'avis.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Le mot « adequate » est toujours positif, sans ambiguïté.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="might" data-explain="« I might perhaps suggest... » adoucit une objection ferme en une formule polie, typique du registre C2 professionnel.">
+    <div class="q-prompt"><span class="q-num">20</span>Réponds avec hedging poli à un désaccord : « I <span class="blank">___</span> perhaps suggest that we reconsider the timeline. » (= pourrais)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">21</span>Quelle réponse illustre le mieux une correction élégante en cours de phrase ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">He was difficult — or rather, impossible to work with.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">He was difficult. He was impossible to work with.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">He was difficult and impossible to work with.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">He was difficult, impossible, to work with.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="make" data-explain="« Does that make sense? » est une formule d'engagement de l'interlocuteur, naturelle même en registre soigné.">
+    <div class="q-prompt"><span class="q-num">22</span>Complète pour vérifier la compréhension de ton interlocuteur : « Does that <span class="blank">___</span> sense? »</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">23</span>Pourquoi l'euphémisme professionnel « challenges » est-il souvent utilisé à la place de « failures » ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Pour atténuer une réalité négative tout en restant techniquement honnête.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Parce que « failures » est grammaticalement incorrect en contexte professionnel.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Les deux mots ont exactement le même sens, sans nuance.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">« Challenges » est réservé à l'oral informel uniquement.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="well" data-explain="Dire « that went well » après un échec évident, sur un ton plat, est un exemple classique d'ironie britannique par understatement inversé.">
+    <div class="q-prompt"><span class="q-num">24</span>Réécris avec ironie contextuelle (ton plat après un échec) : après un lancement raté, on dit simplement « Well, that went <span class="blank">___</span>. »</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="section-head"><div class="sn">5</div><div class="st"><h2>Révision Générale</h2><p>6 questions pour vérifier tous les acquis</p></div></div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">25</span>Laquelle de ces phrases N'est PAS un exemple d'understatement britannique ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">This is an absolute catastrophe and a total disaster.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Not entirely satisfactory.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Slightly concerning.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">A bit of a setback.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="as it were|so to speak" data-explain="« As it were » et « so to speak » servent tous deux à signaler qu'une expression est employée au figuré, pas littéralement.">
+    <div class="q-prompt"><span class="q-num">26</span>Donne un exemple de marqueur discursif qui sert à signaler une métaphore (« pour ainsi dire »).</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">27</span>Pourquoi l'implicite et l'ironie sont-ils si importants au niveau C2 ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Parce que comprendre ce qui n'est pas dit explicitement est essentiel pour interagir naturellement avec des locuteurs natifs cultivés.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Parce qu'ils remplacent systématiquement la grammaire de base.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Parce qu'ils sont réservés à l'écrit académique uniquement.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="One" data-explain="« One might perhaps suggest... » utilise le pronom impersonnel « one », typique du registre soigné britannique.">
+    <div class="q-prompt"><span class="q-num">28</span>Complète (hedging) : « <span class="blank">___</span> might perhaps suggest... » est une formule typique pour adoucir une opinion forte. (pronom)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">29</span>Quelle paire illustre le mieux la différence entre un euphémisme et son sens réel ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">« Let go » = licencié</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">« Let go » = promu</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">« Let go » = en vacances</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">« Let go » = en formation</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="when" data-explain="Cette phrase conclut la leçon sur les marqueurs discursifs et l'implicite C2 : le sous-entendu est que l'événement est inévitable, seule la date reste incertaine.">
+    <div class="q-prompt"><span class="q-num">30</span>Complète la phrase-type finale de la leçon : « The question, it seems to me, is not whether but <span class="blank">___</span>. »</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+
+
+  <div class="bilan" id="bilan">
+    <div class="bicon">🎉</div>
+    <div class="score-big" id="bilanScore">0 / 30</div>
+    <h3 id="bilanTitle">Bilan de l'exercice</h3>
+    <p id="bilanMsg"></p>
+    <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
+  </div>
+
+</div>
+
+<footer>© <strong>Learn Right</strong> · English for Every Level · Exercices — Mastery C1-C2 Leçon 11</footer>
+
+<script>
+const BILAN_MSG_90 = "Excellent ! Vous saisissez parfaitement l'implicite, l'ironie et les marqueurs discursifs natifs. Le C2 est tout proche ! 🌟";
+const BILAN_MSG_70 = 'Bien joué ! Les bases sont solides — revoyez les nuances qui vous ont posé problème avant la Leçon 12, la grande finale.';
+const BILAN_MSG_50 = "Pas mal, mais il reste du travail. Reprenez le récap de la Leçon 11, surtout l'understatement et les marqueurs discursifs.";
+const BILAN_MSG_0 = "Ne vous découragez pas — comprendre l'implicite est l'une des compétences les plus subtiles du niveau C2. Relisez le récap et refaites cet exercice.";
+
+const allItems = Array.from(document.querySelectorAll('.q-item'));
+const TOTAL = allItems.length;
+
+function norm(s){
+  return s.trim().toLowerCase().replace(/['\u2019]/g,"'").replace(/[.!?,]/g,'').replace(/\s+/g,' ');
+}
+
+function updateScore(){
+  const correct = allItems.filter(it => it.getAttribute('data-status') === 'correct').length;
+  const answered = allItems.filter(it => it.getAttribute('data-status') !== 'pending').length;
+  document.getElementById('scoreVal').textContent = correct + ' / ' + TOTAL;
+  if(answered === TOTAL){
+    showBilan(correct);
+  } else {
+    document.getElementById('bilan').classList.remove('show');
+  }
+}
+
+function showBilan(correct){
+  const pct = Math.round(correct/TOTAL*100);
+  document.getElementById('bilanScore').textContent = correct + ' / ' + TOTAL;
+  let title, msg;
+  if(pct >= 90){ title = "Excellent travail ! \ud83c\udf1f"; msg = BILAN_MSG_90; }
+  else if(pct >= 70){ title = "Bien joue !"; msg = BILAN_MSG_70; }
+  else if(pct >= 50){ title = "Pas mal, continue !"; msg = BILAN_MSG_50; }
+  else { title = "On recommence ?"; msg = BILAN_MSG_0; }
+  document.getElementById('bilanTitle').textContent = title;
+  document.getElementById('bilanMsg').textContent = msg;
+  document.getElementById('bilan').classList.add('show');
+}
+
+function checkText(btn){
+  const item = btn.closest('.q-item');
+  const input = item.querySelector('.q-input');
+  const feedback = item.querySelector('.q-feedback');
+  const accepted = (item.getAttribute('data-answers') || '').split('|').map(norm);
+  const explain = item.getAttribute('data-explain') || '';
+  const userVal = norm(input.value);
+  const isCorrect = accepted.includes(userVal) && userVal.length > 0;
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  if(isCorrect){
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    const shown = (item.getAttribute('data-answers') || '').split('|')[0];
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait \u2014 r\u00e9ponse attendue : <strong>' + shown + '</strong>' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  updateScore();
+}
+
+function checkMCQ(btn, isCorrect){
+  const item = btn.closest('.q-item');
+  const feedback = item.querySelector('.q-feedback');
+  const opts = item.querySelectorAll('.q-opt');
+  const explain = btn.getAttribute('data-explain') || '';
+  opts.forEach(o => o.disabled = true);
+  if(isCorrect){
+    btn.classList.add('opt-correct');
+    feedback.innerHTML = '\u2705 Correct !';
+  } else {
+    btn.classList.add('opt-incorrect');
+    opts.forEach(o => { if(o.getAttribute('data-correct') === 'true') o.classList.add('opt-correct'); });
+    feedback.innerHTML = '\u274c Pas tout \u00e0 fait.' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
+  }
+  item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  updateScore();
+}
+
+function resetExercise(){
+  allItems.forEach(item => {
+    item.setAttribute('data-status', 'pending');
+    const input = item.querySelector('.q-input');
+    if(input) input.value = '';
+    const feedback = item.querySelector('.q-feedback');
+    if(feedback) feedback.innerHTML = '';
+    item.querySelectorAll('.q-opt').forEach(o => { o.disabled = false; o.classList.remove('opt-correct','opt-incorrect'); });
+  });
+  document.getElementById('bilan').classList.remove('show');
+  updateScore();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+updateScore();
+
+</script>
+</body>
+</html>
