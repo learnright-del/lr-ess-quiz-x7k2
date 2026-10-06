@@ -61,6 +61,11 @@
 
   /* VOCAB GRID (food + containers) */
   .fam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+  .num-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;}
+  .num-tile{background:#FBF6EE;border-radius:12px;padding:12px 8px;text-align:center;}
+  .num-tile .num-digit{font-family:'Inter',sans-serif;font-size:17px;font-weight:900;color:#96432E;display:block;}
+  .num-tile .num-en{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:800;color:var(--blue);margin-top:2px;}
+  .num-tile .num-fr{font-size:10.5px;color:rgba(61,43,31,.5);margin-top:2px;}
   .fam-pill{background:#FBF6EE;border-radius:12px;padding:12px 8px;text-align:center;transition:transform .18s;cursor:default;}
   .fam-pill:hover{transform:scale(1.05);}
   .fam-emoji{font-size:22px;display:block;margin-bottom:4px;}
@@ -187,6 +192,31 @@
     <div class="fam-grid" id="containers-grid"></div>
   </div>
 
+  <!-- LES NOMBRES -->
+  <div class="section-block">
+    <div class="section-header">
+      <div class="section-icon icon-purple">🔢</div>
+      <div><h2>Les Nombres · Numbers 20-1000</h2><p>Pour compter, payer et donner des quantités précises</p></div>
+    </div>
+    <div class="num-grid">
+      <div class="num-tile"><span class="num-digit">20</span><div class="num-en">Twenty</div><div class="num-fr">Vingt</div></div>
+      <div class="num-tile"><span class="num-digit">30</span><div class="num-en">Thirty</div><div class="num-fr">Trente</div></div>
+      <div class="num-tile"><span class="num-digit">40</span><div class="num-en">Forty</div><div class="num-fr">Quarante</div></div>
+      <div class="num-tile"><span class="num-digit">50</span><div class="num-en">Fifty</div><div class="num-fr">Cinquante</div></div>
+      <div class="num-tile"><span class="num-digit">60</span><div class="num-en">Sixty</div><div class="num-fr">Soixante</div></div>
+      <div class="num-tile"><span class="num-digit">70</span><div class="num-en">Seventy</div><div class="num-fr">Soixante-dix</div></div>
+      <div class="num-tile"><span class="num-digit">80</span><div class="num-en">Eighty</div><div class="num-fr">Quatre-vingts</div></div>
+      <div class="num-tile"><span class="num-digit">90</span><div class="num-en">Ninety</div><div class="num-fr">Quatre-vingt-dix</div></div>
+      <div class="num-tile"><span class="num-digit">100</span><div class="num-en">A hundred</div><div class="num-fr">Cent</div></div>
+      <div class="num-tile"><span class="num-digit">1000</span><div class="num-en">A thousand</div><div class="num-fr">Mille</div></div>
+    </div>
+    <div style="margin-top:14px;background:#FFF8E7;border-radius:10px;padding:12px 16px;font-size:13px;color:rgba(61,43,31,.75);line-height:1.7;">
+      ⚡ <strong>21 à 99</strong> : dizaine + trait d'union + unité → <em>twenty-one (21), forty-five (45), ninety-nine (99)</em>.<br>
+      ⚡ <strong>Hundred / thousand</strong> ne prennent JAMAIS de -s après un nombre : <em>two hundred</em>, pas "two hundreds". En anglais britannique, <strong>and</strong> relie "hundred" au reste : 125 = <em>a hundred and twenty-five</em>.<br>
+      ⚡ <strong>Les prix suivent la même règle</strong> : £3.50 = "three pounds fifty" · £125 = "a hundred and twenty-five pounds".
+    </div>
+  </div>
+
   <!-- PHRASES TYPES -->
   <div class="section-block">
     <div class="section-header">
@@ -230,6 +260,7 @@
       <li><div class="check-icon">✓</div>Distinguer les noms dénombrables et indénombrables</li>
       <li><div class="check-icon">✓</div>Utiliser some / any correctement</li>
       <li><div class="check-icon">✓</div>Exprimer des quantités avec les bons contenants</li>
+      <li><div class="check-icon">✓</div>Compter et lire des prix de 20 à 1000</li>
       <li><div class="check-icon">✓</div>Faire ses courses et demander les prix en anglais</li>
       <li><div class="check-icon">✓</div>Exprimer ses goûts alimentaires (love / like / hate)</li>
     </ul>
@@ -239,10 +270,10 @@
   <div class="homework-box">
     <h3>📝 Devoir pour la prochaine fois · Homework</h3>
     <ul>
-      <li><div class="hw-bullet">1</div>Écrivez votre <strong>liste de courses idéale</strong> en anglais — au moins 15 produits avec les bons contenants.</li>
-      <li><div class="hw-bullet">2</div>Classez 10 aliments en <strong>Countable ou Uncountable</strong> et faites une phrase avec chacun.</li>
-      <li><div class="hw-bullet">3</div>Apprenez le <strong>dialogue du supermarché</strong> par cœur.</li>
-      <li><div class="hw-bullet">4</div><strong>Bonus :</strong> Regardez les étiquettes de vos aliments à la maison et essayez de lire les ingrédients en anglais !</li>
+      <li><div class="hw-bullet">1</div><span>Écrivez votre <strong>liste de courses idéale</strong> en anglais — au moins 15 produits avec les bons contenants.</span></li>
+      <li><div class="hw-bullet">2</div><span>Classez 10 aliments en <strong>Countable ou Uncountable</strong> et faites une phrase avec chacun.</span></li>
+      <li><div class="hw-bullet">3</div><span>Apprenez le <strong>dialogue du supermarché</strong> par cœur.</span></li>
+      <li><div class="hw-bullet">4</div><span><strong>Bonus :</strong> Regardez les étiquettes de vos aliments à la maison et essayez de lire les ingrédients en anglais !</span></li>
     </ul>
   </div>
 

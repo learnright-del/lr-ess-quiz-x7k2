@@ -83,7 +83,7 @@
 <body>
 
 <div class="scorebar">
-  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 38</span></span></div>
   <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
 </div>
 
@@ -91,7 +91,7 @@
   <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
   <div class="level-badge">📚 Essentials · Débutants (A1) · Exercices</div>
   <h1>Leçon 5 — <em>Nourriture & Courses</em></h1>
-  <p class="hero-sub">30 questions pour s'entraîner en autonomie : le vocabulaire de la nourriture, countable/uncountable, les contenants et les faux amis.</p>
+  <p class="hero-sub">38 questions pour s'entraîner en autonomie : le vocabulaire de la nourriture, countable/uncountable, les contenants, les nombres de 20 à 1000 et les faux amis.</p>
 </div>
 
 <div class="content">
@@ -294,11 +294,58 @@
     <div class="q-feedback"></div>
   </div>
 
+  <div class="section-head"><div class="sn">6</div><div class="st"><h2>Les Nombres · 20 à 1000</h2><p>Pour compter, payer et donner des quantités précises</p></div></div>
+  <div class="q-item" data-status="pending" data-answers="thirty-four">
+    <div class="q-prompt"><span class="q-num">1</span>Écris "34" en anglais.</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="fifty-eight">
+    <div class="q-prompt"><span class="q-num">2</span>Écris "58" en anglais.</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="a hundred|one hundred">
+    <div class="q-prompt"><span class="q-num">3</span>Écris "100" en anglais.</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="two hundred and thirteen">
+    <div class="q-prompt"><span class="q-num">4</span>Écris "213" en anglais.</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="a thousand|one thousand">
+    <div class="q-prompt"><span class="q-num">5</span>Écris "1000" en anglais.</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="and">
+    <div class="q-prompt"><span class="q-num">6</span>Complète : "I have two hundred ___ five dollars."</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">7</span>Quelle phrase est correcte ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Après un nombre précis, &quot;hundred&quot; ne prend JAMAIS de -s.">"I have two hundreds dollars."</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"I have two hundred dollars."</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">8</span>Quelle phrase est correcte ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="Même règle pour &quot;hundred&quot; : jamais de -s après un nombre précis.">"Three hundreds people came to the shop."</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"Three hundred people came to the shop."</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
 
 
   <div class="bilan" id="bilan">
     <div class="bicon">🎉</div>
-    <div class="score-big" id="bilanScore">0 / 30</div>
+    <div class="score-big" id="bilanScore">0 / 38</div>
     <h3 id="bilanTitle">Bilan de l'exercice</h3>
     <p id="bilanMsg"></p>
     <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
