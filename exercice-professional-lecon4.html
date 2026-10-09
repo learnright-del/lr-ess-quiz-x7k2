@@ -67,6 +67,23 @@
   .info-box{background:#F6E9E4;border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(61,43,31,.8);line-height:1.6;margin-bottom:18px;}
   .info-box strong{color:var(--navy);}
 
+  .passage-box{background:#FBF6EE;border:1.5px solid #E5D7C6;border-radius:14px;padding:20px 22px;margin-bottom:18px;font-size:14px;color:rgba(61,43,31,.88);line-height:1.85;}
+  .passage-box .ptitle{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:12px;}
+  .passage-box p{margin-bottom:10px;}
+  .passage-box p:last-child{margin-bottom:0;}
+
+  .chip-pool{display:flex;flex-wrap:wrap;gap:10px;background:#FBF6EE;border:2px dashed #E5D7C6;border-radius:14px;padding:16px;margin-bottom:18px;min-height:60px;}
+  .q-item.drag-chip{display:block;width:fit-content;max-width:100%;padding:9px 14px;margin-bottom:0;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:grab;font-size:13px;font-weight:600;line-height:1.4;border-left-width:3px;border-left-style:solid;}
+  .q-item.drag-chip.selected{outline:2px solid var(--blue);outline-offset:2px;}
+  .q-item.drag-chip[data-status]:not([data-status="pending"]){cursor:default;}
+  .q-item.drag-chip .chip-mark{font-weight:800;white-space:nowrap;}
+  .drop-columns{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:720px){.drop-columns{grid-template-columns:1fr 1fr;}}
+  .drop-col{background:white;border-radius:14px;padding:14px;min-height:180px;border:2px dashed #E5D7C6;box-shadow:0 3px 14px rgba(0,0,0,.05);transition:border-color .15s,background .15s;cursor:pointer;}
+  .drop-col.dragover{border-color:var(--blue);background:#FFF8F3;}
+  .drop-col h4{font-size:12.5px;font-weight:800;color:var(--purple);margin-bottom:10px;text-align:center;}
+  .drop-col .col-chips{display:flex;flex-direction:column;gap:8px;min-height:40px;}
+
   .bilan{display:none;background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:20px;padding:30px 28px;margin-top:44px;color:white;text-align:center;}
   .bilan.show{display:block;}
   .bilan .bicon{font-size:38px;margin-bottom:10px;}
@@ -83,7 +100,7 @@
 <body>
 
 <div class="scorebar">
-  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 38</span></span></div>
   <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
 </div>
 
@@ -91,7 +108,7 @@
   <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
   <div class="level-badge">🟡 Professional B1-B2 · Exercices</div>
   <h1>Leçon 4 — <em>Conditionnels 0-3 & I WISH</em></h1>
-  <p class="hero-sub">30 questions pour s'entraîner en autonomie : les quatre conditionnels, UNLESS, I WISH et les erreurs classiques.</p>
+  <p class="hero-sub">38 questions pour s'entraîner en autonomie : les quatre conditionnels, UNLESS, I WISH, les erreurs classiques et un classement des conditionnels dans un texte.</p>
 </div>
 
 <div class="content">
@@ -288,11 +305,51 @@
     <div class="q-feedback"></div>
   </div>
 
+  <div class="section-head"><div class="sn">6</div><div class="st"><h2>Classe les Conditionnels</h2><p>Lis le texte, puis fais glisser chaque phrase dans la bonne colonne</p></div></div>
 
+  <div class="passage-box">
+    <div class="ptitle">📋 Compte-rendu d'équipe — projet "Client Platform"</div>
+    <p>Every Monday, our team reviews priorities together: if a project falls behind schedule, we always flag it immediately in the status report. Policies like this keep everyone accountable, and if a client requests an urgent change, the account manager informs the whole team the same day.</p>
+    <p>This week, we're close to finishing the new client platform. If the final tests pass tomorrow, we will launch on Friday as planned, and if the launch goes smoothly, the team will celebrate with a long lunch on Monday.</p>
+    <p>Marco keeps saying that if he had more free time this month, he would write the full user documentation himself, and if the budget were a little bigger, he would also hire a freelance designer to polish the interface.</p>
+    <p>Looking back, the team still talks about last year's rushed launch: if we had tested the system more thoroughly back then, we would have avoided the bug that crashed the client's dashboard, and if the project manager had asked for one more week, the whole team would have slept a lot better that month.</p>
+  </div>
+
+  <div class="info-box">💡 Attrape chaque phrase ci-dessous (glisser-déposer, ou clique sur la phrase puis sur la colonne) et dépose-la dans la bonne colonne : conditionnel 0, 1, 2 ou 3.</div>
+
+  <div class="chip-pool" id="chipPool">
+    <div id="chip1" class="q-item drag-chip" data-status="pending" data-zone="2" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If he had more free time this month, he would write the full user documentation himself.</div>
+    <div id="chip2" class="q-item drag-chip" data-status="pending" data-zone="0" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If a project falls behind schedule, we always flag it immediately in the status report.</div>
+    <div id="chip3" class="q-item drag-chip" data-status="pending" data-zone="3" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If we had tested the system more thoroughly back then, we would have avoided the bug that crashed the client's dashboard.</div>
+    <div id="chip4" class="q-item drag-chip" data-status="pending" data-zone="1" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If the final tests pass tomorrow, we will launch on Friday as planned.</div>
+    <div id="chip5" class="q-item drag-chip" data-status="pending" data-zone="0" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If a client requests an urgent change, the account manager informs the whole team the same day.</div>
+    <div id="chip6" class="q-item drag-chip" data-status="pending" data-zone="3" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If the project manager had asked for one more week, the whole team would have slept a lot better that month.</div>
+    <div id="chip7" class="q-item drag-chip" data-status="pending" data-zone="1" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If the launch goes smoothly, the team will celebrate with a long lunch on Monday.</div>
+    <div id="chip8" class="q-item drag-chip" data-status="pending" data-zone="2" draggable="true" ondragstart="dragStart(event)" onclick="selectChip(this)">If the budget were a little bigger, he would also hire a freelance designer to polish the interface.</div>
+  </div>
+
+  <div class="drop-columns">
+    <div class="drop-col" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="dropChip(event,'0')" onclick="placeInColumn('0')">
+      <h4>Conditionnel 0</h4>
+      <div class="col-chips" id="col0"></div>
+    </div>
+    <div class="drop-col" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="dropChip(event,'1')" onclick="placeInColumn('1')">
+      <h4>Conditionnel 1</h4>
+      <div class="col-chips" id="col1"></div>
+    </div>
+    <div class="drop-col" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="dropChip(event,'2')" onclick="placeInColumn('2')">
+      <h4>Conditionnel 2</h4>
+      <div class="col-chips" id="col2"></div>
+    </div>
+    <div class="drop-col" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="dropChip(event,'3')" onclick="placeInColumn('3')">
+      <h4>Conditionnel 3</h4>
+      <div class="col-chips" id="col3"></div>
+    </div>
+  </div>
 
   <div class="bilan" id="bilan">
     <div class="bicon">🎉</div>
-    <div class="score-big" id="bilanScore">0 / 30</div>
+    <div class="score-big" id="bilanScore">0 / 38</div>
     <h3 id="bilanTitle">Bilan de l'exercice</h3>
     <p id="bilanMsg"></p>
     <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
@@ -375,6 +432,62 @@ function checkMCQ(btn, isCorrect){
   updateScore();
 }
 
+let selectedChip = null;
+
+function dragStart(ev){
+  if(ev.target.getAttribute('data-status') !== 'pending'){ ev.preventDefault(); return; }
+  ev.dataTransfer.setData('text/plain', ev.target.id);
+}
+
+function allowDrop(ev){
+  ev.preventDefault();
+  ev.currentTarget.classList.add('dragover');
+}
+
+function dragLeave(ev){
+  ev.currentTarget.classList.remove('dragover');
+}
+
+function dropChip(ev, zone){
+  ev.preventDefault();
+  ev.currentTarget.classList.remove('dragover');
+  const id = ev.dataTransfer.getData('text/plain');
+  const chip = document.getElementById(id);
+  if(chip) placeChip(chip, zone);
+}
+
+function selectChip(chip){
+  if(chip.getAttribute('data-status') !== 'pending') return;
+  if(selectedChip === chip){
+    selectedChip.classList.remove('selected');
+    selectedChip = null;
+    return;
+  }
+  if(selectedChip) selectedChip.classList.remove('selected');
+  selectedChip = chip;
+  chip.classList.add('selected');
+}
+
+function placeInColumn(zone){
+  if(!selectedChip) return;
+  placeChip(selectedChip, zone);
+  selectedChip = null;
+}
+
+function placeChip(chip, zone){
+  chip.classList.remove('selected');
+  const correctZone = chip.getAttribute('data-zone');
+  const isCorrect = correctZone === zone;
+  chip.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
+  chip.setAttribute('draggable', 'false');
+  const mark = document.createElement('span');
+  mark.className = 'chip-mark';
+  mark.textContent = isCorrect ? ' ✅' : (' ❌ (cond. ' + correctZone + ')');
+  chip.appendChild(mark);
+  document.getElementById('col' + zone).appendChild(chip);
+  updateScore();
+}
+
 function resetExercise(){
   allItems.forEach(item => {
     item.setAttribute('data-status', 'pending');
@@ -383,7 +496,15 @@ function resetExercise(){
     const feedback = item.querySelector('.q-feedback');
     if(feedback) feedback.innerHTML = '';
     item.querySelectorAll('.q-opt').forEach(o => { o.disabled = false; o.classList.remove('opt-correct','opt-incorrect'); });
+    if(item.classList.contains('drag-chip')){
+      item.setAttribute('draggable', 'true');
+      item.classList.remove('selected');
+      const mark = item.querySelector('.chip-mark');
+      if(mark) mark.remove();
+      document.getElementById('chipPool').appendChild(item);
+    }
   });
+  selectedChip = null;
   document.getElementById('bilan').classList.remove('show');
   updateScore();
   window.scrollTo({top:0, behavior:'smooth'});
