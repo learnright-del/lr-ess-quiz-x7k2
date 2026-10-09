@@ -67,6 +67,12 @@
   .info-box{background:#F6E9E4;border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(61,43,31,.8);line-height:1.6;margin-bottom:18px;}
   .info-box strong{color:var(--navy);}
 
+  .passage-box{background:#FBF6EE;border:1.5px solid #E5D7C6;border-radius:14px;padding:20px 22px;margin-bottom:22px;font-size:14px;color:rgba(61,43,31,.88);line-height:1.85;}
+  .passage-box .ptitle{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:12px;}
+  .passage-box p{margin-bottom:10px;}
+  .passage-box p:last-child{margin-bottom:0;}
+  .passage-box .pmodal{font-weight:800;color:var(--purple);}
+
   .bilan{display:none;background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:20px;padding:30px 28px;margin-top:44px;color:white;text-align:center;}
   .bilan.show{display:block;}
   .bilan .bicon{font-size:38px;margin-bottom:10px;}
@@ -83,7 +89,7 @@
 <body>
 
 <div class="scorebar">
-  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 30</span></span></div>
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 38</span></span></div>
   <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
 </div>
 
@@ -91,7 +97,7 @@
   <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
   <div class="level-badge">🟡 Professional B1-B2 · Exercices</div>
   <h1>Leçon 3 — <em>Les Modaux & Quantifieurs</em></h1>
-  <p class="hero-sub">30 questions pour s'entraîner en autonomie : la gamme complète des modaux, les modaux passés (+ PP), les quantifieurs et les erreurs classiques.</p>
+  <p class="hero-sub">38 questions pour s'entraîner en autonomie : la gamme complète des modaux, les modaux passés (+ PP), les quantifieurs, les erreurs classiques et le repérage des modaux dans un texte.</p>
 </div>
 
 <div class="content">
@@ -288,11 +294,75 @@
     <div class="q-feedback"></div>
   </div>
 
+  <div class="section-head"><div class="sn">6</div><div class="st"><h2>Repère les Modaux (dans un texte)</h2><p>Lis le texte puis réponds aux questions</p></div></div>
 
+  <div class="passage-box">
+    <div class="ptitle">✉️ E-mail — Léa (RH) à Sam (nouvel employé)</div>
+    <p><strong>Subject:</strong> A few tips before your first day</p>
+    <p>Hi Sam,</p>
+    <p>Welcome to the team! Here's some useful information before Monday.</p>
+    <p>You <span class="pmodal">should</span> arrive ten minutes early on your first day — it always makes a good impression. You <span class="pmodal">ought to</span> bring a notebook too, because the morning meetings move fast.</p>
+    <p>You<span class="pmodal">'d better</span> confirm your parking badge with HR before Monday, or you won't be able to park on site.</p>
+    <p>You <span class="pmodal">must</span> wear your badge at all times in the building — it's a safety rule. However, you <span class="pmodal">don't have to</span> wear a suit — smart casual is perfectly fine here.</p>
+    <p>See you soon,<br/>Léa</p>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="should">
+    <div class="q-prompt"><span class="q-num">1</span>Quel modal est utilisé dans : "You should arrive ten minutes early on your first day" ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">2</span>Dans cette phrase, "should" exprime...</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">un conseil amical</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="SHOULD exprime un conseil, pas une obligation imposée par un règlement.">une obligation stricte imposée par un règlement</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="ought to">
+    <div class="q-prompt"><span class="q-num">3</span>Quel modal est utilisé dans : "You ought to bring a notebook too" ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">4</span>Ici, "ought to" a un sens...</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">proche de "should" (un conseil)</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="OUGHT TO est très proche de SHOULD (conseil) — il n'est pas plus fort que MUST.">plus fort que "must"</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="had better|'d better">
+    <div class="q-prompt"><span class="q-num">5</span>Quelle expression modale est utilisée dans : "You'd better confirm your parking badge with HR before Monday" ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">6</span>"Had better" exprime ici...</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">un avertissement : il y a une conséquence négative si on n'obéit pas</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="HAD BETTER est plus fort qu'un simple conseil : il sous-entend un risque ou une conséquence négative (ici, ne pas pouvoir se garer).">un simple conseil, sans conséquence particulière</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending" data-answers="must">
+    <div class="q-prompt"><span class="q-num">7</span>Quel modal est utilisé dans : "You must wear your badge at all times in the building" ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">8</span>Dans la dernière phrase, "you don't have to wear a suit" signifie que porter un costume...</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">n'est pas obligatoire, c'est un choix</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="DON'T HAVE TO exprime l'absence d'obligation, pas une interdiction. L'interdiction se dirait MUSTN'T.">est interdit</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
 
   <div class="bilan" id="bilan">
     <div class="bicon">🎉</div>
-    <div class="score-big" id="bilanScore">0 / 30</div>
+    <div class="score-big" id="bilanScore">0 / 38</div>
     <h3 id="bilanTitle">Bilan de l'exercice</h3>
     <p id="bilanMsg"></p>
     <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
