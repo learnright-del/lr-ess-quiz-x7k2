@@ -134,6 +134,12 @@
 .adj-tag .tag-audio-icon.playing{color:var(--blue);transform:translateY(-50%) scale(1.3);}
 .struct-row{position:relative;padding-right:50px;}
 .struct-audio{position:absolute;right:14px;top:50%;transform:translateY(-50%);}
+
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;animation:none !important;transition:none !important;}
+  .intro-card,.section-block{opacity:1 !important;transform:none !important;}
+  .progress-fill{width:16.66% !important;}
+}
 </style>
 </head>
 <body>
