@@ -95,6 +95,12 @@
 
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
   .section-block:nth-child(1){animation-delay:.05s}.section-block:nth-child(2){animation-delay:.10s}.section-block:nth-child(3){animation-delay:.15s}.section-block:nth-child(4){animation-delay:.20s}
+
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;animation:none !important;transition:none !important;}
+  .intro-card,.section-block{opacity:1 !important;transform:none !important;}
+  .progress-fill{width:16.66% !important;}
+}
 </style>
 </head>
 <body>
@@ -169,9 +175,9 @@
   <div class="homework-box">
     <h3>📝 Devoir · Homework</h3>
     <ul>
-      <li><div class="hw-bullet">1</div>Reformulez ces <strong>5 phrases</strong> avec une cleft sentence : "Tom solved the problem / We need more resources / The meeting caused confusion / She really does care / I've never seen such results."</li>
-      <li><div class="hw-bullet">2</div>Écrivez un <strong>paragraphe de 8-10 phrases</strong> sur une situation professionnelle en utilisant au moins <strong>4 structures différentes</strong> de cette leçon.</li>
-      <li><div class="hw-bullet">3</div>Préparez le <strong>Scénario 2</strong> (présenter des résultats décevants) pour le présenter oralement à la prochaine séance.</li>
+      <li><div class="hw-bullet">1</div><span>Reformulez ces <strong>5 phrases</strong> avec une cleft sentence : "Tom solved the problem / We need more resources / The meeting caused confusion / She really does care / I've never seen such results."</span></li>
+      <li><div class="hw-bullet">2</div><span>Écrivez un <strong>paragraphe de 8-10 phrases</strong> sur une situation professionnelle en utilisant au moins <strong>4 structures différentes</strong> de cette leçon.</span></li>
+      <li><div class="hw-bullet">3</div><span>Préparez le <strong>Scénario 2</strong> (présenter des résultats décevants) pour le présenter oralement à la prochaine séance.</span></li>
     </ul>
   </div>
 
