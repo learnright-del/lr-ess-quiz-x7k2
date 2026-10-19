@@ -145,6 +145,12 @@
   .prep-fr{font-size:10px;color:rgba(61,43,31,.5);margin:2px 0 6px;}
   .prep-ex{font-size:10.5px;color:rgba(61,43,31,.65);font-style:italic;line-height:1.4;min-height:28px;}
   .prep-audio-btn{margin-top:8px;}
+
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;animation:none !important;transition:none !important;}
+  .intro-card,.section-block{opacity:1 !important;transform:none !important;}
+  .progress-fill{width:16.66% !important;}
+}
 </style>
 </head>
 <body>
