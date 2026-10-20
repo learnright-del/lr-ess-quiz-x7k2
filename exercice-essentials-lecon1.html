@@ -11,7 +11,6 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#F5F0E8;background-image:linear-gradient(rgba(61,43,31,0.05) 1px, transparent 1px),linear-gradient(90deg, rgba(61,43,31,0.05) 1px, transparent 1px);background-size:38px 38px;font-family:'Inter',sans-serif;min-height:100vh;color:var(--navy);padding-bottom:40px;}
 
-  /* SCORE BAR */
   .scorebar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.15);font-size:13px;font-weight:700;}
   .scorebar .sb-left{display:flex;align-items:center;gap:8px;}
   .scorebar .sb-icon{font-size:16px;}
@@ -19,7 +18,6 @@
   .scorebar .sb-reset{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:white;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;border-radius:16px;padding:6px 14px;cursor:pointer;}
   .scorebar .sb-reset:hover{background:rgba(255,255,255,.25);}
 
-  /* HERO */
   .hero{background:linear-gradient(135deg,#3D2B1F 0%,#C4785A 100%);padding:38px 24px 46px;position:relative;overflow:hidden;text-align:center;}
   .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(196,120,90,.12),transparent 70%);}
   .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1;}
@@ -49,7 +47,7 @@
   .q-prompt{font-size:14.5px;color:var(--navy);font-weight:600;line-height:1.5;}
 
   .q-answer-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap;}
-  .q-input{font-family:'Inter',sans-serif;font-size:14px;padding:9px 14px;border-radius:10px;border:1.5px solid #E5D7C6;flex:1;min-width:140px;max-width:260px;background:#FBF6EE;color:var(--navy);}
+  .q-input{font-family:'Inter',sans-serif;font-size:14px;padding:9px 14px;border-radius:10px;border:1.5px solid #E5D7C6;flex:1;min-width:140px;max-width:320px;background:#FBF6EE;color:var(--navy);}
   .q-input:focus{outline:none;border-color:var(--blue);}
   .q-check{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;border:none;border-radius:16px;padding:9px 18px;cursor:pointer;background:var(--blue);color:white;transition:opacity .15s;}
   .q-check:hover{opacity:.88;}
@@ -85,7 +83,7 @@
 <body>
 
 <div class="scorebar">
-  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 36</span></span></div>
+  <div class="sb-left"><span class="sb-icon">📊</span><span>Score : <span class="sb-val" id="scoreVal">0 / 33</span></span></div>
   <button class="sb-reset" onclick="resetExercise()">↺ Recommencer</button>
 </div>
 
@@ -93,7 +91,7 @@
   <div class="brand"><div class="brand-icon">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
   <div class="level-badge">📚 Essentials · Débutants (A1) · Exercices</div>
   <h1>Leçon 1 — <em>Hello World!</em></h1>
-  <p class="hero-sub">36 questions pour s'entraîner en autonomie : l'alphabet, les salutations, se présenter, les chiffres de 1 à 20, les états/sentiments et les phrases du quotidien.</p>
+  <p class="hero-sub">33 questions pour s'entraîner en autonomie : l'alphabet, les salutations, se présenter, les chiffres 1-20, et les erreurs classiques à éviter.</p>
 </div>
 
 <div class="content">
@@ -101,321 +99,261 @@
   <div class="how-to">💡 Répondez à chaque question puis cliquez sur <strong>Vérifier</strong> (ou choisissez directement une réponse). Votre score se met à jour en haut de la page. Vous pouvez recommencer autant de fois que vous voulez.</div>
 
   <!-- SECTION 1: ALPHABET -->
-  <div class="section-head"><div class="sn">1</div><div class="st"><h2>L'Alphabet</h2><p>Choisissez la bonne réponse</p></div></div>
+  <div class="section-head"><div class="sn">1</div><div class="st"><h2>L'Alphabet</h2><p>Lettres, ordre et épellation</p></div></div>
 
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">1</span>Quelle lettre vient juste après "G" ?</div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">1</span>Combien de lettres y a-t-il dans l'alphabet anglais ?</div>
     <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">F</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">H</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">I</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">24</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">26</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">28</button>
     </div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">2</span>Quelle lettre vient juste avant "M" ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">K</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">L</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">N</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">3</span>Laquelle de ces lettres est une voyelle ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">D</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">E</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">F</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">4</span>Comment épelle-t-on le mot "CAT" (chat) ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false,'En anglais, le son dur \"K\" au début de CAT s\\'écrit avec la lettre C.')">"K-A-T"</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">"C-A-T"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"S-A-T"</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">5</span>Combien de lettres contient l'alphabet anglais ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">24</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">26</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">28</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">6</span>Quelle lettre se prononce "zed" en anglais britannique ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">Z</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">S</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">C</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <!-- SECTION 2: LES SALUTATIONS -->
-  <div class="section-head"><div class="sn">2</div><div class="st"><h2>Les Salutations</h2><p>Choisissez la bonne réponse</p></div></div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">1</span>Pour dire bonjour avant midi, on dit :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Good evening"</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Good morning"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Good night"</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">2</span>"Goodbye!" veut dire :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">Bonjour</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">Au revoir</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">Merci</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">3</span>Que répond-on à "How are you?" si on va bien ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"I'm fine, thank you!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"My name is Sarah."</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Nice to meet you!"</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">4</span>"Nice to meet you!" se dit :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">en se présentant pour la première fois</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">en disant au revoir</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">en demandant l'âge</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">5</span>Pour saluer le soir, on dit :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Good morning"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Good afternoon"</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Good evening"</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">6</span>"See you later!" veut dire :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">Bonsoir</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">À plus tard !</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">Comment ça va ?</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <!-- SECTION 3: SE PRESENTER -->
-  <div class="section-head"><div class="sn">3</div><div class="st"><h2>Se Présenter</h2><p>Traduisez ou complétez en anglais</p></div></div>
-
-  <div class="q-item" data-status="pending" data-points="1" data-answers="whats your name|what's your name|what is your name">
-    <div class="q-prompt"><span class="q-num">1</span>Traduis : "Comment tu t'appelles ?"</div>
-    <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1" data-answers="nice to meet you">
-    <div class="q-prompt"><span class="q-num">2</span>Traduis : "Enchanté(e) !"</div>
-    <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1" data-answers="you">
-    <div class="q-prompt"><span class="q-num">3</span>Complète : "I'm fine, thank you! And ___?"</div>
+  <div class="q-item" data-status="pending" data-answers="a e i o u|aeiou">
+    <div class="q-prompt"><span class="q-num">2</span>Quelles sont les 5 voyelles de l'alphabet anglais ? (sépare-les par un espace)</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="how old are you">
-    <div class="q-prompt"><span class="q-num">4</span>Traduis : "Quel âge as-tu ?"</div>
+  <div class="q-item" data-status="pending" data-answers="h">
+    <div class="q-prompt"><span class="q-num">3</span>Quelle lettre vient juste après "G" ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="l">
+    <div class="q-prompt"><span class="q-num">4</span>Quelle lettre vient juste avant "M" ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="c">
+    <div class="q-prompt"><span class="q-num">5</span>Complète : A B ___ D E</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="c a t|c-a-t|cat">
+    <div class="q-prompt"><span class="q-num">6</span>Épelle le mot "CAT" lettre par lettre (ex : C A T)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <!-- SECTION 2: SALUTATIONS -->
+  <div class="section-head"><div class="sn">2</div><div class="st"><h2>Les Salutations</h2><p>Quelle phrase utiliser selon le moment et la situation</p></div></div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">1</span>Il est 9h du matin. Comment salues-tu quelqu'un ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Good morning!</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Good evening!</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Good night!</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">2</span>Il est 20h. Comment salues-tu quelqu'un qui arrive ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="&quot;Good night&quot; ne s'utilise que pour se dire au revoir avant d'aller dormir, jamais pour saluer en arrivant.">Good night!</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Good evening!</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">3</span>Tu rencontres quelqu'un pour la toute première fois. Que dis-tu ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">Nice to meet you!</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">See you later!</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">How are you?</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">4</span>Tu quittes un ami et tu vas le revoir bientôt. Que dis-tu ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Nice to meet you!</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">See you later!</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">Good morning!</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">5</span>Quelle affirmation est correcte ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"Hello" est plus formel, "Hi" est plus familier.</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est l'inverse : &quot;Hi!&quot; est familier, &quot;Hello!&quot; est plus neutre/formel.">"Hi" est plus formel, "Hello" est plus familier.</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="good afternoon">
+    <div class="q-prompt"><span class="q-num">6</span>Comment salue-t-on quelqu'un l'après-midi ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <!-- SECTION 3: SE PRESENTER & HOW ARE YOU -->
+  <div class="section-head"><div class="sn">3</div><div class="st"><h2>Se Présenter</h2><p>Le dialogue modèle et les questions essentielles</p></div></div>
+
+  <div class="q-item" data-status="pending" data-answers="whats your name|what is your name">
+    <div class="q-prompt"><span class="q-num">1</span>Comment demande-t-on le prénom de quelqu'un ?</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="i am 14 years old|i'm 14 years old|im 14 years old">
-    <div class="q-prompt"><span class="q-num">5</span>Traduis : "J'ai 14 ans."</div>
+  <div class="q-item" data-status="pending" data-answers="how old are you">
+    <div class="q-prompt"><span class="q-num">2</span>Comment demande-t-on l'âge de quelqu'un ?</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="goodbye|bye">
-    <div class="q-prompt"><span class="q-num">6</span>Traduis : "Au revoir !"</div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">3</span>Quelle question est correctement formée ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="C'est le calque du français &quot;Comment tu vas ?&quot; — en anglais, le verbe passe toujours avant le sujet dans une question.">"How you are?"</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"How are you?"</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">4</span>Pour dire ton âge correctement en anglais, quelle phrase choisis-tu ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="En français on &quot;a&quot; un âge, mais en anglais on &quot;est&quot; un âge (to be), pas &quot;to have&quot;.">"I have 25 years old."</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"I am 25 years old."</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="im fine thank you|i'm fine, thank you|i'm fine thank you|im great thank you|i'm great, thank you|i'm great thank you">
+    <div class="q-prompt"><span class="q-num">5</span>Quelqu'un te demande "How are you?" et tu vas très bien. Que réponds-tu ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="nice to meet you">
+    <div class="q-prompt"><span class="q-num">6</span>Traduis : "Enchanté(e) !"</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
   <!-- SECTION 4: LES CHIFFRES -->
-  <div class="section-head"><div class="sn">4</div><div class="st"><h2>Les Chiffres · 1 à 20</h2><p>Écrivez le nombre en toutes lettres, en anglais</p></div></div>
+  <div class="section-head"><div class="sn">4</div><div class="st"><h2>Les Chiffres 1-20</h2><p>Compter, suites et exceptions</p></div></div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="seven">
-    <div class="q-prompt"><span class="q-num">1</span>Écris "7" en anglais.</div>
+  <div class="q-item" data-status="pending" data-answers="three">
+    <div class="q-prompt"><span class="q-num">1</span>One, two, ___, four, five.</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="thirteen">
-    <div class="q-prompt"><span class="q-num">2</span>Écris "13" en anglais.</div>
+  <div class="q-item" data-status="pending" data-answers="nine">
+    <div class="q-prompt"><span class="q-num">2</span>Quel nombre vient juste avant "ten" ?</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="twenty">
-    <div class="q-prompt"><span class="q-num">3</span>Écris "20" en anglais.</div>
+  <div class="q-item" data-status="pending" data-answers="fifteen">
+    <div class="q-prompt"><span class="q-num">3</span>Quel nombre vient juste après "fourteen" ?</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="sixteen">
-    <div class="q-prompt"><span class="q-num">4</span>Quel nombre vient juste après "fifteen" ?</div>
+  <div class="q-item" data-status="pending" data-answers="twenty">
+    <div class="q-prompt"><span class="q-num">4</span>Eighteen, nineteen, ___.</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="eleven">
-    <div class="q-prompt"><span class="q-num">5</span>Quel nombre vient juste avant "twelve" ?</div>
+  <div class="q-item" data-status="pending" data-answers="twenty">
+    <div class="q-prompt"><span class="q-num">5</span>Écris "20" en anglais.</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="eleven" data-explain="5 + 6 = 11">
-    <div class="q-prompt"><span class="q-num">6</span>Combien font "five + six" ? Écris le nombre en anglais.</div>
+  <div class="q-item" data-status="pending" data-answers="eleven">
+    <div class="q-prompt"><span class="q-num">6</span>"Ten, ___, twelve" — ce nombre est une exception, il ne se termine pas comme les autres.</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <!-- SECTION 5: LES ETATS & SENTIMENTS -->
-  <div class="section-head"><div class="sn">5</div><div class="st"><h2>Les États & Sentiments</h2><p>Pour répondre à "How are you?" avec plus de nuances</p></div></div>
+  <!-- SECTION 5: CORRIGE L'ERREUR -->
+  <div class="section-head"><div class="sn">5</div><div class="st"><h2>Corrige l'Erreur</h2><p>Choisissez la phrase correcte en anglais</p></div></div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="tired">
-    <div class="q-prompt"><span class="q-num">1</span>Comment dit-on "fatigué(e)" ?</div>
-    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1" data-answers="hungry">
-    <div class="q-prompt"><span class="q-num">2</span>Comment dit-on "affamé(e)" ?</div>
-    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1" data-answers="angry">
-    <div class="q-prompt"><span class="q-num">3</span>Comment dit-on "en colère" ?</div>
-    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">4</span>Quelle phrase est correcte pour dire qu'on s'ennuie ?</div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">1</span>Quelle phrase est correcte pour demander comment va quelqu'un ?</div>
     <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false,'\"Boring\" décrit ce qui ennuie les autres (ex : \"This film is boring\"). Pour dire ce que VOUS ressentez, utilisez \"bored\".')">"I am boring."</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">"I am bored."</button>
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">"How you are?"</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"How are you?"</button>
     </div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1" data-answers="sad">
-    <div class="q-prompt"><span class="q-num">5</span>Comment dit-on "triste" ?</div>
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">2</span>Quelle phrase est correcte pour donner son âge ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)">"I have 25 years old."</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"I am 25 years old."</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending">
+    <div class="q-prompt"><span class="q-num">3</span>Tu arrives chez un ami à 19h. Que dis-tu en le saluant ?</div>
+    <div class="q-options">
+      <button class="q-opt" data-correct="false" onclick="checkMCQ(this,false)" data-explain="&quot;Good night&quot; s'utilise seulement pour dire au revoir avant d'aller dormir.">"Good night!"</button>
+      <button class="q-opt" data-correct="true" onclick="checkMCQ(this,true)">"Good evening!"</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <!-- SECTION 6: PHRASES CLES & FAUX AMIS -->
+  <div class="section-head"><div class="sn">6</div><div class="st"><h2>Phrases Clés &amp; Faux Amis</h2><p>Traduisez et méfiez-vous des pièges</p></div></div>
+
+  <div class="q-item" data-status="pending" data-answers="whats your name|what is your name">
+    <div class="q-prompt"><span class="q-num">1</span>Traduis : "Comment tu t'appelles ?"</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="see you later">
+    <div class="q-prompt"><span class="q-num">2</span>Traduis : "À plus tard !"</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="in English..." style="max-width:320px;"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q-item" data-status="pending" data-answers="bibliotheque|bibliothèque" data-explain="&quot;Library&quot; est un faux ami classique : il ne veut PAS dire &quot;librairie&quot; !">
+    <div class="q-prompt"><span class="q-num">3</span>Faux ami : que veut dire "library" en français ?</div>
     <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">6</span>Comment répond-on à "How are you?" pour dire "pas trop mal" ?</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Not too bad."</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Too much bad."</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"No too bad."</button>
-    </div>
+  <div class="q-item" data-status="pending" data-answers="en fait|en realite|en réalité" data-explain="&quot;Actually&quot; ne veut PAS dire &quot;actuellement&quot; ! Pour &quot;actuellement&quot;, on dit &quot;currently&quot; ou &quot;at the moment&quot;.">
+    <div class="q-prompt"><span class="q-num">4</span>Faux ami : que veut dire "actually" en français ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <!-- SECTION 6: PHRASES DU QUOTIDIEN -->
-  <div class="section-head"><div class="sn">6</div><div class="st"><h2>Phrases du Quotidien</h2><p>Choisissez la phrase adaptée à la situation</p></div></div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">1</span>Tu bouscules quelqu'un par accident, tu dis :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Good luck!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Sorry!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Take care!"</button>
-    </div>
+  <div class="q-item" data-status="pending" data-answers="nice|friendly" data-explain="SYMPATHETIC est un faux ami : il veut dire « compréhensif, compatissant », pas « sympa » !">
+    <div class="q-prompt"><span class="q-num">5</span>Comment dit-on "sympa" en anglais ? (attention au faux ami SYMPATHETIC !)</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">2</span>Quelqu'un te remercie, tu réponds :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"You're welcome!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Excuse me!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Please."</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">3</span>Tu veux passer devant quelqu'un dans un couloir, tu dis :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Excuse me!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"No problem!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"See you soon!"</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">4</span>Ton ami(e) passe un examen demain, tu lui dis :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Good luck!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Take care!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Please."</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">5</span>Quelqu'un s'excuse auprès de toi, tu réponds :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"No problem!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Good luck!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Thank you so much!"</button>
-    </div>
-    <div class="q-feedback"></div>
-  </div>
-
-  <div class="q-item" data-status="pending" data-points="1">
-    <div class="q-prompt"><span class="q-num">6</span>En fin de journée de travail, tu dis à un(e) collègue :</div>
-    <div class="q-options">
-      <button class="q-opt" onclick="checkMCQ(this,true)">"Have a nice day!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Excuse me!"</button>
-      <button class="q-opt" onclick="checkMCQ(this,false)">"Sorry!"</button>
-    </div>
+  <div class="q-item" data-status="pending" data-answers="assister a|assister à|participer a|participer à" data-explain="&quot;Attend&quot; ne veut pas dire &quot;attendre&quot; ! Pour &quot;attendre&quot;, on dit &quot;wait (for)&quot;.">
+    <div class="q-prompt"><span class="q-num">6</span>Faux ami : "attend" (comme dans "I attend this class every week") veut dire quoi en français ?</div>
+    <div class="q-answer-row"><input class="q-input" type="text" placeholder="ta réponse"/><button class="q-check" onclick="checkText(this)">Vérifier</button></div>
     <div class="q-feedback"></div>
   </div>
 
   <div class="bilan" id="bilan">
     <div class="bicon">🎉</div>
-    <div class="score-big" id="bilanScore">0 / 36</div>
+    <div class="score-big" id="bilanScore">0 / 33</div>
     <h3 id="bilanTitle">Bilan de l'exercice</h3>
     <p id="bilanMsg"></p>
     <button class="restart-btn" onclick="resetExercise()">↺ Recommencer l'exercice</button>
@@ -426,6 +364,11 @@
 <footer>© <strong>Learn Right</strong> · English for Every Level · Exercices — Essentials Leçon 1</footer>
 
 <script>
+const BILAN_MSG_90 = "Excellent travail ! Tu maîtrises très bien l'alphabet, les salutations, te présenter et les chiffres. Direction la leçon 2 ! 🌟";
+const BILAN_MSG_70 = "Bien joué ! Tu as de bonnes bases sur cette leçon. Relis les quelques questions ratées pour bien ancrer les points qui restent.";
+const BILAN_MSG_50 = "La moitié des notions sont acquises. Revois les salutations et les erreurs classiques (How are you? / I am ... years old) avant de passer à la suite.";
+const BILAN_MSG_0 = "Ce n'est pas encore acquis, et c'est normal en début d'apprentissage ! Relis le support de cours de la leçon 1, puis retente l'exercice.";
+
 const allItems = Array.from(document.querySelectorAll('.q-item'));
 const TOTAL = allItems.length;
 
@@ -448,10 +391,10 @@ function showBilan(correct){
   const pct = Math.round(correct/TOTAL*100);
   document.getElementById('bilanScore').textContent = correct + ' / ' + TOTAL;
   let title, msg;
-  if(pct >= 90){ title = "Excellent travail ! 🌟"; msg = "Tu maîtrises très bien l'alphabet, les salutations, les chiffres, les sentiments et les phrases du quotidien. Direction la leçon 2 !"; }
-  else if(pct >= 70){ title = "Bien joué !"; msg = "Tu as de bonnes bases sur cette première leçon. Relis les quelques questions ratées pour bien ancrer les points qui restent."; }
-  else if(pct >= 50){ title = "Pas mal, continue !"; msg = "La moitié des notions sont acquises. Revois les salutations, les chiffres et les mots d'état avant de passer à la suite."; }
-  else { title = "On recommence ?"; msg = "Ce n'est pas encore acquis, et c'est tout à fait normal en tout début d'apprentissage ! Relis le support de cours de la leçon 1, puis retente l'exercice."; }
+  if(pct >= 90){ title = "Excellent travail ! 🌟"; msg = BILAN_MSG_90; }
+  else if(pct >= 70){ title = "Bien joué !"; msg = BILAN_MSG_70; }
+  else if(pct >= 50){ title = "Pas mal, continue !"; msg = BILAN_MSG_50; }
+  else { title = "On recommence ?"; msg = BILAN_MSG_0; }
   document.getElementById('bilanTitle').textContent = title;
   document.getElementById('bilanMsg').textContent = msg;
   document.getElementById('bilan').classList.add('show');
@@ -475,17 +418,18 @@ function checkText(btn){
   updateScore();
 }
 
-function checkMCQ(btn, isCorrect, explain){
+function checkMCQ(btn, isCorrect){
   const item = btn.closest('.q-item');
   const feedback = item.querySelector('.q-feedback');
   const opts = item.querySelectorAll('.q-opt');
+  const explain = btn.getAttribute('data-explain') || '';
   opts.forEach(o => o.disabled = true);
   if(isCorrect){
     btn.classList.add('opt-correct');
     feedback.innerHTML = '✅ Correct !';
   } else {
     btn.classList.add('opt-incorrect');
-    opts.forEach(o => { if(o.getAttribute('onclick').includes(',true')) o.classList.add('opt-correct'); });
+    opts.forEach(o => { if(o.getAttribute('data-correct') === 'true') o.classList.add('opt-correct'); });
     feedback.innerHTML = '❌ Pas tout à fait.' + (explain ? '<span class="fexp">' + explain + '</span>' : '');
   }
   item.setAttribute('data-status', isCorrect ? 'correct' : 'incorrect');
