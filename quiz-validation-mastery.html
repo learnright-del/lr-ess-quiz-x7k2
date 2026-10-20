@@ -200,6 +200,7 @@
         <input type="email" id="student-email" placeholder="votre@email.com" maxlength="100"/>
       </div>
     </div>
+    <p class="form-err" id="form-err" style="display:none;color:var(--red);font-size:13px;font-weight:700;text-align:left;margin:-4px 0 14px;">⚠️ Merci de renseigner votre prénom et une adresse e-mail valide avant de commencer.</p>
     <p class="email-hint">🔒 Votre email est utilisé uniquement pour recevoir votre attestation.</p>
     <button class="btn-start" onclick="startQuiz()">Commencer le quiz →</button>
   </div>
@@ -311,10 +312,22 @@ const AUDIO_FOLDER = "";
 
 function playAudioFile(filename, btn){
   const audioEl = document.getElementById("quiz-audio-player");
+  const sub = btn.parentElement ? btn.parentElement.querySelector(".audio-sub") : null;
+  const resetSub = function(){ if(sub) sub.textContent = "Vous pouvez réécouter autant de fois que nécessaire"; };
+  const showError = function(){
+    btn.classList.remove("playing");
+    if(sub){ sub.textContent = "⚠️ Fichier audio introuvable (" + filename + "). Vérifiez qu'il est bien dans le même dossier que ce quiz."; }
+  };
+  resetSub();
   audioEl.src = AUDIO_FOLDER + filename;
-  audioEl.play().catch(function(err){ console.error("Erreur audio:", err); });
-  btn.classList.add("playing");
-  audioEl.onended = function(){ btn.classList.remove("playing"); };
+  audioEl.play().then(function(){
+    btn.classList.add("playing");
+  }).catch(function(err){
+    console.error("Erreur audio:", err);
+    showError();
+  });
+  audioEl.onended = function(){ btn.classList.remove("playing"); resetSub(); };
+  audioEl.onerror = showError;
 }
 
 function startTimer(){
@@ -338,12 +351,18 @@ function getTimeComment(secs,total){const perQ=secs/total;if(perQ<20)return "�
 function startQuiz(){
   const n=document.getElementById("student-name");
   const e=document.getElementById("student-email");
+  const errMsg=document.getElementById("form-err");
   studentName=n.value.trim();
   studentEmail=e.value.trim();
   let ok=true;
   if(!studentName){n.classList.add("err");ok=false;}else n.classList.remove("err");
   if(!studentEmail||!studentEmail.includes("@")){e.classList.add("err");ok=false;}else e.classList.remove("err");
-  if(!ok)return;
+  if(!ok){
+    if(errMsg) errMsg.style.display="block";
+    (studentName?e:n).focus();
+    return;
+  }
+  if(errMsg) errMsg.style.display="none";
   document.getElementById("intro").style.display="none";
   document.getElementById("quiz").style.display="block";
   cur=0;score=0;secScores={};startTimer();
