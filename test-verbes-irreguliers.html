@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Test Diagnostic · Verbes Irréguliers – Learn Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root{--navy:#3D2B1F;--blue:#C4785A;--blue-dark:#B36B4E;--sky:#E0AE8E;--gold:#B8873F;--gold-dark:#96702F;--green:#6FA378;--green-dark:#4A7C59;--red:#C0392B;--red-dark:#A93226;--lgray:#F5F0E8;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--lgray);
+    background-image:
+      linear-gradient(rgba(61,43,31,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(61,43,31,0.05) 1px, transparent 1px);
+    background-size: 38px 38px;
+    font-family:'Inter','Segoe UI',sans-serif;min-height:100vh;color:var(--navy);
+  }
+  a{text-decoration:none;}
+
+  .hero{background:linear-gradient(135deg,var(--navy),var(--blue));padding:34px 24px 40px;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05);}
+  .hero-inner{max-width:1080px;margin:0 auto;position:relative;text-align:center;}
+  .brand{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .brand .l-box{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--sky));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;}
+  .brand-name{font-size:19px;font-weight:800;color:white;}
+  .brand-name span{color:var(--gold);}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:5px 16px;font-size:11px;font-weight:800;letter-spacing:2px;color:white;margin-bottom:16px;}
+  .hero h1{font-size:clamp(24px,4.5vw,36px);font-weight:800;color:white;line-height:1.25;margin-bottom:10px;}
+  .hero h1 span{color:var(--gold);}
+  .hero-sub{font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;max-width:600px;margin:0 auto;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+
+  .intro-card{background:white;border-radius:18px;padding:22px 26px;margin:-24px auto 24px;max-width:1040px;box-shadow:0 6px 24px rgba(61,43,31,.1);position:relative;z-index:2;font-size:13.5px;color:rgba(61,43,31,.8);line-height:1.75;}
+  .intro-card b{color:var(--navy);}
+
+  .toolbar{
+    position:sticky;top:0;z-index:10;background:rgba(245,240,232,.94);backdrop-filter:blur(6px);
+    padding:14px 20px;margin-bottom:22px;border-radius:16px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    border:1px solid rgba(61,43,31,.08);
+  }
+  .score-stats{display:flex;gap:18px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat-val{font-size:19px;font-weight:800;}
+  .stat-val.total{color:var(--navy);}
+  .stat-val.known{color:var(--green-dark);}
+  .stat-val.unknown{color:var(--red-dark);}
+  .stat-val.todo{color:rgba(61,43,31,.4);}
+  .stat-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(61,43,31,.5);margin-top:1px;}
+  .toolbar-btns{display:flex;gap:10px;}
+  .tbtn{
+    background:white;border:1.5px solid rgba(61,43,31,.15);color:var(--navy);
+    font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:10px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:.15s;
+  }
+  .tbtn:hover{border-color:var(--blue);color:var(--blue);}
+  .tbtn.primary{background:var(--blue);border-color:var(--blue);color:white;}
+  .tbtn.primary:hover{background:var(--blue-dark);color:white;}
+
+  .progress-track{height:6px;background:rgba(61,43,31,.08);border-radius:6px;overflow:hidden;margin-top:2px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--blue));border-radius:6px;transition:width .3s;}
+
+  .verb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-bottom:50px;}
+  @media(max-width:860px){.verb-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:540px){.verb-grid{grid-template-columns:1fr;}}
+
+  .vcard{
+    background:white;border-radius:14px;padding:16px 18px;
+    box-shadow:0 2px 10px rgba(61,43,31,.06);
+    border-left:4px solid rgba(61,43,31,.12);
+    cursor:pointer;transition:border-color .2s, box-shadow .2s;
+    user-select:none;
+  }
+  .vcard:hover{box-shadow:0 4px 16px rgba(61,43,31,.1);}
+  .vcard.known{border-left-color:var(--green);}
+  .vcard.unknown{border-left-color:var(--red);}
+  .vcard.revealed{cursor:default;}
+
+  .vcard-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .vcard-inf{font-family:'Inter',sans-serif;font-size:19px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;}
+  .vcard-fr{font-size:12px;color:rgba(61,43,31,.45);margin-top:1px;}
+  .vcard-hint{font-size:10.5px;color:rgba(61,43,31,.3);letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-top:10px;}
+
+  .vcard-answer{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed rgba(61,43,31,.15);}
+  .vcard.revealed .vcard-answer{display:block;}
+  .vcard.revealed .vcard-hint{display:none;}
+  .ans-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;}
+  .ans-row .lbl{color:rgba(61,43,31,.5);font-size:11px;letter-spacing:.5px;}
+  .ans-row .val{font-weight:800;color:var(--blue-dark);font-family:'Inter',sans-serif;}
+  .ans-row.pp .val{color:var(--gold-dark);}
+
+  .mark-btns{display:flex;gap:8px;margin-top:12px;}
+  .mbtn{
+    flex:1;font-size:11.5px;font-weight:800;padding:8px 0;border-radius:8px;border:1.5px solid;
+    cursor:pointer;text-align:center;background:white;transition:.15s;
+  }
+  .mbtn.yes{color:var(--green-dark);border-color:var(--green);}
+  .mbtn.yes.active,.mbtn.yes:hover{background:var(--green);color:white;}
+  .mbtn.no{color:var(--red-dark);border-color:var(--red);}
+  .mbtn.no.active,.mbtn.no:hover{background:var(--red);color:white;}
+
+  footer{background:var(--navy);text-align:center;padding:22px;color:rgba(255,255,255,.35);font-size:11px;letter-spacing:1.5px;}
+  footer strong{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="brand"><div class="l-box">L</div><div class="brand-name">LEARN <span>RIGHT</span></div></div>
+    <div class="hero-badge">🧪 TEST DIAGNOSTIC</div>
+    <h1>Verbes Irréguliers <span>— Past Simple & Past Participle</span></h1>
+    <p class="hero-sub">À utiliser avant la Leçon 1 Professional pour évaluer les acquis de l'élève sur le Present Perfect.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro-card">
+    <b>Comment l'utiliser :</b> montrez à l'élève la base verbale affichée sur chaque case (en anglais, avec la traduction française en petit) et demandez-lui de donner le <b>past simple</b> et le <b>past participle</b> à l'oral. Cliquez sur la case pour révéler la réponse, puis marquez <b>✓ Su</b> ou <b>✗ À revoir</b> — le score en haut se met à jour automatiquement. Utilisez <b>🔀 Mélanger</b> pour changer l'ordre entre deux élèves.
+  </div>
+
+  <div class="toolbar">
+    <div class="score-stats">
+      <div class="stat"><div class="stat-val total" id="statTotal">66</div><div class="stat-lbl">Verbes</div></div>
+      <div class="stat"><div class="stat-val known" id="statKnown">0</div><div class="stat-lbl">Su</div></div>
+      <div class="stat"><div class="stat-val unknown" id="statUnknown">0</div><div class="stat-lbl">À revoir</div></div>
+      <div class="stat"><div class="stat-val todo" id="statTodo">66</div><div class="stat-lbl">Non testés</div></div>
+    </div>
+    <div class="toolbar-btns">
+      <button class="tbtn" onclick="shuffleCards()">🔀 Mélanger</button>
+      <button class="tbtn primary" onclick="resetAll()">↺ Réinitialiser</button>
+    </div>
+  </div>
+  <div class="progress-track" style="margin:-10px 0 22px;"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <div class="verb-grid" id="verbGrid"></div>
+</div>
+
+<footer>© <strong>Learn Right</strong> · English for Every Level · Outil de diagnostic — Verbes Irréguliers</footer>
+
+<script>
+const verbs = [
+  ["be","was / were","been","être"],
+  ["become","became","become","devenir"],
+  ["begin","began","begun","commencer"],
+  ["break","broke","broken","casser"],
+  ["bring","brought","brought","apporter"],
+  ["build","built","built","construire"],
+  ["buy","bought","bought","acheter"],
+  ["catch","caught","caught","attraper"],
+  ["choose","chose","chosen","choisir"],
+  ["come","came","come","venir"],
+  ["cost","cost","cost","coûter"],
+  ["cut","cut","cut","couper"],
+  ["do","did","done","faire"],
+  ["draw","drew","drawn","dessiner"],
+  ["drink","drank","drunk","boire"],
+  ["drive","drove","driven","conduire"],
+  ["eat","ate","eaten","manger"],
+  ["fall","fell","fallen","tomber"],
+  ["feel","felt","felt","ressentir"],
+  ["find","found","found","trouver"],
+  ["fly","flew","flown","voler (avion)"],
+  ["forget","forgot","forgotten","oublier"],
+  ["get","got","got / gotten","obtenir"],
+  ["give","gave","given","donner"],
+  ["go","went","gone","aller"],
+  ["grow","grew","grown","grandir / pousser"],
+  ["have","had","had","avoir"],
+  ["hear","heard","heard","entendre"],
+  ["hold","held","held","tenir"],
+  ["keep","kept","kept","garder"],
+  ["know","knew","known","savoir / connaître"],
+  ["leave","left","left","partir / laisser"],
+  ["lend","lent","lent","prêter"],
+  ["let","let","let","laisser"],
+  ["lose","lost","lost","perdre"],
+  ["make","made","made","faire / fabriquer"],
+  ["mean","meant","meant","signifier"],
+  ["meet","met","met","rencontrer"],
+  ["pay","paid","paid","payer"],
+  ["put","put","put","mettre"],
+  ["read","read","read","lire"],
+  ["ride","rode","ridden","monter (vélo/cheval)"],
+  ["ring","rang","rung","sonner"],
+  ["rise","rose","risen","se lever / augmenter"],
+  ["run","ran","run","courir"],
+  ["say","said","said","dire"],
+  ["see","saw","seen","voir"],
+  ["sell","sold","sold","vendre"],
+  ["send","sent","sent","envoyer"],
+  ["set","set","set","fixer / définir"],
+  ["show","showed","shown","montrer"],
+  ["shut","shut","shut","fermer"],
+  ["sing","sang","sung","chanter"],
+  ["sit","sat","sat","s'asseoir"],
+  ["sleep","slept","slept","dormir"],
+  ["speak","spoke","spoken","parler"],
+  ["spend","spent","spent","dépenser / passer (temps)"],
+  ["stand","stood","stood","se tenir debout"],
+  ["steal","stole","stolen","voler (dérober)"],
+  ["swim","swam","swum","nager"],
+  ["take","took","taken","prendre"],
+  ["teach","taught","taught","enseigner"],
+  ["tell","told","told","dire / raconter"],
+  ["think","thought","thought","penser"],
+  ["throw","threw","thrown","lancer"],
+  ["understand","understood","understood","comprendre"],
+  ["wake","woke","woken","se réveiller"],
+  ["wear","wore","worn","porter (vêtement)"],
+  ["win","won","won","gagner"],
+  ["write","wrote","written","écrire"]
+];
+
+const grid = document.getElementById('verbGrid');
+let order = verbs.map((_, i) => i);
+let status = {}; // index -> 'known' | 'unknown' | undefined
+
+function render(){
+  grid.innerHTML = '';
+  order.forEach(i => {
+    const [inf, past, pp, fr] = verbs[i];
+    const st = status[i];
+    const card = document.createElement('div');
+    card.className = 'vcard' + (st ? ' revealed ' + st : '');
+    card.dataset.idx = i;
+    card.innerHTML = `
+      <div class="vcard-top">
+        <div>
+          <div class="vcard-inf">${inf}</div>
+          <div class="vcard-fr">${fr}</div>
+        </div>
+      </div>
+      <div class="vcard-hint">👆 Cliquez pour révéler</div>
+      <div class="vcard-answer">
+        <div class="ans-row"><span class="lbl">PAST SIMPLE</span><span class="val">${past}</span></div>
+        <div class="ans-row pp"><span class="lbl">PAST PARTICIPLE</span><span class="val">${pp}</span></div>
+        <div class="mark-btns">
+          <button class="mbtn yes ${st==='known'?'active':''}" onclick="mark(event,${i},'known')">✓ Su</button>
+          <button class="mbtn no ${st==='unknown'?'active':''}" onclick="mark(event,${i},'unknown')">✗ À revoir</button>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => reveal(i));
+    grid.appendChild(card);
+  });
+  updateStats();
+}
+
+function reveal(i){
+  if(!(i in status)) status[i] = 'pending';
+  render();
+}
+
+function mark(ev, i, val){
+  ev.stopPropagation();
+  status[i] = val;
+  render();
+}
+
+function updateStats(){
+  const total = verbs.length;
+  let known = 0, unknown = 0;
+  Object.values(status).forEach(s => { if(s==='known') known++; if(s==='unknown') unknown++; });
+  const todo = total - known - unknown;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnown').textContent = known;
+  document.getElementById('statUnknown').textContent = unknown;
+  document.getElementById('statTodo').textContent = todo;
+  document.getElementById('progressFill').style.width = ((known+unknown)/total*100) + '%';
+}
+
+function shuffleCards(){
+  for(let i = order.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  render();
+}
+
+function resetAll(){
+  status = {};
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
